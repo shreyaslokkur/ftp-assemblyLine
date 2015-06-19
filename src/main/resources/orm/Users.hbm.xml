@@ -1,12 +1,16 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
     <class name="com.lks.orm.entities.User" table="users" catalog="test">
-        <id name="employeeId" type="string">
-            <column name="employeeId" length="45" />
+
+        <id name="employeeId" type="int">
+            <column name="employeeId" />
             <generator class="assigned" />
         </id>
+        <property name="username" type="string">
+            <column name="username" length="60" not-null="true" />
+        </property>
         <property name="password" type="string">
             <column name="password" length="60" not-null="true" />
         </property>
@@ -15,7 +19,7 @@
         </property>
         <set name="userRole" table="user_roles" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="employeeId" length="45" not-null="true" />
+                <column name="username" length="45" not-null="true" />
             </key>
             <one-to-many class="com.lks.orm.entities.UserRole" />
         </set>

@@ -9,11 +9,11 @@ package com.lks.stateMachine;
  */
 public interface IState {
 
-    public void create();
-    public void lock();
-    public void hold();
-    public void resolved();
-    public void completed();
-    public void approved();
-    public void rejected();
+    public int create(String fileName, String fileLocation, String createdBy, String branchName, String placeOfMeeting, String bookletNo, String applicationNo, String numOfCustomers);
+    public void lock(int documentId, String userId);
+    public void hold(int documentId, String userId);
+    public void resolve(int documentId, String userId);
+    public void complete(int documentId, String userId);
+    public void approve(int documentId, String userId);
+    public void reject(int documentId, String userId);
 }

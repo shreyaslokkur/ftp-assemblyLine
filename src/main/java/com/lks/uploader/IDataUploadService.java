@@ -1,5 +1,6 @@
 package com.lks.uploader;
 
+import com.lks.core.enums.DocOperations;
 import com.lks.core.model.FileOperationDO;
 import com.lks.core.model.FileReceivedForUploadDO;
 

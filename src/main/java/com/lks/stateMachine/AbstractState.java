@@ -9,37 +9,37 @@ package com.lks.stateMachine;
  */
 public class AbstractState implements IState {
     @Override
-    public void create() {
+    public int create(String fileName, String fileLocation, String createdBy, String branchName, String placeOfMeeting, String bookletNo, String applicationNo, String numOfCustomers) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 
     @Override
-    public void lock() {
+    public void lock(int documentId, String userId) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 
     @Override
-    public void hold() {
+    public void hold(int documentId, String userId) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 
     @Override
-    public void resolved() {
+    public void resolve(int documentId, String userId) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 
     @Override
-    public void completed() {
+    public void complete(int documentId, String userId) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 
     @Override
-    public void approved() {
+    public void approve(int documentId, String userId) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 
     @Override
-    public void rejected() {
+    public void reject(int documentId, String userId) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 }

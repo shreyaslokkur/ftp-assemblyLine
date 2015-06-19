@@ -10,12 +10,12 @@ package com.lks.stateMachine;
 public class NARState extends AbstractState {
 
     @Override
-    public void approved() {
-        super.approved();    //To change body of overridden methods use File | Settings | File Templates.
+    public void approve(int documentId, String userId) {
+        super.approve(documentId, userId);    //To change body of overridden methods use File | Settings | File Templates.
     }
 
     @Override
-    public void rejected() {
-        super.rejected();    //To change body of overridden methods use File | Settings | File Templates.
+    public void reject(int documentId, String userId) {
+        super.reject(documentId, userId);    //To change body of overridden methods use File | Settings | File Templates.
     }
 }

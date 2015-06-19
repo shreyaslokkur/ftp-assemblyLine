@@ -64,7 +64,7 @@ public class MainController {
 		}
 		model.setViewName("login");
 
-		return model;
+			return model;
 
 	}
 
@@ -138,14 +138,15 @@ public class MainController {
         return dataUploadService.createNewDocument(fileReceivedForUploadDO);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/du/lock")
+    @RequestMapping(method = RequestMethod.POST, value = "/du/operation")
     public
     @ResponseBody
-    String lockFile(@RequestParam("fileId") int documentId){
+    String lockFile(@RequestParam("fileId") int documentId,
+					@RequestParam("docOperations") DocOperations docOperations){
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         FileOperationDO fileOperationDO = new FileOperationDO();
-        fileOperationDO.setDocOperations(DocOperations.LOCK);
+        fileOperationDO.setDocOperations(docOperations);
         fileOperationDO.setDocumentId(documentId);
         fileOperationDO.setUserId(userDetails.getUsername());
         dataUploadService.performOperationOnDocument(fileOperationDO);

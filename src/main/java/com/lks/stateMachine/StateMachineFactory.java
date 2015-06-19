@@ -1,5 +1,6 @@
 package com.lks.stateMachine;
 
+import com.lks.core.enums.RecStatus;
 import com.lks.orm.dao.DataUploadDao;
 import com.lks.orm.entities.Document;
 
@@ -20,9 +21,18 @@ public class StateMachineFactory {
     public IState getCurrentState(int documentId){
         if(documentId != 0){
             Document document = dataUploadDao.retrieveDocument(documentId);
+            if(RecStatus.NR.equals(document.getState()))
+                return new NRState();
+            else if(RecStatus.AR.equals(document.getState()))
+                return new ARState();
+            else if(RecStatus.HR.equals(document.getState()))
+                return new HRState();
+            else if(RecStatus.LR.equals(document.getState()))
+                return new LRState();
+            else if(RecStatus.NAR.equals(document.getState()))
+                return new NARState();
         }
-        else
-            return new NRState();
+
 
 
         return null;

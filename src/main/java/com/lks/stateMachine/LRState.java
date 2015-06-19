@@ -9,12 +9,12 @@ package com.lks.stateMachine;
  */
 public class LRState extends AbstractState {
     @Override
-    public void hold() {
-        super.hold();    //To change body of overridden methods use File | Settings | File Templates.
+    public void hold(int documentId, String userId) {
+        super.hold(documentId, userId);    //To change body of overridden methods use File | Settings | File Templates.
     }
 
     @Override
-    public void completed() {
-        super.completed();    //To change body of overridden methods use File | Settings | File Templates.
+    public void complete(int documentId, String userId) {
+        super.complete(documentId, userId);    //To change body of overridden methods use File | Settings | File Templates.
     }
 }

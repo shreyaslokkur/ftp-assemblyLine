@@ -14,5 +14,6 @@ public enum DocOperations {
     RESCAN,
     COMPLETE,
     APPROVE,
-    REJECT;
+    REJECT,
+    RESOLVE;
 }

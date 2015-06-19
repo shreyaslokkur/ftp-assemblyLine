@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.lks.orm.entities.Document" table="users" catalog="test">
+
+        <id name="documentId" type="int">
+            <column name="documentId" />
+            <generator class="native" />
+        </id>
+        <property name="documentId" type="int">
+            <column name="documentId" not-null="true" />
+        </property>
+        <property name="fileName" type="string">
+            <column name="fileName" length="100" not-null="true" />
+        </property>
+        <property name="fileLocation" type="string">
+            <column name="fileLocation" length="255" not-null="true" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="createdBy" length="60" not-null="true" />
+        </property>
+        <property name="branchName" type="string">
+            <column name="branchName" length="100" not-null="true" />
+        </property>
+        <property name="placeOfMeeting" type="string">
+            <column name="placeOfMeeting" length="100" not-null="true" />
+        </property>
+        <property name="bookletNo" type="int">
+            <column name="bookletNo" not-null="true" />
+        </property>
+        <property name="applicationNo" type="int">
+            <column name="applicationNo" not-null="true" />
+        </property>
+        <property name="numOfCustomers" type="int">
+            <column name="numOfCustomers"  not-null="true"/>
+        </property>
+        <property name="lockedBy" type="string">
+            <column name="lockedBy" length="60"  />
+        </property>
+        <property name="completedBy" type="string">
+            <column name="completedBy" length="60" />
+        </property>
+        <property name="approvedBy" type="string">
+            <column name="approvedBy" length="60" />
+        </property>
+        <property name="assignedTo" type="string">
+            <column name="assignedTo" length="60" />
+        </property>
+        <property name="queryLevel" type="int">
+            <column name="queryLevel"  />
+        </property>
+        <property name="onHold" type="boolean">
+            <column name="isOnHold"  />
+        </property>
+
+        <property name="locked" type="boolean">
+            <column name="isLocked"  />
+        </property>
+
+        <property name="state">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">com.lks.core.enums.RecStatus</param>
+                <param name="useNamed">true</param>
+            </type>
+        </property>
+
+
+    </class>
+</hibernate-mapping>

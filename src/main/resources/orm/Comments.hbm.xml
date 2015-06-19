@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.lks.orm.entities.Comments" table="users" catalog="test">
+
+        <id name="commentId" type="int">
+            <column name="commentId" />
+            <generator class="native" />
+        </id>
+        <property name="documentId" type="int">
+            <column name="documentId" not-null="true" />
+        </property>
+        <property name="employeeId" type="int">
+            <column name="employeeId"  not-null="true" />
+        </property>
+        <property name="comments" type="text">
+            <column name="comments" not-null="true" />
+        </property>
+
+    </class>
+</hibernate-mapping>

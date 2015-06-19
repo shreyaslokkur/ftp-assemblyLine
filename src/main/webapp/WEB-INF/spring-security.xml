@@ -18,13 +18,16 @@
 			username-parameter="username"
 			password-parameter="password" />
 		<logout logout-success-url="/login?logout" />
+		<session-management>
+			<concurrency-control max-sessions="1"/>
+		</session-management>
 		<!-- enable csrf protection -->
 		<csrf />
 	</http>
 
 	<authentication-manager>
-		<authentication-provider user-service-ref="myUserDetailsService" >
-			<password-encoder hash="bcrypt" />    
+		<authentication-provider user-service-ref="userDetailService" >
+			<password-encoder hash="sha"/>
 		</authentication-provider>
 	</authentication-manager>
 

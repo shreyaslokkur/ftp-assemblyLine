@@ -1,5 +1,9 @@
 package com.lks.stateMachine;
 
+import com.lks.orm.dao.DataUploadDao;
+
+import javax.annotation.Resource;
+
 /**
  * Created with IntelliJ IDEA.
  * User: shreyas
@@ -9,13 +13,16 @@ package com.lks.stateMachine;
  */
 public class NRState extends AbstractState {
 
+    @Resource(name = "dataUploadDao")
+    DataUploadDao dataUploadDao;
+
     @Override
-    public void create() {
-        super.create();    //To change body of overridden methods use File | Settings | File Templates.
+    public int create(String fileName, String fileLocation, String createdBy, String branchName, String placeOfMeeting, String bookletNo, String applicationNo, String numOfCustomers) {
+        return dataUploadDao.fileUploaded(fileName, fileLocation, createdBy, branchName, placeOfMeeting, bookletNo, applicationNo, numOfCustomers);
     }
 
     @Override
-    public void lock() {
-        super.lock();    //To change body of overridden methods use File | Settings | File Templates.
+    public void lock(int documentId, String userId) {
+        super.lock(documentId, userId);    //To change body of overridden methods use File | Settings | File Templates.
     }
 }

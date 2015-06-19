@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.lks.orm.dao.UserDaoFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -14,8 +15,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.lks.orm.dao.UserDao;
 import com.lks.orm.entities.UserRole;
+import org.springframework.stereotype.Service;
 
-public class MyUserDetailsService implements UserDetailsService {
+import javax.annotation.Resource;
+
+@Service("userDetailService")
+public class AuthenticationService implements org.springframework.security.core.userdetails.UserDetailsService {
+
 
 	private UserDao userDao;
 
@@ -34,7 +40,8 @@ public class MyUserDetailsService implements UserDetailsService {
 			}
 
 		});*/
-		
+
+		userDao = UserDaoFactory.getUserDao();
 		com.lks.orm.entities.User user = userDao.findByUserName(username);
 		List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRole());
 
