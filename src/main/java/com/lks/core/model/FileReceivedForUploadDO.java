@@ -9,9 +9,9 @@ public class FileReceivedForUploadDO extends AbstractDO {
     private String createdBy;
     private String branchName;
     private String placeOfMeeting;
-    private String bookletNo;
-    private String applicationNo;
-    private String numOfCustomers;
+    private int bookletNo;
+    private int applicationNo;
+    private int numOfCustomers;
 
 
     public String getFileName() {
@@ -54,27 +54,27 @@ public class FileReceivedForUploadDO extends AbstractDO {
         this.placeOfMeeting = placeOfMeeting;
     }
 
-    public String getBookletNo() {
+    public int getBookletNo() {
         return bookletNo;
     }
 
-    public void setBookletNo(String bookletNo) {
+    public void setBookletNo(int bookletNo) {
         this.bookletNo = bookletNo;
     }
 
-    public String getApplicationNo() {
+    public int getApplicationNo() {
         return applicationNo;
     }
 
-    public void setApplicationNo(String applicationNo) {
+    public void setApplicationNo(int applicationNo) {
         this.applicationNo = applicationNo;
     }
 
-    public String getNumOfCustomers() {
+    public int getNumOfCustomers() {
         return numOfCustomers;
     }
 
-    public void setNumOfCustomers(String numOfCustomers) {
+    public void setNumOfCustomers(int numOfCustomers) {
         this.numOfCustomers = numOfCustomers;
     }
 }

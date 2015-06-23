@@ -7,6 +7,7 @@ import com.lks.orm.dao.DataUploadDao;
 import com.lks.stateMachine.IState;
 import com.lks.stateMachine.NRState;
 import com.lks.stateMachine.StateMachineFactory;
+import org.springframework.test.context.ContextConfiguration;
 
 import javax.annotation.Resource;
 import java.util.logging.Logger;
@@ -18,6 +19,7 @@ import java.util.logging.Logger;
  * Time: 6:03 PM
  * To change this template use File | Settings | File Templates.
  */
+
 public class DataUploadService implements IDataUploadService {
 
     public static final Logger logger = Logger.getLogger(DataUploadService.class.getName());
@@ -49,17 +51,17 @@ public class DataUploadService implements IDataUploadService {
         DocOperations docOperations = fileOperationDO.getDocOperations();
         IState currentState = stateMachineFactory.getCurrentState(fileOperationDO.getDocumentId());
         if(DocOperations.HOLD.equals(docOperations)){
-            currentState.hold(fileOperationDO.getDocumentId(), fileOperationDO.getUserId());
+            currentState.hold(fileOperationDO.getDocumentId(), fileOperationDO.getComment(), fileOperationDO.getUserId());
         }else if(DocOperations.LOCK.equals(docOperations)){
             currentState.lock(fileOperationDO.getDocumentId(), fileOperationDO.getUserId());
         }else if(DocOperations.APPROVE.equals(docOperations)){
             currentState.approve(fileOperationDO.getDocumentId(), fileOperationDO.getUserId());
         }else if(DocOperations.REJECT.equals(docOperations)){
-            currentState.reject(fileOperationDO.getDocumentId(), fileOperationDO.getUserId());
+            currentState.reject(fileOperationDO.getDocumentId(), fileOperationDO.getComment(), fileOperationDO.getAssignedTo(), fileOperationDO.getUserId());
         }else if(DocOperations.COMPLETE.equals(docOperations)){
             currentState.complete(fileOperationDO.getDocumentId(), fileOperationDO.getUserId());
         }else if(DocOperations.RESOLVE.equals(docOperations)){
-            currentState.resolve(fileOperationDO.getDocumentId(), fileOperationDO.getUserId());
+            currentState.resolve(fileOperationDO.getDocumentId(), fileOperationDO.getComment(), fileOperationDO.getAssignedTo(), fileOperationDO.getUserId());
         }
 
 

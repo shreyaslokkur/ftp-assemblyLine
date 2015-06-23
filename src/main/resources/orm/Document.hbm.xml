@@ -2,15 +2,12 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="com.lks.orm.entities.Document" table="users" catalog="test">
+    <class name="com.lks.orm.entities.Document" table="document" catalog="test">
 
-        <id name="documentId" type="int">
+        <id name="documentId" type="int"    >
             <column name="documentId" />
-            <generator class="native" />
+            <generator class="identity" />
         </id>
-        <property name="documentId" type="int">
-            <column name="documentId" not-null="true" />
-        </property>
         <property name="fileName" type="string">
             <column name="fileName" length="100" not-null="true" />
         </property>
@@ -24,16 +21,16 @@
             <column name="branchName" length="100" not-null="true" />
         </property>
         <property name="placeOfMeeting" type="string">
-            <column name="placeOfMeeting" length="100" not-null="true" />
+            <column name="placeOfMeeting" length="100" not-null="true"  />
         </property>
         <property name="bookletNo" type="int">
             <column name="bookletNo" not-null="true" />
         </property>
         <property name="applicationNo" type="int">
-            <column name="applicationNo" not-null="true" />
+            <column name="applicationNo"  not-null="true"/>
         </property>
         <property name="numOfCustomers" type="int">
-            <column name="numOfCustomers"  not-null="true"/>
+            <column name="numOfCustomers" not-null="true" />
         </property>
         <property name="lockedBy" type="string">
             <column name="lockedBy" length="60"  />
@@ -51,11 +48,11 @@
             <column name="queryLevel"  />
         </property>
         <property name="onHold" type="boolean">
-            <column name="isOnHold"  />
+            <column name="onHold"  />
         </property>
 
         <property name="locked" type="boolean">
-            <column name="isLocked"  />
+            <column name="locked"  />
         </property>
 
         <property name="state">

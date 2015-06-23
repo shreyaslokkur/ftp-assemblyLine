@@ -14,6 +14,8 @@ public class FileOperationDO extends AbstractDO {
     private int documentId;
     private DocOperations docOperations;
     private String userId;
+    private String assignedTo;
+    private String comment;
 
     public int getDocumentId() {
         return documentId;
@@ -37,5 +39,21 @@ public class FileOperationDO extends AbstractDO {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getAssignedTo() {
+        return assignedTo;
+    }
+
+    public void setAssignedTo(String assignedTo) {
+        this.assignedTo = assignedTo;
     }
 }

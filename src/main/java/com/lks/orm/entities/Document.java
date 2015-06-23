@@ -29,6 +29,19 @@ public class Document implements IEntity {
     private boolean onHold;
     private boolean locked;
 
+    public Document(RecStatus recStatus, String fileName, String fileLocation, String createdBy, String branchName, String placeOfMeeting, int bookletNo, int applicationNo, int numOfCustomers) {
+
+        this.state = recStatus;
+        this.fileName = fileName;
+        this.fileLocation = fileLocation;
+        this.createdBy = createdBy;
+        this.branchName = branchName;
+        this.placeOfMeeting = placeOfMeeting;
+        this.bookletNo = bookletNo;
+        this.applicationNo = applicationNo;
+        this.numOfCustomers = numOfCustomers;
+    }
+
 
     public int getDocumentId() {
         return documentId;
@@ -155,15 +168,15 @@ public class Document implements IEntity {
         return onHold;
     }
 
-    public void setIsOnHold(boolean isOnHold) {
-        this.onHold = isOnHold;
+    public void setOnHold(boolean onHold) {
+        this.onHold = onHold;
     }
 
     public boolean isLocked() {
         return locked;
     }
 
-    public void setIsLocked(boolean isLocked) {
-        this.locked = isLocked;
+    public void setLocked(boolean locked) {
+        this.locked = locked;
     }
 }

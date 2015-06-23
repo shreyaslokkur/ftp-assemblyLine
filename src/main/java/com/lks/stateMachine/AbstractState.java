@@ -1,5 +1,10 @@
 package com.lks.stateMachine;
 
+import com.lks.orm.dao.DataUploadDao;
+import org.springframework.beans.factory.annotation.Configurable;
+
+import javax.annotation.Resource;
+
 /**
  * Created with IntelliJ IDEA.
  * User: shreyas
@@ -7,9 +12,15 @@ package com.lks.stateMachine;
  * Time: 6:23 PM
  * To change this template use File | Settings | File Templates.
  */
+
+
+@Configurable
 public class AbstractState implements IState {
+
+
+
     @Override
-    public int create(String fileName, String fileLocation, String createdBy, String branchName, String placeOfMeeting, String bookletNo, String applicationNo, String numOfCustomers) {
+    public int create(String fileName, String fileLocation, String createdBy, String branchName, String placeOfMeeting, int bookletNo, int applicationNo, int numOfCustomers) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 
@@ -19,12 +30,12 @@ public class AbstractState implements IState {
     }
 
     @Override
-    public void hold(int documentId, String userId) {
+    public void hold(int documentId, String comment, String userId) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 
     @Override
-    public void resolve(int documentId, String userId) {
+    public void resolve(int documentId, String comment,String assignedTo, String userId) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 
@@ -39,7 +50,7 @@ public class AbstractState implements IState {
     }
 
     @Override
-    public void reject(int documentId, String userId) {
+    public void reject(int documentId, String comments, String assignedTo, String userId) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 }

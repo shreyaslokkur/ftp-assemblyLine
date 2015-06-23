@@ -113,9 +113,9 @@ public class MainController {
                       @RequestParam("uploadName") String fileName,
                       @RequestParam("branchName") String branchName,
                       @RequestParam("placeOfMeeting") String placeOfMeeting,
-                      @RequestParam("bookletNo") String bookletNo,
-                      @RequestParam("applicationNo") String applicationNo,
-                      @RequestParam("numOfCustomers") String numOfCustomers){
+                      @RequestParam("bookletNo") int bookletNo,
+                      @RequestParam("applicationNo") int applicationNo,
+                      @RequestParam("numOfCustomers") int numOfCustomers){
 
         File tmpFile = null;
         try {
@@ -125,8 +125,8 @@ public class MainController {
             throw new RuntimeException(e);
         }
         FileReceivedForUploadDO fileReceivedForUploadDO = new FileReceivedForUploadDO();
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        fileReceivedForUploadDO.setCreatedBy(userDetails.getUsername());
+        /*UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();*/
+        fileReceivedForUploadDO.setCreatedBy("lokkur");
         fileReceivedForUploadDO.setFileLocation(tmpFile.getAbsolutePath());
         fileReceivedForUploadDO.setFileName(fileName);
         fileReceivedForUploadDO.setApplicationNo(applicationNo);

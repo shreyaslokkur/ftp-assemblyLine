@@ -9,12 +9,24 @@ package com.lks.stateMachine;
  */
 public class LRState extends AbstractState {
     @Override
-    public void hold(int documentId, String userId) {
-        super.hold(documentId, userId);    //To change body of overridden methods use File | Settings | File Templates.
+    public void hold(int documentId, String comment, String userId) {
+
+        /**
+         * 1. Retrieve the record from the db
+         * 2. Increment the query level
+         * 3. Create a new comment in the comment table
+         * 4. Move the record to HoldState
+         * 5. Update the database
+         */
     }
 
     @Override
     public void complete(int documentId, String userId) {
-        super.complete(documentId, userId);    //To change body of overridden methods use File | Settings | File Templates.
+        /**
+         * 1. Retrieve the document
+         * 2. Move the recStatus of the record to complete
+         * 3. Update the completedBy field of the record
+         * 4. Update the database
+         */
     }
 }
