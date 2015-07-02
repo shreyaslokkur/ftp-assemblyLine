@@ -1,6 +1,8 @@
 package com.lks.stateMachine;
 
-import com.lks.orm.dao.DataUploadDao;
+import com.lks.orm.dao.CommentsDao;
+import com.lks.orm.dao.DocumentUploadDao;
+import com.lks.orm.entities.Document;
 import org.springframework.beans.factory.annotation.Configurable;
 
 import javax.annotation.Resource;
@@ -17,6 +19,9 @@ import javax.annotation.Resource;
 @Configurable
 public class AbstractState implements IState {
 
+    @Resource(name = "documentUploadDao")
+    protected DocumentUploadDao documentUploadDao;
+
 
 
     @Override
@@ -25,32 +30,37 @@ public class AbstractState implements IState {
     }
 
     @Override
-    public void lock(int documentId, String userId) {
+    public void lock(Document document, String userId) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 
     @Override
-    public void hold(int documentId, String comment, String userId) {
+    public void hold(Document document, String comment, String userId) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 
     @Override
-    public void resolve(int documentId, String comment,String assignedTo, String userId) {
+    public void resolve(Document document, String comment,String assignedTo, String userId) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 
     @Override
-    public void complete(int documentId, String userId) {
+    public void complete(Document document, String userId) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 
     @Override
-    public void approve(int documentId, String userId) {
+    public void approve(Document document, String userId) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 
     @Override
-    public void reject(int documentId, String comments, String assignedTo, String userId) {
+    public void reject(Document document, String comments, String assignedTo, String userId) {
+        throw new InvalidStateTransitionException("Transition to this state is not supported");
+    }
+
+    @Override
+    public void archive(Document document) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 }

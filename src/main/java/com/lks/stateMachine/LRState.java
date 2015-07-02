@@ -1,5 +1,13 @@
 package com.lks.stateMachine;
 
+import com.lks.core.enums.RecStatus;
+import com.lks.orm.entities.Comments;
+import com.lks.orm.entities.Document;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+
 /**
  * Created with IntelliJ IDEA.
  * User: shreyas
@@ -8,25 +16,61 @@ package com.lks.stateMachine;
  * To change this template use File | Settings | File Templates.
  */
 public class LRState extends AbstractState {
-    @Override
-    public void hold(int documentId, String comment, String userId) {
 
-        /**
-         * 1. Retrieve the record from the db
-         * 2. Increment the query level
-         * 3. Create a new comment in the comment table
-         * 4. Move the record to HoldState
-         * 5. Update the database
-         */
+    public static final Logger logger = Logger.getLogger(LRState.class.getName());
+
+
+
+    @Override
+    public void hold(Document document, String comment, String userId) {
+
+
+        logger.info("Entered into hold method of LRState");
+        int queryLevel = document.getQueryLevel();
+        logger.info("Current query level is: "+queryLevel);
+        queryLevel++;
+        document.setQueryLevel(queryLevel);
+        logger.info("Query level incremented to: "+ document.getQueryLevel());
+
+        logger.info("Creating a new comment object");
+        Comments comments = new Comments();
+        comments.setComments(comment);
+        comments.setCommentedBy(userId);
+        comments.setState(RecStatus.LR);
+        comments.setDocument(document);
+
+        logger.info("Add the comments into the docuemnt object");
+        if(document.getComments() == null){
+            List<Comments> commentsList = new ArrayList<Comments>();
+            commentsList.add(comments);
+            document.setComments(commentsList);
+        }else {
+            document.getComments().add(comments);
+        }
+
+        logger.info("Setting the recstatus to Hold ");
+        document.setState(RecStatus.HR);
+        logger.info("Set the locked by to null, locked flag to false and hold flag to true");
+        document.setLockedBy(null);
+        document.setLocked(false);
+        document.setOnHold(true);
+
+        logger.info("Update the document into table");
+        documentUploadDao.updateDocument(document);
+
     }
 
     @Override
-    public void complete(int documentId, String userId) {
-        /**
-         * 1. Retrieve the document
-         * 2. Move the recStatus of the record to complete
-         * 3. Update the completedBy field of the record
-         * 4. Update the database
-         */
+    public void complete(Document document, String userId) {
+
+        logger.info("Set the recStatus to complete");
+        document.setState(RecStatus.NAR);
+        logger.info("Set completedBy, remove locked flag");
+        document.setCompletedBy(userId);
+        document.setLocked(false);
+        document.setLockedBy(null);
+
+        logger.info("Update the document into table");
+        documentUploadDao.updateDocument(document);
     }
 }

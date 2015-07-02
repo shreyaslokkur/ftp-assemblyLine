@@ -1,5 +1,13 @@
 package com.lks.stateMachine;
 
+import com.lks.core.enums.RecStatus;
+import com.lks.orm.entities.Comments;
+import com.lks.orm.entities.Document;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+
 /**
  * Created with IntelliJ IDEA.
  * User: shreyas
@@ -9,8 +17,10 @@ package com.lks.stateMachine;
  */
 public class NARState extends AbstractState {
 
+    public static final Logger logger = Logger.getLogger(NARState.class.getName());
+
     @Override
-    public void approve(int documentId, String userId) {
+    public void approve(Document document, String userId) {
         /**
          * 1. Retrieve the document from the database
          * 2. Update the approved by field
@@ -20,16 +30,42 @@ public class NARState extends AbstractState {
          * 6. Move the file to the fileArchiver
          * 7. Delete this row from the documents table
          */
+        logger.info("Update the assigned to field and recStatus. Save it into database");
+        document.setState(RecStatus.AR);
+        document.setApprovedBy(userId);
+        document.setApproved(true);
+        documentUploadDao.updateDocument(document);
+
+        logger.info("Archive the document");
+        IState state = new ARState();
+        state.archive(document);
     }
 
     @Override
-    public void reject(int documentId, String comments, String assignedTo, String userId) {
-        /**
-         * 1. Retrieve the record from the database
-         * 2. Create a new comment in the Comment table
-         * 3. Update the assignedTo field
-         * 4. Move the record to NR State
-         * 5. Update the database
-         */
+    public void reject(Document document, String comment, String assignedTo, String userId) {
+
+        logger.info("Creating a new comment object");
+        Comments comments = new Comments();
+        comments.setComments(comment);
+        comments.setCommentedBy(userId);
+        comments.setState(RecStatus.NAR);
+        comments.setDocument(document);
+
+        logger.info("Add the comments into the docuemnt object");
+        if(document.getComments() == null){
+            List<Comments> commentsList = new ArrayList<Comments>();
+            commentsList.add(comments);
+            document.setComments(commentsList);
+        }else {
+            document.getComments().add(comments);
+        }
+
+        logger.info("Update the assigned to field and recStatus. Save it into database");
+        document.setState(RecStatus.NR);
+        document.setAssignedTo(assignedTo);
+        document.setApprovedBy(userId);
+        document.setApproved(false);
+        documentUploadDao.updateDocument(document);
+
     }
 }

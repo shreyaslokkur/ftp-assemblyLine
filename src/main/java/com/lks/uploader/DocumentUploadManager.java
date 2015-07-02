@@ -7,5 +7,5 @@ package com.lks.uploader;
  * Time: 7:12 PM
  * To change this template use File | Settings | File Templates.
  */
-public class DataUploadManager {
+public class DocumentUploadManager {
 }

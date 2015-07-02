@@ -16,9 +16,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import com.lks.orm.dao.UserDao;
 import com.lks.orm.entities.UserRole;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
+@Transactional
 @Service("userDetailService")
 public class AuthenticationService implements org.springframework.security.core.userdetails.UserDetailsService {
 

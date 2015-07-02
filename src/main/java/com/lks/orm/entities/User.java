@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class User implements IEntity{
 
-	private int employeeId;
+	private String employeeId;
 	private String username;
 	private String password;
 	private boolean enabled;
@@ -30,11 +30,11 @@ public class User implements IEntity{
 	}
 
 
-	public int getEmployeeId() {
+	public String getEmployeeId() {
 		return employeeId;
 	}
 
-	public void setEmployeeId(int employeeId) {
+	public void setEmployeeId(String employeeId) {
 		this.employeeId = employeeId;
 	}
 

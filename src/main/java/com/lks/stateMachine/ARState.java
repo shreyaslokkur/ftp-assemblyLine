@@ -1,5 +1,9 @@
 package com.lks.stateMachine;
 
+import com.lks.core.DocumentUtils;
+import com.lks.orm.entities.Document;
+import com.lks.orm.entities.DocumentArchive;
+
 /**
  * Created with IntelliJ IDEA.
  * User: shreyas
@@ -9,5 +13,13 @@ package com.lks.stateMachine;
  */
 public class ARState extends AbstractState {
 
-
+    @Override
+    public void archive(Document document) {
+        //copy everything to DocumentArchive entity
+        DocumentArchive documentArchive = DocumentUtils.archiveDocument(document);
+        //save the record in db
+        documentUploadDao.archiveDocument(documentArchive);
+        //delete the document record
+        documentUploadDao.deleteDocument(document);
+    }
 }

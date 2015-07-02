@@ -1,8 +1,7 @@
 package com.lks.stateMachine;
 
 import com.lks.core.enums.RecStatus;
-import com.lks.orm.dao.DataUploadDao;
-import com.lks.orm.entities.Document;
+import com.lks.orm.dao.DocumentUploadDao;
 
 import javax.annotation.Resource;
 
@@ -15,26 +14,23 @@ import javax.annotation.Resource;
  */
 public class StateMachineFactory {
 
-    @Resource(name = "dataUploadDao")
-    DataUploadDao dataUploadDao;
+    @Resource(name = "documentUploadDao")
+    DocumentUploadDao documentUploadDao;
 
-    public IState getCurrentState(int documentId){
-        if(documentId != 0){
-            Document document = dataUploadDao.retrieveDocument(documentId);
-            if(RecStatus.NR.equals(document.getState()))
-                return new NRState();
-            else if(RecStatus.AR.equals(document.getState()))
-                return new ARState();
-            else if(RecStatus.HR.equals(document.getState()))
-                return new HRState();
-            else if(RecStatus.LR.equals(document.getState()))
-                return new LRState();
-            else if(RecStatus.NAR.equals(document.getState()))
-                return new NARState();
-        }
+    public IState getCurrentState(RecStatus recStatus){
 
+        if(RecStatus.NR.equals(recStatus))
+            return new NRState();
+        else if(RecStatus.AR.equals(recStatus))
+            return new ARState();
+        else if(RecStatus.HR.equals(recStatus))
+            return new HRState();
+        else if(RecStatus.LR.equals(recStatus))
+            return new LRState();
+        else if(RecStatus.NAR.equals(recStatus))
+            return new NARState();
+        else
+            return null;
 
-
-        return null;
     }
 }

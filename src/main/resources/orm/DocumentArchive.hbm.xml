@@ -2,12 +2,15 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="com.lks.orm.entities.Document" table="document" catalog="test">
+    <class name="com.lks.orm.entities.DocumentArchive" table="document_archive" catalog="test">
 
-        <id name="documentId" type="int"    >
-            <column name="documentId" />
+        <id name="documentArchiveId" type="int">
+            <column name="documentArchiveId"/>
             <generator class="identity" />
         </id>
+        <property name="documentId" type="int">
+            <column name="documentId" not-null="true" />
+        </property>
         <property name="fileName" type="string">
             <column name="fileName" length="100" not-null="true" />
         </property>
@@ -55,10 +58,6 @@
             <column name="locked"  />
         </property>
 
-        <property name="approved" type="boolean">
-            <column name="approved"  />
-        </property>
-
         <property name="state">
             <type name="org.hibernate.type.EnumType">
                 <param name="enumClass">com.lks.core.enums.RecStatus</param>
@@ -67,26 +66,29 @@
         </property>
 
         <list name="comments" cascade="all-delete-orphan" inverse="true" lazy="false">
-            <key column="documentId"/>
+            <key column="documentArchiveId"/>
             <list-index column="idx"/>
-            <one-to-many not-found="ignore" class="com.lks.orm.entities.Comments"/>
+            <one-to-many class="com.lks.orm.entities.CommentsArchive"/>
         </list>
 
 
     </class>
 
 
-    <class name="com.lks.orm.entities.Comments" table="comments" catalog="test">
+    <class name="com.lks.orm.entities.CommentsArchive" table="comments_archive" catalog="test">
 
-        <id name="commentId" type="int">
-            <column name="commentId" />
+        <id name="commentArchiveId" type="int">
+            <column name="commentArchiveId" />
             <generator class="identity" />
         </id>
-        <many-to-one name="document" class="com.lks.orm.entities.Document" fetch="select">
-            <column name="documentId" not-null="true" />
-        </many-to-one>
+        <property name="commentId" type="int">
+            <column name="commentId" />
+        </property>
+        <property name="documentArchiveId" type="int">
+            <column name="documentArchiveId"  />
+        </property>
         <property name="commentedBy" type="string">
-            <column name="commentedBy"  not-null="true" />
+            <column name="commentedBy" length="60"  />
         </property>
         <property name="comments" type="text">
             <column name="comments" not-null="true" />

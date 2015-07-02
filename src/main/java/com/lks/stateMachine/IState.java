@@ -1,5 +1,7 @@
 package com.lks.stateMachine;
 
+import com.lks.orm.entities.Document;
+
 /**
  * Created with IntelliJ IDEA.
  * User: shreyas
@@ -10,10 +12,11 @@ package com.lks.stateMachine;
 public interface IState {
 
     public int create(String fileName, String fileLocation, String createdBy, String branchName, String placeOfMeeting, int bookletNo, int applicationNo, int numOfCustomers);
-    public void lock(int documentId, String userId);
-    public void hold(int documentId, String comment, String userId);
-    public void resolve(int documentId, String comment,String assignedTo, String userId);
-    public void complete(int documentId, String userId);
-    public void approve(int documentId, String userId);
-    public void reject(int documentId, String comments, String assignedTo, String userId);
+    public void lock(Document document, String userId);
+    public void hold(Document document, String comment, String userId);
+    public void resolve(Document document, String comment,String assignedTo, String userId);
+    public void complete(Document document, String userId);
+    public void approve(Document document, String userId);
+    public void reject(Document document, String comments, String assignedTo, String userId);
+    public void archive(Document document);
 }

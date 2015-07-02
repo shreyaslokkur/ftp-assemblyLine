@@ -3,6 +3,7 @@ package com.lks.uploader;
 import com.lks.core.enums.DocOperations;
 import com.lks.core.model.FileOperationDO;
 import com.lks.core.model.FileReceivedForUploadDO;
+import com.lks.orm.entities.Document;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,8 +12,9 @@ import com.lks.core.model.FileReceivedForUploadDO;
  * Time: 7:28 PM
  * To change this template use File | Settings | File Templates.
  */
-public interface IDataUploadService {
+public interface IDocumentUploadService {
 
     int createNewDocument(FileReceivedForUploadDO fileReceivedForUploadDO);
     String performOperationOnDocument(FileOperationDO fileOperationDO);
+    Document retrieveDocument(int documentId);
 }

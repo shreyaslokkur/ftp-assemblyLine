@@ -10,6 +10,9 @@
 
 	<context:spring-configured />
 	<context:annotation-config />
+	<context:component-scan base-package="com.lks.uploader"/>
+
+
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
@@ -17,7 +20,6 @@
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/test" />
 		<property name="username" value="root" />
-		<property name="password" value="root" />
 	</bean>
 
 	<bean id="sessionFactory"
@@ -28,6 +30,7 @@
 				<value>orm/Users.hbm.xml</value>
 				<value>orm/UserRoles.hbm.xml</value>
 				<value>orm/Document.hbm.xml</value>
+				<value>orm/DocumentArchive.hbm.xml</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
@@ -44,32 +47,39 @@
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 
+	<tx:annotation-driven transaction-manager="transactionManager" mode="aspectj" />
+
 	<bean id="stateMachineFactory" class="com.lks.stateMachine.StateMachineFactory"/>
 
-	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+	<!--<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
 			<tx:method name="get*" read-only="true" />
 			<tx:method name="find*" read-only="true" />
 			<tx:method name="*" />
 		</tx:attributes>
-	</tx:advice>
+	</tx:advice>-->
 
-	<aop:config>
+
+
+	<!--<aop:config>
 		<aop:pointcut id="userServicePointCut"
-			expression="execution(* com.lks.uploader.*Service.*(..))" />
+			expression="execution(* com.lks.orm.*Service.*(..))" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="userServicePointCut" />
-	</aop:config>
+	</aop:config>-->
 
 	<bean id="userDao" class="com.lks.orm.dao.UserDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
-	<bean id="dataUploadDao" class="com.lks.orm.dao.DataUploadDaoImpl">
+	<bean id="documentUploadDao" class="com.lks.orm.dao.DocumentUploadDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
-	<bean id="dataUploadService" class="com.lks.uploader.DataUploadService">
+	<bean id="commentsDao" class="com.lks.orm.dao.CommentsDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 
+	<bean id="documentUploadService" class="com.lks.uploader.DocumentUploadService">
 	</bean>
 
 	<bean id="userDaoFactory" class="com.lks.orm.dao.UserDaoFactory">

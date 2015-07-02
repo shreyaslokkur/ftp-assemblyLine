@@ -5,13 +5,22 @@ import com.lks.core.enums.RecStatus;
 /**
  * Created by lokkur on 6/19/2015.
  */
-public class Comments {
+public class CommentsArchive {
 
+    private int commentArchiveId;
     private int commentId;
-    private Document document;
+    private int documentArchiveId;
     private String commentedBy;
     private String comments;
     private RecStatus state;
+
+    public int getCommentArchiveId() {
+        return commentArchiveId;
+    }
+
+    public void setCommentArchiveId(int commentArchiveId) {
+        this.commentArchiveId = commentArchiveId;
+    }
 
     public int getCommentId() {
         return commentId;
@@ -21,12 +30,12 @@ public class Comments {
         this.commentId = commentId;
     }
 
-    public Document getDocument() {
-        return document;
+    public int getDocumentArchiveId() {
+        return documentArchiveId;
     }
 
-    public void setDocument(Document document) {
-        this.document = document;
+    public void setDocumentArchiveId(int documentArchiveId) {
+        this.documentArchiveId = documentArchiveId;
     }
 
     public String getCommentedBy() {

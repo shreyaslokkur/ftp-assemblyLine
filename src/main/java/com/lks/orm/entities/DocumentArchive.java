@@ -11,8 +11,9 @@ import java.util.List;
  * Time: 8:32 PM
  * To change this template use File | Settings | File Templates.
  */
-public class Document implements IEntity {
+public class DocumentArchive implements IEntity {
 
+    private int documentArchiveId;
     private int documentId;
     private RecStatus state;
     private String fileName;
@@ -31,25 +32,15 @@ public class Document implements IEntity {
     private boolean onHold;
     private boolean locked;
     private boolean approved;
-    private List<Comments> comments;
+    private List<CommentsArchive> comments;
 
-    public Document(){
-
+    public int getDocumentArchiveId() {
+        return documentArchiveId;
     }
 
-    public Document(RecStatus recStatus, String fileName, String fileLocation, String createdBy, String branchName, String placeOfMeeting, int bookletNo, int applicationNo, int numOfCustomers) {
-
-        this.state = recStatus;
-        this.fileName = fileName;
-        this.fileLocation = fileLocation;
-        this.createdBy = createdBy;
-        this.branchName = branchName;
-        this.placeOfMeeting = placeOfMeeting;
-        this.bookletNo = bookletNo;
-        this.applicationNo = applicationNo;
-        this.numOfCustomers = numOfCustomers;
+    public void setDocumentArchiveId(int documentArchiveId) {
+        this.documentArchiveId = documentArchiveId;
     }
-
 
     public int getDocumentId() {
         return documentId;
@@ -196,11 +187,11 @@ public class Document implements IEntity {
         this.approved = approved;
     }
 
-    public List<Comments> getComments() {
+    public List<CommentsArchive> getComments() {
         return comments;
     }
 
-    public void setComments(List<Comments> comments) {
+    public void setComments(List<CommentsArchive> comments) {
         this.comments = comments;
     }
 }
