@@ -9,7 +9,7 @@ public class CommentsArchive {
 
     private int commentArchiveId;
     private int commentId;
-    private int documentArchiveId;
+    private int documentId;
     private String commentedBy;
     private String comments;
     private RecStatus state;
@@ -30,12 +30,12 @@ public class CommentsArchive {
         this.commentId = commentId;
     }
 
-    public int getDocumentArchiveId() {
-        return documentArchiveId;
+    public int getDocumentId() {
+        return documentId;
     }
 
-    public void setDocumentArchiveId(int documentArchiveId) {
-        this.documentArchiveId = documentArchiveId;
+    public void setDocumentId(int documentId) {
+        this.documentId = documentId;
     }
 
     public String getCommentedBy() {

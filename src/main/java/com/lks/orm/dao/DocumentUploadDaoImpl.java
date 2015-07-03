@@ -118,9 +118,9 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
                 deleteById(Comments.class, comments.getCommentId(), session);
             }*/
             deleteById(Document.class, document.getDocumentId(),session);
-            for(Comments comments: document.getComments()){
+            /*for(Comments comments: document.getComments()){
                 deleteById(Comments.class, comments.getCommentId(), session);
-            }
+            }*/
 
         }catch (HibernateException e) {
             throw new FALException("Unable to delete document with file name"+ document.getFileName(), e);

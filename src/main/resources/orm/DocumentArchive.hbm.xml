@@ -4,8 +4,8 @@
 <hibernate-mapping>
     <class name="com.lks.orm.entities.DocumentArchive" table="document_archive" catalog="test">
 
-        <id name="documentArchiveId" type="int">
-            <column name="documentArchiveId"/>
+        <id name="documentId" type="int">
+            <column name="documentId"/>
             <generator class="identity" />
         </id>
         <property name="documentId" type="int">
@@ -66,7 +66,7 @@
         </property>
 
         <list name="comments" cascade="all-delete-orphan" inverse="true" lazy="false">
-            <key column="documentArchiveId"/>
+            <key column="documentId"/>
             <list-index column="idx"/>
             <one-to-many class="com.lks.orm.entities.CommentsArchive"/>
         </list>
@@ -84,8 +84,8 @@
         <property name="commentId" type="int">
             <column name="commentId" />
         </property>
-        <property name="documentArchiveId" type="int">
-            <column name="documentArchiveId"  />
+        <property name="documentId" type="int">
+            <column name="documentId"  />
         </property>
         <property name="commentedBy" type="string">
             <column name="commentedBy" length="60"  />

@@ -45,7 +45,7 @@ public class DocumentUtils {
             commentsArchive.setCommentId(comments.getCommentId());
             commentsArchive.setCommentedBy(comments.getCommentedBy());
             commentsArchive.setComments(comments.getComments());
-            commentsArchive.setDocumentArchiveId(comments.getDocument().getDocumentId());
+            commentsArchive.setDocumentId(comments.getDocument().getDocumentId());
             commentsArchive.setState(comments.getState());
             commentsArchives.add(commentsArchive);
 
