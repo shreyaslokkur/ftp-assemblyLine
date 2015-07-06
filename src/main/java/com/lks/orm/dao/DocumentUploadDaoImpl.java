@@ -11,6 +11,8 @@ import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DocumentUploadDaoImpl implements DocumentUploadDao {
 
@@ -64,21 +66,6 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
 
 
     @Override
-    public boolean lockDocument(int documentId) {
-        SessionFactory sessionFactory = getSessionFactory();
-        Session session = sessionFactory.openSession();
-        try{
-            session.createQuery("");
-        }catch (HibernateException e) {
-            e.printStackTrace();
-        }finally {
-            session.close();
-        }
-        return false;
-    }
-
-
-    @Override
     public void updateDocument(Document document) {
         SessionFactory sessionFactory = getSessionFactory();
         Session session = sessionFactory.openSession();
@@ -114,13 +101,8 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
         SessionFactory sessionFactory = getSessionFactory();
         Session session = sessionFactory.openSession();
         try{
-            /*for(Comments comments: document.getComments()){
-                deleteById(Comments.class, comments.getCommentId(), session);
-            }*/
+
             deleteById(Document.class, document.getDocumentId(),session);
-            /*for(Comments comments: document.getComments()){
-                deleteById(Comments.class, comments.getCommentId(), session);
-            }*/
 
         }catch (HibernateException e) {
             throw new FALException("Unable to delete document with file name"+ document.getFileName(), e);
@@ -129,6 +111,45 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
             session.close();
         }
 
+    }
+
+    @Override
+    public List<Document> getAllNewAndLockedRecords() {
+        List<Document> documentList;
+        SessionFactory sessionFactory = getSessionFactory();
+        Session session = sessionFactory.openSession();
+        try{
+            String hql = "from Document d where d.state in ('NR','LR') and d.assignedTo is null";
+            documentList = session.createQuery(hql).list();
+
+        }catch (HibernateException e){
+            throw new FALException("Unable to retrieve new and locked records", e);
+        }finally {
+            session.close();
+        }
+
+        return documentList;
+    }
+
+    @Override
+    public List<Document> getAllRecordsAssignedToUser(String userId) {
+
+        //Need to check by that time if the user exists in the list at all
+        List<Document> documentList;
+        SessionFactory sessionFactory = getSessionFactory();
+        Session session = sessionFactory.openSession();
+        try{
+            String hql = "from Document d where d.assignedTo= :userId";
+            documentList = session.createQuery(hql).
+                    setParameter("userId", userId).list();
+
+        }catch (HibernateException e){
+            throw new FALException("Unable to retrieve records assigned to: "+ userId, e);
+        }finally {
+            session.close();
+        }
+
+        return documentList;
     }
 
     private boolean deleteById(Class<?> type, Serializable id, Session session) {

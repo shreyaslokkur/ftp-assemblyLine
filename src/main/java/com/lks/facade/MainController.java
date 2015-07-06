@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import com.lks.core.enums.DocOperations;
+import com.lks.core.model.DocumentDO;
 import com.lks.core.model.FileOperationDO;
 import com.lks.core.model.FileReceivedForUploadDO;
 import com.lks.uploader.IDocumentUploadService;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
+import java.util.List;
 
 @Controller
 public class MainController {
@@ -138,6 +140,41 @@ public class MainController {
         return documentUploadService.createNewDocument(fileReceivedForUploadDO);
     }
 
+
+	@RequestMapping(method = RequestMethod.POST, value = "/scanner/upload")
+	public
+	@ResponseBody
+	int documentReUpload(@RequestParam("documentId") int documentId,
+			@RequestParam("file") MultipartFile file,
+			@RequestParam("uploadName") String fileName,
+			@RequestParam("branchName") String branchName,
+			@RequestParam("placeOfMeeting") String placeOfMeeting,
+			@RequestParam("bookletNo") int bookletNo,
+			@RequestParam("applicationNo") int applicationNo,
+			@RequestParam("numOfCustomers") int numOfCustomers){
+
+		File tmpFile = null;
+		try {
+			tmpFile = File.createTempFile(FilenameUtils.getBaseName(file.getOriginalFilename()), "." + FilenameUtils.getExtension(file.getOriginalFilename()));
+			file.transferTo(tmpFile);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		FileReceivedForUploadDO fileReceivedForUploadDO = new FileReceivedForUploadDO();
+        /*UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();*/
+		fileReceivedForUploadDO.setCreatedBy("lokkur");
+		fileReceivedForUploadDO.setFileLocation(tmpFile.getAbsolutePath());
+		fileReceivedForUploadDO.setFileName(fileName);
+		fileReceivedForUploadDO.setApplicationNo(applicationNo);
+		fileReceivedForUploadDO.setBookletNo(bookletNo);
+		fileReceivedForUploadDO.setBranchName(branchName);
+		fileReceivedForUploadDO.setNumOfCustomers(numOfCustomers);
+		fileReceivedForUploadDO.setPlaceOfMeeting(placeOfMeeting);
+		fileReceivedForUploadDO.setDocumentId(documentId);
+
+		return documentUploadService.createNewDocument(fileReceivedForUploadDO);
+	}
+
     @RequestMapping(method = RequestMethod.GET, value = "/do/lock")
     public
     @ResponseBody
@@ -153,6 +190,22 @@ public class MainController {
 
         return null;
     }
+
+	@RequestMapping(method = RequestMethod.GET, value = "/do/lock")
+	public
+	@ResponseBody
+	String fileUnLock(@RequestParam("fileId") int documentId){
+
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		FileOperationDO fileOperationDO = new FileOperationDO();
+		fileOperationDO.setDocOperations(DocOperations.UNLOCK);
+		fileOperationDO.setDocumentId(documentId);
+		fileOperationDO.setUserId(userDetails.getUsername());
+		documentUploadService.performOperationOnDocument(fileOperationDO);
+
+
+		return null;
+	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/do/complete")
 	public
@@ -253,5 +306,23 @@ public class MainController {
 
 		return null;
 	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/do/getNewRecords")
+	public
+	@ResponseBody
+	List<DocumentDO> getNewRecords(){
+		return documentUploadService.retrieveAllNewAndLockedDocuments();
+
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/do/getRecordsAssignedTo")
+	public
+	@ResponseBody
+	List<DocumentDO> getRecordsAssignedTo(@RequestParam("userId")String userId){
+		return documentUploadService.retrieveAllDocumentsAssignedTo(userId);
+
+	}
+
+
 
 }

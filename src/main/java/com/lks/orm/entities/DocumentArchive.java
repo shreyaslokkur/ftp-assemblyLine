@@ -32,6 +32,7 @@ public class DocumentArchive implements IEntity {
     private boolean onHold;
     private boolean locked;
     private boolean approved;
+    private boolean rescanNeeded;
     private List<CommentsArchive> comments;
 
     public int getDocumentArchiveId() {
@@ -185,6 +186,14 @@ public class DocumentArchive implements IEntity {
 
     public void setApproved(boolean approved) {
         this.approved = approved;
+    }
+
+    public boolean isRescanNeeded() {
+        return rescanNeeded;
+    }
+
+    public void setRescanNeeded(boolean rescanNeeded) {
+        this.rescanNeeded = rescanNeeded;
     }
 
     public List<CommentsArchive> getComments() {

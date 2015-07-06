@@ -29,6 +29,8 @@ public class StateMachineFactory {
             return new LRState();
         else if(RecStatus.NAR.equals(recStatus))
             return new NARState();
+        else if(RecStatus.RN.equals(recStatus))
+            return new RNState();
         else
             return null;
 

@@ -10,6 +10,7 @@ package com.lks.core.enums;
 public enum DocOperations {
 
     LOCK,
+    UNLOCK,
     HOLD,
     RESCAN,
     COMPLETE,

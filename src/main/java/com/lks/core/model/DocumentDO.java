@@ -1,19 +1,15 @@
-package com.lks.orm.entities;
+package com.lks.core.model;
 
 import com.lks.core.enums.RecStatus;
+import com.lks.orm.entities.Comments;
 
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * User: shreyas
- * Date: 13/6/15
- * Time: 8:32 PM
- * To change this template use File | Settings | File Templates.
+ * Created by lokkur on 7/6/2015.
  */
-public class Document implements IEntity {
+public class DocumentDO extends AbstractDO {
 
-    private int documentId;
     private RecStatus state;
     private String fileName;
     private String fileLocation;
@@ -34,13 +30,8 @@ public class Document implements IEntity {
     private boolean rescanNeeded;
     private List<Comments> comments;
 
-    public Document(){
-
-    }
-
-    public Document(RecStatus recStatus, String fileName, String fileLocation, String createdBy, String branchName, String placeOfMeeting, int bookletNo, int applicationNo, int numOfCustomers) {
-
-        this.state = recStatus;
+    public DocumentDO(RecStatus state, String fileName, String fileLocation, String createdBy, String branchName, String placeOfMeeting, int bookletNo, int applicationNo, int numOfCustomers, String lockedBy, String completedBy, String approvedBy, String assignedTo, int queryLevel, boolean onHold, boolean locked, boolean approved, boolean rescanNeeded, List<Comments> comments) {
+        this.state = state;
         this.fileName = fileName;
         this.fileLocation = fileLocation;
         this.createdBy = createdBy;
@@ -49,15 +40,16 @@ public class Document implements IEntity {
         this.bookletNo = bookletNo;
         this.applicationNo = applicationNo;
         this.numOfCustomers = numOfCustomers;
-    }
-
-
-    public int getDocumentId() {
-        return documentId;
-    }
-
-    public void setDocumentId(int documentId) {
-        this.documentId = documentId;
+        this.lockedBy = lockedBy;
+        this.completedBy = completedBy;
+        this.approvedBy = approvedBy;
+        this.assignedTo = assignedTo;
+        this.queryLevel = queryLevel;
+        this.onHold = onHold;
+        this.locked = locked;
+        this.approved = approved;
+        this.rescanNeeded = rescanNeeded;
+        this.comments = comments;
     }
 
     public RecStatus getState() {
@@ -155,7 +147,6 @@ public class Document implements IEntity {
     public void setApprovedBy(String approvedBy) {
         this.approvedBy = approvedBy;
     }
-
 
     public String getAssignedTo() {
         return assignedTo;

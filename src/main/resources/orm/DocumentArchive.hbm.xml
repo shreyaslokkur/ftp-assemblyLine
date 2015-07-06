@@ -4,8 +4,8 @@
 <hibernate-mapping>
     <class name="com.lks.orm.entities.DocumentArchive" table="document_archive" catalog="test">
 
-        <id name="documentId" type="int">
-            <column name="documentId"/>
+        <id name="documentArchiveId" type="int">
+            <column name="documentArchiveId"/>
             <generator class="identity" />
         </id>
         <property name="documentId" type="int">
@@ -63,6 +63,10 @@
                 <param name="enumClass">com.lks.core.enums.RecStatus</param>
                 <param name="useNamed">true</param>
             </type>
+        </property>
+
+        <property name="rescanNeeded" type="boolean">
+            <column name="rescanNeeded"  />
         </property>
 
         <list name="comments" cascade="all-delete-orphan" inverse="true" lazy="false">

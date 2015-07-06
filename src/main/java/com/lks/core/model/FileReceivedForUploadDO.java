@@ -12,6 +12,7 @@ public class FileReceivedForUploadDO extends AbstractDO {
     private int bookletNo;
     private int applicationNo;
     private int numOfCustomers;
+    private int documentId;
 
 
     public String getFileName() {
@@ -76,5 +77,13 @@ public class FileReceivedForUploadDO extends AbstractDO {
 
     public void setNumOfCustomers(int numOfCustomers) {
         this.numOfCustomers = numOfCustomers;
+    }
+
+    public int getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(int documentId) {
+        this.documentId = documentId;
     }
 }

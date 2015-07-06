@@ -35,6 +35,11 @@ public class AbstractState implements IState {
     }
 
     @Override
+    public void unlock(Document document) {
+        throw new InvalidStateTransitionException("Transition to this state is not supported");
+    }
+
+    @Override
     public void hold(Document document, String comment, String userId) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
@@ -61,6 +66,16 @@ public class AbstractState implements IState {
 
     @Override
     public void archive(Document document) {
+        throw new InvalidStateTransitionException("Transition to this state is not supported");
+    }
+
+    @Override
+    public void rescan(Document document) {
+        throw new InvalidStateTransitionException("Transition to this state is not supported");
+    }
+
+    @Override
+    public void reupload(Document document) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 }

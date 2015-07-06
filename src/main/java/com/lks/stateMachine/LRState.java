@@ -54,7 +54,7 @@ public class LRState extends AbstractState {
         document.setLockedBy(null);
         document.setLocked(false);
         document.setOnHold(true);
-
+        document.setAssignedTo(null);
         logger.info("Update the document into table");
         documentUploadDao.updateDocument(document);
 
@@ -69,8 +69,32 @@ public class LRState extends AbstractState {
         document.setCompletedBy(userId);
         document.setLocked(false);
         document.setLockedBy(null);
-
+        document.setAssignedTo(null);
         logger.info("Update the document into table");
+        documentUploadDao.updateDocument(document);
+    }
+
+    @Override
+    public void unlock(Document document) {
+        logger.info("Update the lock flag to false and set the locked by field to null");
+        document.setLocked(false);
+        document.setLockedBy(null);
+        document.setState(RecStatus.NR);
+
+        logger.info("Update the document: "+document.getDocumentId()+ " into the table");
+        documentUploadDao.updateDocument(document);
+
+    }
+
+    @Override
+    public void rescan(Document document) {
+        logger.info("Rescan the document, by settting the isRescanNeeded flag to true and remove the lock flag, locked by flag");
+        document.setRescanNeeded(true);
+        document.setLockedBy(null);
+        document.setLocked(false);
+        document.setState(RecStatus.RN);
+
+        logger.info("Update the document: "+document.getDocumentId()+ " into the table");
         documentUploadDao.updateDocument(document);
     }
 }

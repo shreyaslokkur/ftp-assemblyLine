@@ -21,5 +21,7 @@ public class ARState extends AbstractState {
         documentUploadDao.archiveDocument(documentArchive);
         //delete the document record
         documentUploadDao.deleteDocument(document);
+
+        //move the file from file server to archiver
     }
 }

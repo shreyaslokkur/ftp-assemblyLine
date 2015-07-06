@@ -59,6 +59,10 @@
             <column name="approved"  />
         </property>
 
+        <property name="rescanNeeded" type="boolean">
+            <column name="rescanNeeded"  />
+        </property>
+
         <property name="state">
             <type name="org.hibernate.type.EnumType">
                 <param name="enumClass">com.lks.core.enums.RecStatus</param>
