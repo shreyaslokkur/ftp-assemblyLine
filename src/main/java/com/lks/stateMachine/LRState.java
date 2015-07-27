@@ -22,7 +22,7 @@ public class LRState extends AbstractState {
 
 
     @Override
-    public void hold(Document document, String comment, String userId) {
+    public Document hold(Document document, String comment, String userId) {
 
 
         logger.info("Entered into hold method of LRState");
@@ -57,11 +57,12 @@ public class LRState extends AbstractState {
         document.setAssignedTo(null);
         logger.info("Update the document into table");
         documentUploadDao.updateDocument(document);
+        return document;
 
     }
 
     @Override
-    public void complete(Document document, String userId) {
+    public Document complete(Document document, String userId) {
 
         logger.info("Set the recStatus to complete");
         document.setState(RecStatus.NAR);
@@ -72,10 +73,11 @@ public class LRState extends AbstractState {
         document.setAssignedTo(null);
         logger.info("Update the document into table");
         documentUploadDao.updateDocument(document);
+        return document;
     }
 
     @Override
-    public void unlock(Document document) {
+    public Document unlock(Document document) {
         logger.info("Update the lock flag to false and set the locked by field to null");
         document.setLocked(false);
         document.setLockedBy(null);
@@ -83,11 +85,12 @@ public class LRState extends AbstractState {
 
         logger.info("Update the document: "+document.getDocumentId()+ " into the table");
         documentUploadDao.updateDocument(document);
+        return document;
 
     }
 
     @Override
-    public void rescan(Document document) {
+    public Document rescan(Document document) {
         logger.info("Rescan the document, by settting the isRescanNeeded flag to true and remove the lock flag, locked by flag");
         document.setRescanNeeded(true);
         document.setLockedBy(null);
@@ -96,5 +99,6 @@ public class LRState extends AbstractState {
 
         logger.info("Update the document: "+document.getDocumentId()+ " into the table");
         documentUploadDao.updateDocument(document);
+        return document;
     }
 }

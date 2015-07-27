@@ -30,52 +30,52 @@ public class AbstractState implements IState {
     }
 
     @Override
-    public void lock(Document document, String userId) {
+    public Document lock(Document document, String userId) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 
     @Override
-    public void unlock(Document document) {
+    public Document unlock(Document document) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 
     @Override
-    public void hold(Document document, String comment, String userId) {
+    public Document hold(Document document, String comment, String userId) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 
     @Override
-    public void resolve(Document document, String comment,String assignedTo, String userId) {
+    public Document resolve(Document document, String comment,String assignedTo, String userId) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 
     @Override
-    public void complete(Document document, String userId) {
+    public Document complete(Document document, String userId) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 
     @Override
-    public void approve(Document document, String userId) {
+    public Document approve(Document document, String userId) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 
     @Override
-    public void reject(Document document, String comments, String assignedTo, String userId) {
+    public Document reject(Document document, String comments, String assignedTo, String userId) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 
     @Override
-    public void archive(Document document) {
+    public Document archive(Document document) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 
     @Override
-    public void rescan(Document document) {
+    public Document rescan(Document document) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 
     @Override
-    public void reupload(Document document) {
+    public Document reupload(Document document) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 }

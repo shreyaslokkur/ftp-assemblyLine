@@ -2,6 +2,7 @@ package com.lks.orm.entities;
 
 import com.lks.core.enums.RecStatus;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,12 +34,14 @@ public class Document implements IEntity {
     private boolean approved;
     private boolean rescanNeeded;
     private List<Comments> comments;
+    private String recCreatedOn;
+    private String recApprovedOn;
 
     public Document(){
 
     }
 
-    public Document(RecStatus recStatus, String fileName, String fileLocation, String createdBy, String branchName, String placeOfMeeting, int bookletNo, int applicationNo, int numOfCustomers) {
+    public Document(RecStatus recStatus, String fileName, String fileLocation, String createdBy, String branchName, String placeOfMeeting, int bookletNo, int applicationNo, int numOfCustomers, String recCreatedOn) {
 
         this.state = recStatus;
         this.fileName = fileName;
@@ -49,6 +52,7 @@ public class Document implements IEntity {
         this.bookletNo = bookletNo;
         this.applicationNo = applicationNo;
         this.numOfCustomers = numOfCustomers;
+        this.recCreatedOn = recCreatedOn;
     }
 
 
@@ -211,5 +215,21 @@ public class Document implements IEntity {
 
     public void setComments(List<Comments> comments) {
         this.comments = comments;
+    }
+
+    public String getRecCreatedOn() {
+        return recCreatedOn;
+    }
+
+    public void setRecCreatedOn(String recCreatedOn) {
+        this.recCreatedOn = recCreatedOn;
+    }
+
+    public String getRecApprovedOn() {
+        return recApprovedOn;
+    }
+
+    public void setRecApprovedOn(String recApprovedOn) {
+        this.recApprovedOn = recApprovedOn;
     }
 }

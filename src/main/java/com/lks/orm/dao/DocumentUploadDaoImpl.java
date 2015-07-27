@@ -11,7 +11,9 @@ import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DocumentUploadDaoImpl implements DocumentUploadDao {
@@ -35,7 +37,9 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
         Session session = sessionFactory.openSession();
         Integer documentId = null;
         try{
-            Document document = new Document(RecStatus.NR, fileName, fileLocation, createdBy, branchName, placeOfMeeting, bookletNo, applicationNo, numOfCustomers);
+            Date date = new Date();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Document document = new Document(RecStatus.NR, fileName, fileLocation, createdBy, branchName, placeOfMeeting, bookletNo, applicationNo, numOfCustomers, simpleDateFormat.format(date));
             documentId = (Integer) session.save(document);
         }catch (HibernateException e) {
             throw new FALException("Unable to create new document with file name"+ fileName, e);
@@ -145,6 +149,43 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
 
         }catch (HibernateException e){
             throw new FALException("Unable to retrieve records assigned to: "+ userId, e);
+        }finally {
+            session.close();
+        }
+
+        return documentList;
+    }
+
+    @Override
+    public List<Document> getAllRecordsWhichNeedRescan(String branchName) {
+        List<Document> documentList;
+        SessionFactory sessionFactory = getSessionFactory();
+        Session session = sessionFactory.openSession();
+        try{
+            String hql = "from Document d where d.rescanNeeded = :rescanNeeded and d.branchName = :branchName";
+            documentList = session.createQuery(hql).setParameter("rescanNeeded", true).
+                    setParameter("branchName", branchName).list();
+
+        }catch (HibernateException e){
+            throw new FALException("Unable to retrieve records assigned to: "+ branchName, e);
+        }finally {
+            session.close();
+        }
+
+        return documentList;
+    }
+
+    @Override
+    public List<Document> getAllRecordsWhichNeedApproval() {
+        List<Document> documentList;
+        SessionFactory sessionFactory = getSessionFactory();
+        Session session = sessionFactory.openSession();
+        try{
+            String hql = "from Document d where d.state in ('NAR') and d.assignedTo is null";
+            documentList = session.createQuery(hql).list();
+
+        }catch (HibernateException e){
+            throw new FALException("Unable to retrieve records which need approval", e);
         }finally {
             session.close();
         }

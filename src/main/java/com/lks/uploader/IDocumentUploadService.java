@@ -18,8 +18,11 @@ import java.util.List;
 public interface IDocumentUploadService {
 
     int createNewDocument(FileReceivedForUploadDO fileReceivedForUploadDO);
-    String performOperationOnDocument(FileOperationDO fileOperationDO);
+    void reuploadDocument(FileReceivedForUploadDO fileReceivedForUploadDO);
+    DocumentDO performOperationOnDocument(FileOperationDO fileOperationDO);
     Document retrieveDocument(int documentId);
     List<DocumentDO> retrieveAllNewAndLockedDocuments();
     List<DocumentDO> retrieveAllDocumentsAssignedTo(String userId);
+    List<DocumentDO> retrieveAllDocumentsWhichNeedRescan(String branchName);
+    List<DocumentDO> retrieveAllDocumentsWhichNeedApproval();
 }

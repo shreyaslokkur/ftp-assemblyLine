@@ -15,5 +15,7 @@ public interface DocumentUploadDao {
     void deleteDocument(Document document);
     List<Document> getAllNewAndLockedRecords();
     List<Document> getAllRecordsAssignedToUser(String userId);
+    List<Document> getAllRecordsWhichNeedRescan(String branchName);
+    List<Document> getAllRecordsWhichNeedApproval();
 
 }

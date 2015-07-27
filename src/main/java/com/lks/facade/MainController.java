@@ -13,6 +13,8 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 @Controller
@@ -29,7 +33,7 @@ public class MainController {
     @Resource(name = "documentUploadService")
 	IDocumentUploadService documentUploadService;
 
-	@RequestMapping(value = { "/", "/welcome**" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/welcome**" }, method = RequestMethod.GET)
 	public ModelAndView defaultPage() {
 
 		ModelAndView model = new ModelAndView();
@@ -38,6 +42,43 @@ public class MainController {
 		model.setViewName("hello");
 		return model;
 
+	}
+
+	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
+	public String pageRedirect(){
+		String redirectUrl = null;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if(auth.isAuthenticated()){
+			if (!(auth instanceof AnonymousAuthenticationToken)) {
+				Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+				//retrieve the role of the user
+				Iterator iterator = authorities.iterator();
+				while(iterator.hasNext()){
+					SimpleGrantedAuthority authority = (SimpleGrantedAuthority) iterator.next();
+					String role = authority.getAuthority();
+					switch (role){
+						case "ROLE_DO":
+							redirectUrl =  "redirect:/resources/templates/dataOp.html";
+							break;
+						case "ROLE_SCANNER":
+							redirectUrl = "redirect:/resources/templates/FileUpload.html";
+							break;
+						case "ROLE_APPROVER":
+							redirectUrl = "redirect:/resources/templates/Approver.html";
+							break;
+					}
+
+				}
+
+			}
+		}
+		return redirectUrl;
+	}
+
+	@RequestMapping(value = "/staticPage", method = RequestMethod.GET)
+	public String redirect() {
+
+		return "redirect:/resources/templates/dataOp.html";
 	}
 
 	@RequestMapping(value = "/admin**", method = RequestMethod.GET)
@@ -55,6 +96,8 @@ public class MainController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login(@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "logout", required = false) String logout, HttpServletRequest request) {
+
+
 
 		ModelAndView model = new ModelAndView();
 		if (error != null) {
@@ -141,10 +184,10 @@ public class MainController {
     }
 
 
-	@RequestMapping(method = RequestMethod.POST, value = "/scanner/upload")
+	@RequestMapping(method = RequestMethod.POST, value = "/scanner/reupload")
 	public
 	@ResponseBody
-	int documentReUpload(@RequestParam("documentId") int documentId,
+	void documentReUpload(@RequestParam("documentId") int documentId,
 			@RequestParam("file") MultipartFile file,
 			@RequestParam("uploadName") String fileName,
 			@RequestParam("branchName") String branchName,
@@ -172,61 +215,71 @@ public class MainController {
 		fileReceivedForUploadDO.setPlaceOfMeeting(placeOfMeeting);
 		fileReceivedForUploadDO.setDocumentId(documentId);
 
-		return documentUploadService.createNewDocument(fileReceivedForUploadDO);
+		documentUploadService.reuploadDocument(fileReceivedForUploadDO);
 	}
-
-    @RequestMapping(method = RequestMethod.GET, value = "/do/lock")
-    public
-    @ResponseBody
-    String fileLock(@RequestParam("fileId") int documentId){
-
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        FileOperationDO fileOperationDO = new FileOperationDO();
-        fileOperationDO.setDocOperations(DocOperations.LOCK);
-        fileOperationDO.setDocumentId(documentId);
-        fileOperationDO.setUserId(userDetails.getUsername());
-        documentUploadService.performOperationOnDocument(fileOperationDO);
-
-
-        return null;
-    }
 
 	@RequestMapping(method = RequestMethod.GET, value = "/do/lock")
 	public
 	@ResponseBody
-	String fileUnLock(@RequestParam("fileId") int documentId){
+	DocumentDO fileLock(@RequestParam("documentId") int documentId){
+
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		FileOperationDO fileOperationDO = new FileOperationDO();
+		fileOperationDO.setDocOperations(DocOperations.LOCK);
+		fileOperationDO.setDocumentId(documentId);
+		fileOperationDO.setUserId(userDetails.getUsername());
+		DocumentDO documentDO = documentUploadService.performOperationOnDocument(fileOperationDO);
+
+
+		return documentDO;
+	}
+
+    @RequestMapping(method = RequestMethod.GET, value = "/scanner/getRescanDocuments")
+    public
+    @ResponseBody
+		List<DocumentDO> getRescanDocuments(@RequestParam("branchName") String branchName){
+
+
+        return documentUploadService.retrieveAllDocumentsWhichNeedRescan(branchName);
+
+    }
+
+	@RequestMapping(method = RequestMethod.GET, value = "/do/unlock")
+	public
+	@ResponseBody
+	DocumentDO fileUnLock(@RequestParam("documentId") int documentId){
 
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		FileOperationDO fileOperationDO = new FileOperationDO();
 		fileOperationDO.setDocOperations(DocOperations.UNLOCK);
 		fileOperationDO.setDocumentId(documentId);
 		fileOperationDO.setUserId(userDetails.getUsername());
-		documentUploadService.performOperationOnDocument(fileOperationDO);
+		DocumentDO documentDO = documentUploadService.performOperationOnDocument(fileOperationDO);
 
 
-		return null;
+		return documentDO;
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/do/complete")
 	public
 	@ResponseBody
-	String fileComplete(@RequestParam("fileId") int documentId){
+	DocumentDO fileComplete(@RequestParam("documentId") int documentId){
 
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		FileOperationDO fileOperationDO = new FileOperationDO();
 		fileOperationDO.setDocOperations(DocOperations.COMPLETE);
 		fileOperationDO.setDocumentId(documentId);
 		fileOperationDO.setUserId(userDetails.getUsername());
-		documentUploadService.performOperationOnDocument(fileOperationDO);
+		DocumentDO documentDO = documentUploadService.performOperationOnDocument(fileOperationDO);
 
 
-		return null;
+		return documentDO;
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/do/hold")
 	public
 	@ResponseBody
-	String fileHold(@RequestParam("fileId") int documentId, @RequestParam("comment") String comment){
+	DocumentDO fileHold(@RequestParam("documentId") int documentId, @RequestParam("comment") String comment){
 
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		FileOperationDO fileOperationDO = new FileOperationDO();
@@ -234,48 +287,48 @@ public class MainController {
 		fileOperationDO.setDocumentId(documentId);
 		fileOperationDO.setUserId(userDetails.getUsername());
 		fileOperationDO.setComment(comment);
-		documentUploadService.performOperationOnDocument(fileOperationDO);
+		DocumentDO documentDO = documentUploadService.performOperationOnDocument(fileOperationDO);
 
 
-		return null;
+		return documentDO;
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/do/rescan")
 	public
 	@ResponseBody
-	String fileRescan(@RequestParam("fileId") int documentId){
+	DocumentDO fileRescan(@RequestParam("documentId") int documentId){
 
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		FileOperationDO fileOperationDO = new FileOperationDO();
 		fileOperationDO.setDocOperations(DocOperations.RESCAN);
 		fileOperationDO.setDocumentId(documentId);
 		fileOperationDO.setUserId(userDetails.getUsername());
-		documentUploadService.performOperationOnDocument(fileOperationDO);
+		DocumentDO documentDO = documentUploadService.performOperationOnDocument(fileOperationDO);
 
 
-		return null;
+		return documentDO;
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/qa/approve")
 	public
 	@ResponseBody
-	String fileApprove(@RequestParam("fileId") int documentId){
+	DocumentDO fileApprove(@RequestParam("documentId") int documentId){
 
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		FileOperationDO fileOperationDO = new FileOperationDO();
 		fileOperationDO.setDocOperations(DocOperations.APPROVE);
 		fileOperationDO.setDocumentId(documentId);
 		fileOperationDO.setUserId(userDetails.getUsername());
-		documentUploadService.performOperationOnDocument(fileOperationDO);
+		DocumentDO documentDO = documentUploadService.performOperationOnDocument(fileOperationDO);
 
 
-		return null;
+		return documentDO;
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/qa/reject")
 	public
 	@ResponseBody
-	String fileReject(@RequestParam("fileId") int documentId, @RequestParam("comment") String comment, @RequestParam("assignTo") String assignedTo){
+	DocumentDO fileReject(@RequestParam("documentId") int documentId, @RequestParam("comment") String comment, @RequestParam("assignTo") String assignedTo){
 
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		FileOperationDO fileOperationDO = new FileOperationDO();
@@ -284,16 +337,24 @@ public class MainController {
 		fileOperationDO.setUserId(userDetails.getUsername());
 		fileOperationDO.setComment(comment);
 		fileOperationDO.setAssignedTo(assignedTo);
-		documentUploadService.performOperationOnDocument(fileOperationDO);
+		DocumentDO documentDO = documentUploadService.performOperationOnDocument(fileOperationDO);
 
 
-		return null;
+		return documentDO;
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/do/getRecordsWhichNeedApproval")
+	public
+	@ResponseBody
+	List<DocumentDO> getRecordsWhichNeedApproval(){
+		return documentUploadService.retrieveAllDocumentsWhichNeedApproval();
+
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/scanner/rescan")
 	public
 	@ResponseBody
-	String fileRescanned(@RequestParam("fileId") int documentId, @RequestParam("assignTo") String assignedTo){
+	DocumentDO fileRescanned(@RequestParam("documentId") int documentId, @RequestParam("assignTo") String assignedTo){
 
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		FileOperationDO fileOperationDO = new FileOperationDO();
@@ -301,10 +362,10 @@ public class MainController {
 		fileOperationDO.setDocumentId(documentId);
 		fileOperationDO.setUserId(userDetails.getUsername());
 		fileOperationDO.setAssignedTo(assignedTo);
-		documentUploadService.performOperationOnDocument(fileOperationDO);
+		DocumentDO documentDO = documentUploadService.performOperationOnDocument(fileOperationDO);
 
 
-		return null;
+		return documentDO;
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/do/getNewRecords")

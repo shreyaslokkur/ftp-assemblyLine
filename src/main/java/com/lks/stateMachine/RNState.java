@@ -19,11 +19,12 @@ public class RNState extends AbstractState {
     public static final Logger logger = Logger.getLogger(RNState.class.getName());
 
     @Override
-    public void reupload(Document document) {
+    public Document reupload(Document document) {
         logger.info("Reset state to NR, rescanNeededFlag to false");
         document.setState(RecStatus.NR);
         document.setRescanNeeded(false);
         documentUploadDao.updateDocument(document);
+        return document;
 
     }
 }

@@ -10,6 +10,7 @@ import java.util.List;
  */
 public class DocumentDO extends AbstractDO {
 
+    private int documentId;
     private RecStatus state;
     private String fileName;
     private String fileLocation;
@@ -30,7 +31,8 @@ public class DocumentDO extends AbstractDO {
     private boolean rescanNeeded;
     private List<Comments> comments;
 
-    public DocumentDO(RecStatus state, String fileName, String fileLocation, String createdBy, String branchName, String placeOfMeeting, int bookletNo, int applicationNo, int numOfCustomers, String lockedBy, String completedBy, String approvedBy, String assignedTo, int queryLevel, boolean onHold, boolean locked, boolean approved, boolean rescanNeeded, List<Comments> comments) {
+    public DocumentDO(int documentId,RecStatus state, String fileName, String fileLocation, String createdBy, String branchName, String placeOfMeeting, int bookletNo, int applicationNo, int numOfCustomers, String lockedBy, String completedBy, String approvedBy, String assignedTo, int queryLevel, boolean onHold, boolean locked, boolean approved, boolean rescanNeeded, List<Comments> comments) {
+        this.documentId = documentId;
         this.state = state;
         this.fileName = fileName;
         this.fileLocation = fileLocation;
@@ -50,6 +52,14 @@ public class DocumentDO extends AbstractDO {
         this.approved = approved;
         this.rescanNeeded = rescanNeeded;
         this.comments = comments;
+    }
+
+    public int getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(int documentId) {
+        this.documentId = documentId;
     }
 
     public RecStatus getState() {

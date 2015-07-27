@@ -26,7 +26,7 @@ public class NRState extends AbstractState {
     }
 
     @Override
-    public void lock(Document document, String userId) {
+    public Document lock(Document document, String userId) {
 
         logger.info("Update the lock flag to true and set the locked by field");
         document.setLocked(true);
@@ -35,6 +35,7 @@ public class NRState extends AbstractState {
 
         logger.info("Update the document: "+document.getDocumentId()+ " into the table");
         documentUploadDao.updateDocument(document);
+        return document;
 
     }
 }

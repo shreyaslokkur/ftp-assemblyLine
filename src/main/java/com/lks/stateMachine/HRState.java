@@ -20,7 +20,7 @@ public class HRState extends AbstractState {
     public static final Logger logger = Logger.getLogger(HRState.class.getName());
 
     @Override
-    public void resolve(Document document, String comment,String assignedTo, String userId) {
+    public Document resolve(Document document, String comment,String assignedTo, String userId) {
 
         logger.info("Creating a new comment object");
         Comments comments = new Comments();
@@ -45,5 +45,6 @@ public class HRState extends AbstractState {
 
         logger.info("Update the document: "+document.getDocumentId()+" in the table");
         documentUploadDao.updateDocument(document);
+        return document;
     }
 }

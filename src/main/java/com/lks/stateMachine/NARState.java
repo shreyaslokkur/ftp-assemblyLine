@@ -20,7 +20,7 @@ public class NARState extends AbstractState {
     public static final Logger logger = Logger.getLogger(NARState.class.getName());
 
     @Override
-    public void approve(Document document, String userId) {
+    public Document approve(Document document, String userId) {
         /**
          * 1. Retrieve the document from the database
          * 2. Update the approved by field
@@ -39,10 +39,11 @@ public class NARState extends AbstractState {
         logger.info("Archive the document");
         IState state = new ARState();
         state.archive(document);
+        return document;
     }
 
     @Override
-    public void reject(Document document, String comment, String assignedTo, String userId) {
+    public Document reject(Document document, String comment, String assignedTo, String userId) {
 
         logger.info("Creating a new comment object");
         Comments comments = new Comments();
@@ -66,6 +67,7 @@ public class NARState extends AbstractState {
         document.setApprovedBy(userId);
         document.setApproved(false);
         documentUploadDao.updateDocument(document);
+        return document;
 
     }
 }
