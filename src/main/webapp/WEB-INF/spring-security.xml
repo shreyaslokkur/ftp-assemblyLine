@@ -7,10 +7,10 @@
 
 	<!-- enable use-expressions -->
 	<http auto-config="true" use-expressions="true">
-		<intercept-url pattern="/admin**" access="hasRole('ROLE_ADMIN')" />
-		<intercept-url pattern="/do**" access="hasRole('ROLE_DO')" />
-		<intercept-url pattern="/scanner**" access="hasRole('ROLE_SCANNER')"/>
-		<intercept-url pattern="/approver**" access="hasRole('ROLE_APPROVER')"/>
+		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/do/**" access="hasRole('ROLE_DO')" />
+		<intercept-url pattern="/scanner/**" access="hasRole('ROLE_SCANNER')"/>
+		<intercept-url pattern="/qa/**" access="hasRole('ROLE_APPROVER')"/>
 
 		<!-- access denied page -->
 		<access-denied-handler error-page="/403" />

@@ -81,7 +81,7 @@ public class MainController {
 		return "redirect:/resources/templates/dataOp.html";
 	}
 
-	@RequestMapping(value = "/admin**", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/hello", method = RequestMethod.GET)
 	public ModelAndView adminPage() {
 
 		ModelAndView model = new ModelAndView();
@@ -150,6 +150,7 @@ public class MainController {
 		return model;
 
 	}
+
 
     @RequestMapping(method = RequestMethod.POST, value = "/scanner/upload")
     public
@@ -343,7 +344,7 @@ public class MainController {
 		return documentDO;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/do/getRecordsWhichNeedApproval")
+	@RequestMapping(method = RequestMethod.GET, value = "/qa/getRecordsWhichNeedApproval")
 	public
 	@ResponseBody
 	List<DocumentDO> getRecordsWhichNeedApproval(){

@@ -9,22 +9,23 @@
 
     <title>Vindhya eInfomedia</title>
      <!-- jQuery -->
-    <script src="../Scripts/jquery.js"></script>
+    <script src="../../resources/assets/lib/jquery.js"></script>
 
     
     <!-- Bootstrap Core JavaScript -->
-    <script src="../Scripts/bootstrap.min.js"></script>
-   <script src="../Scripts/angular.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.0/ui-bootstrap-tpls.min.js"></script>
-    <script src="../Scripts/App/reportModule.js"></script>
-    <script src="../Scripts/App/ReportService.js"></script> 
-    <script src="../Scripts/App/ApproverController.js"></script>
+    <script src="../../resources/assets/lib/bootstrap.min.js"></script>
+   <script src="../../resources/assets/lib/angular.js"></script>
+    <!--script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.0/ui-bootstrap-tpls.min.js"></script>-->
+    <script src="../../resources/assets/lib/ui-bootstrap-tpls.js"></script>
+    <script src="../../resources/assets/js//reportModule.js"></script>
+    <script src="../../resources/assets/js//ReportService.js"></script>
+    <script src="../../resources/assets/js//ApproverController.js"></script>
 
     
-    <link href="../Content/css/bootstrap.css" rel="stylesheet" />
-     <link href="../Content/css/Common.css" rel="stylesheet" />
-    <link href="../Content/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="../Content/css/1-col-portfolio.css" rel="stylesheet" />
+    <link href="../../resources/assets/css/bootstrap.css" rel="stylesheet" />
+     <link href="../../resources/assets/css/Common.css" rel="stylesheet" />
+    <link href="../../resources/assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="../../resources/assets/css/1-col-portfolio.css" rel="stylesheet" />
 
    
 </head>
@@ -95,17 +96,17 @@
                             
                                  <tr ng-repeat="doc in docRecords">
                                      <td>{{doc.documentId}}</td>
-                                     <td>{{doc.bookletNumber}}</td>
-                                     <td>{{doc.applicationNumber}}</td>
+                                     <td>{{doc.bookletNo}}</td>
+                                     <td>{{doc.applicationNo}}</td>
                                      <td>{{doc.branchName}}</td>
                                      <td>{{doc.placeOfMeeting}}</td>
-                                     <td>{{doc.noOfCustomers}}</td>
+                                     <td>{{doc.numOfCustomers}}</td>
                                      <td>{{doc.recCreatedOn}}</td>
                                      <td>{{doc.recCompletedOn}}</td>
                                       <td>{{doc.completedBy}}</td>
                                       <td ng-class="{'colorRed': doc.queryLevel > 3, '': doc.queryLevel < 3}">{{doc.queryLevel}}</td>
-                                      <td><button class="btn btn-success" title="Approve" ><i class="fa fa-check"></i></button></td>
-                                      <td><button class="btn btn-danger" title="Reject" ><i class="fa fa-times"></i></button></td>
+                                      <td><button class="btn btn-success" title="Approve" ng-click="approveRecord(doc)"><i class="fa fa-check"></i></button></td>
+                                      <td><button class="btn btn-danger" title="Reject" ng-click="openCommentsPopup(doc)"  ><i class="fa fa-times"></i></button></td>
                                      <td><button class="btn btn-primary"  ng-click="ShowComments(doc);" title="View Comments"><i class="fa fa-comments"></i></button></td>
                                 </tr>
 
@@ -210,7 +211,7 @@
           </div>
           <div class="row" ng-if="doc.ViewOnly!=true">
           
-           <textarea rows="6" cols="80" placeholder="Enter Your Comments Here"></textarea>
+           <textarea rows="6" cols="75" placeholder="Enter Your Comments Here"></textarea>
 
 
           </div>
@@ -218,7 +219,7 @@
             
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" ng-click="ok(doc)" ng-if="doc.ViewOnly!=true" >Save</button>
+            <button class="btn btn-primary" ng-click="rejectRecord(doc)" ng-if="doc.ViewOnly!=true" >Save</button>
             <button class="btn btn-primary" ng-click="cancel()">Cancel</button>
         </div>
         </script>

@@ -174,7 +174,15 @@
         ];
 
     reportService.getAllRecordsForApprover = function () {
-        return reportService.data;
+        var deferred = $q.defer();
+        $http.get('/qa/getRecordsWhichNeedApproval')
+            .success(function(data) {
+                deferred.resolve(data);
+            }).error(function(msg, code) {
+                deferred.reject(msg);
+                $log.error(msg, code);
+            });
+        return deferred.promise;
         },
     
         reportService.getAllRecords = function () {
@@ -251,7 +259,8 @@
             var deferred = $q.defer();
             $http.get('/do/hold', {
                 params: {
-                    documentId: record.documentId
+                    documentId: record.documentId,
+                    comment: record.newComment
                 }
             })
            .success(function (data) {
@@ -263,6 +272,41 @@
             return deferred.promise;
         };
 
+    reportService.rejectRecord = function (record) {
+
+        var deferred = $q.defer();
+        $http.get('/qa/reject', {
+            params: {
+                documentId: record.documentId,
+                comment: record.newComment,
+                assignedTo:null
+            }
+        })
+            .success(function (data) {
+                deferred.resolve(data);
+            }).error(function (msg, code) {
+                deferred.reject(msg);
+                $log.error(msg, code);
+            });
+        return deferred.promise;
+    };
+
+    reportService.approveRecord = function (record) {
+
+        var deferred = $q.defer();
+        $http.get('/qa/approve', {
+            params: {
+                documentId: record.documentId
+            }
+        })
+            .success(function (data) {
+                deferred.resolve(data);
+            }).error(function (msg, code) {
+                deferred.reject(msg);
+                $log.error(msg, code);
+            });
+        return deferred.promise;
+    };
         reportService.uploadFileToUrl = function (file,doc, uploadUrl) {
             var fd = new FormData();
             fd.append('file', file);
