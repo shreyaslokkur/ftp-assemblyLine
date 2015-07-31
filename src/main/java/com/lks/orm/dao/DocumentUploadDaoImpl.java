@@ -118,12 +118,12 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
     }
 
     @Override
-    public List<Document> getAllNewAndLockedRecords() {
+    public List<Document> getAllNewAndLockedAndRejectedRecords() {
         List<Document> documentList;
         SessionFactory sessionFactory = getSessionFactory();
         Session session = sessionFactory.openSession();
         try{
-            String hql = "from Document d where d.state in ('NR','LR') and d.assignedTo is null";
+            String hql = "from Document d where d.state in ('NR','LR', 'RJ') and d.assignedTo is null";
             documentList = session.createQuery(hql).list();
 
         }catch (HibernateException e){
@@ -191,6 +191,26 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
         }
 
         return documentList;
+    }
+
+    @Override
+    public List<Document> getAllRecordsWhichNeedRescan() {
+        List<Document> documentList;
+        SessionFactory sessionFactory = getSessionFactory();
+        Session session = sessionFactory.openSession();
+        try{
+            String hql = "from Document d where d.state in ('RN') and d.assignedTo is null";
+            documentList = session.createQuery(hql).list();
+
+        }catch (HibernateException e){
+            throw new FALException("Unable to retrieve records which need rescan", e);
+        }finally {
+            session.close();
+        }
+
+        return documentList;
+
+
     }
 
     private boolean deleteById(Class<?> type, Serializable id, Session session) {

@@ -1,8 +1,16 @@
 ﻿reportApp.controller('FileUploadController', ['$scope', '$modal', 'ReportService',
                             function ($scope, $modal, ReportService) {
 
-                                //$scope.docRecords = ReportService.getAllRecords();
-                                
+                                var promise = ReportService.getAllRecordsforRescan();
+                                promise.then(
+                                    function (payload) {
+                                        $scope.docRecords = payload;
+                                    },
+                                    function (errorPayload) {
+                                        $log.error('failure loading movie', errorPayload);
+                                    });
+
+
                                 $scope.uploadFile = function (doc) {
                                     var file = $scope.myFile;
                                     

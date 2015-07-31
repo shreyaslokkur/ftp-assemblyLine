@@ -2,6 +2,7 @@ package com.lks.facade;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.lks.core.enums.DocOperations;
 import com.lks.core.model.DocumentDO;
@@ -20,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
@@ -151,19 +153,69 @@ public class MainController {
 
 	}
 
+	// for 403 access denied page
+	@RequestMapping(value = "/403", method = RequestMethod.POST)
+	public ModelAndView accesssDeniedPost() {
 
-    @RequestMapping(method = RequestMethod.POST, value = "/scanner/upload")
+		ModelAndView model = new ModelAndView();
+
+		// check if user is login
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			System.out.println(userDetail);
+
+			model.addObject("username", userDetail.getUsername());
+
+		}
+
+		model.setViewName("403");
+		return model;
+
+	}
+
+
+
+	/*@PreAuthorize("hasRole('ROLE_SCANNER')")
+	@Path("/scanner/upload")
+	@POST
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public void fileUpload(FormDataMultiPart multiPartData) {
+
+		// non-file fields
+		*//*final String imageId = multiPartData.getField("branchName").getValue();*//*
+
+		// for file field
+		FormDataBodyPart filePart = multiPartData.getField("file");
+		ContentDisposition fileDetails = filePart.getContentDisposition();
+		InputStream fileInputStream = filePart.getValueAs(InputStream.class);
+		System.out.println(fileInputStream);
+
+		// use the above fields as required
+		// file name can be accessed from field "fileDetails"
+	}*/
+
+    @RequestMapping(value = "/scanner/upload",headers = "'Content-Type': 'multipart/form-data'", method = RequestMethod.POST)
     public
     @ResponseBody
-    int fileUpload(@RequestParam("file") MultipartFile file,
-                      @RequestParam("uploadName") String fileName,
-                      @RequestParam("branchName") String branchName,
-                      @RequestParam("placeOfMeeting") String placeOfMeeting,
-                      @RequestParam("bookletNo") int bookletNo,
-                      @RequestParam("applicationNo") int applicationNo,
-                      @RequestParam("numOfCustomers") int numOfCustomers){
+    int fileUpload(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
 
-        File tmpFile = null;
+		MultipartHttpServletRequest mRequest;
+		try {
+			mRequest = (MultipartHttpServletRequest) httpServletRequest;
+			mRequest.getParameterMap();
+
+			Iterator<String> itr = mRequest.getFileNames();
+			while (itr.hasNext()) {
+				MultipartFile mFile = mRequest.getFile(itr.next());
+				String fileName = mFile.getOriginalFilename();
+				System.out.println(fileName);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 1;
+        /*File tmpFile = null;
         try {
             tmpFile = File.createTempFile(FilenameUtils.getBaseName(file.getOriginalFilename()), "." + FilenameUtils.getExtension(file.getOriginalFilename()));
             file.transferTo(tmpFile);
@@ -171,7 +223,7 @@ public class MainController {
             throw new RuntimeException(e);
         }
         FileReceivedForUploadDO fileReceivedForUploadDO = new FileReceivedForUploadDO();
-        /*UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();*/
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         fileReceivedForUploadDO.setCreatedBy("lokkur");
         fileReceivedForUploadDO.setFileLocation(tmpFile.getAbsolutePath());
         fileReceivedForUploadDO.setFileName(fileName);
@@ -181,7 +233,7 @@ public class MainController {
         fileReceivedForUploadDO.setNumOfCustomers(numOfCustomers);
         fileReceivedForUploadDO.setPlaceOfMeeting(placeOfMeeting);
 
-        return documentUploadService.createNewDocument(fileReceivedForUploadDO);
+        return documentUploadService.createNewDocument(fileReceivedForUploadDO);*/
     }
 
 
@@ -373,7 +425,7 @@ public class MainController {
 	public
 	@ResponseBody
 	List<DocumentDO> getNewRecords(){
-		return documentUploadService.retrieveAllNewAndLockedDocuments();
+		return documentUploadService.retrieveAllNewAndLockedAndRejectedDocuments();
 
 	}
 
@@ -382,6 +434,14 @@ public class MainController {
 	@ResponseBody
 	List<DocumentDO> getRecordsAssignedTo(@RequestParam("userId")String userId){
 		return documentUploadService.retrieveAllDocumentsAssignedTo(userId);
+
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/scanner/getRecordsWhichNeedRescan")
+	public
+	@ResponseBody
+	List<DocumentDO> getRecordsAssignedTo(){
+		return documentUploadService.retrieveAllRescanDocuments();
 
 	}
 

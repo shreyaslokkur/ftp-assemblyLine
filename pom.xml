@@ -33,6 +33,7 @@
 		<testng.version>6.1.1</testng.version>
 		<aspectj.version>1.7.0</aspectj.version>
 		<jackson.version>1.9.10</jackson.version>
+		<jersey.version>1.8</jersey.version>
 	</properties>
 
 	<dependencies>
@@ -194,6 +195,17 @@
 			<version>${jackson.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-server</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.jersey.contribs</groupId>
+			<artifactId>jersey-multipart</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
 
 
 	</dependencies>

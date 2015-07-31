@@ -38,18 +38,6 @@
 
                                 };
 
-                                $scope.rejectRecord = function (doc) {
-                                    var promise = ReportService.rejectRecord(doc);
-                                    promise.then(
-                                        function (payload) {
-                                            angular.extend(doc, payload);
-
-
-                                        },
-                                        function (errorPayload) {
-                                            $log.error('failure: Error while Re-Scanning loading document', errorPayload);
-                                        });
-                                }
 
                                 $scope.ShowComments = function (doc) {
                                     doc.ViewOnly = true;

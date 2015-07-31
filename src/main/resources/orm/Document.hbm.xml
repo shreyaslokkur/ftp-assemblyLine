@@ -86,9 +86,12 @@
             <column name="commentId" />
             <generator class="identity" />
         </id>
-        <many-to-one name="document" class="com.lks.orm.entities.Document" fetch="select">
+        <!--<many-to-one name="documentId" class="com.lks.orm.entities.Document" fetch="select">
             <column name="documentId" not-null="true" />
-        </many-to-one>
+        </many-to-one>-->
+        <property name="documentId" type="int">
+            <column name="documentId"  />
+        </property>
         <property name="commentedBy" type="string">
             <column name="commentedBy"  not-null="true" />
         </property>

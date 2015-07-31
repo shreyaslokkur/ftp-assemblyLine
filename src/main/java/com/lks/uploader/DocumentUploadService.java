@@ -127,11 +127,11 @@ public class DocumentUploadService implements IDocumentUploadService {
     }
 
     @Override
-    public List<DocumentDO> retrieveAllNewAndLockedDocuments() {
+    public List<DocumentDO> retrieveAllNewAndLockedAndRejectedDocuments() {
         logger.info("Entered the method in document upload service to retrieve all new and locked records ");
         List<DocumentDO> documentDOList = new ArrayList<DocumentDO>();
         try{
-            List<Document> allNewAndLockedRecords = documentUploadDao.getAllNewAndLockedRecords();
+            List<Document> allNewAndLockedRecords = documentUploadDao.getAllNewAndLockedAndRejectedRecords();
             DocumentDO documentDO = null;
             for(Document document : allNewAndLockedRecords){
                 documentDO = new DocumentDO(document.getDocumentId(),document.getState(), document.getFileName(), document.getFileLocation(),document.getCreatedBy(), document.getBranchName(), document.getPlaceOfMeeting(),document.getBookletNo(), document.getApplicationNo(), document.getNumOfCustomers(), document.getLockedBy(), document.getCompletedBy(), document.getApprovedBy(), document.getAssignedTo(), document.getQueryLevel(), document.isOnHold(), document.isLocked(), document.isApproved(), document.isRescanNeeded(), document.getComments());
@@ -195,6 +195,26 @@ public class DocumentUploadService implements IDocumentUploadService {
             List<Document> allRecordsWhichNeedApproval = documentUploadDao.getAllRecordsWhichNeedApproval();
             DocumentDO documentDO = null;
             for(Document document : allRecordsWhichNeedApproval){
+                documentDO = new DocumentDO(document.getDocumentId(),document.getState(), document.getFileName(), document.getFileLocation(),document.getCreatedBy(), document.getBranchName(), document.getPlaceOfMeeting(),document.getBookletNo(), document.getApplicationNo(), document.getNumOfCustomers(), document.getLockedBy(), document.getCompletedBy(), document.getApprovedBy(), document.getAssignedTo(), document.getQueryLevel(), document.isOnHold(), document.isLocked(), document.isApproved(), document.isRescanNeeded(), document.getComments());
+                documentDOList.add(documentDO);
+            }
+        }catch(Exception e){
+            logger.severe("Encountered exception in the method retrieve document: "+ e.getMessage());
+            System.out.println(e.getMessage());
+        }
+
+        return documentDOList;
+    }
+
+    @Override
+    public List<DocumentDO> retrieveAllRescanDocuments() {
+        logger.info("Entered the method in document upload service to retrieve all documents which are in hold");
+
+        List<DocumentDO> documentDOList = new ArrayList<DocumentDO>();
+        try{
+            List<Document> allRecordsWhichAreInHold = documentUploadDao.getAllRecordsWhichNeedRescan();
+            DocumentDO documentDO = null;
+            for(Document document : allRecordsWhichAreInHold){
                 documentDO = new DocumentDO(document.getDocumentId(),document.getState(), document.getFileName(), document.getFileLocation(),document.getCreatedBy(), document.getBranchName(), document.getPlaceOfMeeting(),document.getBookletNo(), document.getApplicationNo(), document.getNumOfCustomers(), document.getLockedBy(), document.getCompletedBy(), document.getApprovedBy(), document.getAssignedTo(), document.getQueryLevel(), document.isOnHold(), document.isLocked(), document.isApproved(), document.isRescanNeeded(), document.getComments());
                 documentDOList.add(documentDO);
             }

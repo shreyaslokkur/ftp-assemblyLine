@@ -8,7 +8,7 @@ import com.lks.core.enums.RecStatus;
 public class Comments {
 
     private int commentId;
-    private Document document;
+    private int documentId;
     private String commentedBy;
     private String comments;
     private RecStatus state;
@@ -21,12 +21,12 @@ public class Comments {
         this.commentId = commentId;
     }
 
-    public Document getDocument() {
-        return document;
+    public int getDocumentId() {
+        return documentId;
     }
 
-    public void setDocument(Document document) {
-        this.document = document;
+    public void setDocumentId(int documentId) {
+        this.documentId = documentId;
     }
 
     public String getCommentedBy() {

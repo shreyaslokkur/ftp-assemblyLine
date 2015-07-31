@@ -9,10 +9,25 @@ reportApp.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'doc', 'R
         promise.then(
            function (payload) {
                angular.extend(doc, payload);
+               $scope.cancel();
            },
            function (errorPayload) {
                $log.error('failure: Error While  Hold document', errorPayload);
            });
+    }
+
+
+    $scope.rejectRecord = function (doc) {
+        var promise = ReportService.rejectRecord(doc);
+        promise.then(
+            function (payload) {
+                angular.extend(doc, payload);
+
+                $scope.cancel();
+            },
+            function (errorPayload) {
+                $log.error('failure: Error while Re-Scanning loading document', errorPayload);
+            });
     }
 
     $scope.cancel = function () {

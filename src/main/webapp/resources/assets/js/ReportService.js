@@ -184,6 +184,19 @@
             });
         return deferred.promise;
         },
+
+        reportService.getAllRecordsforRescan = function () {
+            var deferred = $q.defer();
+            $http.get('/scanner/getRecordsWhichNeedRescan')
+                .success(function(data) {
+                    deferred.resolve(data);
+                }).error(function(msg, code) {
+                    deferred.reject(msg);
+                    $log.error(msg, code);
+                });
+            return deferred.promise;
+        },
+
     
         reportService.getAllRecords = function () {
 
@@ -279,7 +292,7 @@
             params: {
                 documentId: record.documentId,
                 comment: record.newComment,
-                assignedTo:null
+                assignTo:''
             }
         })
             .success(function (data) {
@@ -312,7 +325,8 @@
             fd.append('file', file);
             $http.post(uploadUrl, {file :fd ,Document : doc}, {
                 transformRequest: angular.identity,
-                headers: { 'Content-Type': undefined }
+                headers: { 'Content-Type': 'multipart/form-data'
+                }
             })
             .success(function () {
             })

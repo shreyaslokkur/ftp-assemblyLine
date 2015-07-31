@@ -37,7 +37,7 @@ public class LRState extends AbstractState {
         comments.setComments(comment);
         comments.setCommentedBy(userId);
         comments.setState(RecStatus.LR);
-        comments.setDocument(document);
+        comments.setDocumentId(document.getDocumentId());
 
         logger.info("Add the comments into the docuemnt object");
         if(document.getComments() == null){

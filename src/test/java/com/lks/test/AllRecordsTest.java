@@ -1,13 +1,7 @@
 package com.lks.test;
 
-import com.lks.core.enums.DocOperations;
-import com.lks.core.enums.RecStatus;
 import com.lks.core.model.DocumentDO;
-import com.lks.core.model.FileOperationDO;
 import com.lks.core.model.FileReceivedForUploadDO;
-import com.lks.orm.entities.Document;
-import com.lks.stateMachine.InvalidStateTransitionException;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -41,7 +35,7 @@ public class AllRecordsTest extends AbstractTest {
 
     @Test(dependsOnMethods = { "testMultipleUpload" })
     public void testAllRecords(){
-        List<DocumentDO> documentDOList = documentUploadService.retrieveAllNewAndLockedDocuments();
+        List<DocumentDO> documentDOList = documentUploadService.retrieveAllNewAndLockedAndRejectedDocuments();
     }
 
 

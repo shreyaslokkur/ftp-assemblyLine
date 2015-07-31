@@ -81,7 +81,7 @@
                  Booklet Number :
              </div>
               <div class="col-md-4">
-                   <input type="text" class="form-control" ng-model="doc.bookletNumber" placeholder="Enter Booklet Number" />
+                   <input type="text" class="form-control" ng-model="doc.bookletN0" placeholder="Enter Booklet Number" />
              </div>
          </div>
          <div class="row" style="padding-top:5px">
@@ -89,7 +89,7 @@
                   Application Number :
              </div>
               <div class="col-md-4">
-                   <input type="text" class="form-control" ng-model="doc.applicationNumber" placeholder="Enter Application Number" />
+                   <input type="text" class="form-control" ng-model="doc.applicationNo" placeholder="Enter Application Number" />
              </div>
          </div>
          <div class="row" style="padding-top:5px">
@@ -105,7 +105,7 @@
                  Number of Customers :
              </div>
               <div class="col-md-4">
-                  <input type="text" class="form-control" ng-model="doc.noOfCustomers" placeholder="Enter  Number of Customers" />
+                  <input type="text" class="form-control" ng-model="doc.numOfCustomers" placeholder="Enter  Number of Customers" />
              </div>
          </div>
          <div class="row" style="padding-top:5px">
@@ -153,11 +153,11 @@
                             
                                  <tr ng-repeat="doc in docRecords">
                                     
-                                     <td>{{doc.bookletNumber}}</td>
-                                     <td>{{doc.applicationNumber}}</td>
+                                     <td>{{doc.bookletNo}}</td>
+                                     <td>{{doc.applicationNo}}</td>
                                      <td>{{doc.branchName}}</td>
                                      <td>{{doc.placeOfMeeting}}</td>
-                                     <td>{{doc.noOfCustomers}}</td>
+                                     <td>{{doc.numOfCustomers}}</td>
                                    
                                      
                                      <td><button class="btn btn-primary" ng-click="selectForRescan(doc)"  title="Select"><i class="fa fa-hand-o-up"></i>&nbsp;&nbsp;Select</button></td>
