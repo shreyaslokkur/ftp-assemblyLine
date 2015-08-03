@@ -3,21 +3,39 @@ package com.lks.facade;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.MediaType;
 
 import com.lks.core.enums.DocOperations;
 import com.lks.core.model.DocumentDO;
 import com.lks.core.model.FileOperationDO;
 import com.lks.core.model.FileReceivedForUploadDO;
 import com.lks.uploader.IDocumentUploadService;
+import com.sun.jersey.core.header.ContentDisposition;
+import com.sun.jersey.multipart.FormDataBodyPart;
+import com.sun.jersey.multipart.FormDataMultiPart;
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,6 +43,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -175,100 +194,82 @@ public class MainController {
 	}
 
 
-
-	/*@PreAuthorize("hasRole('ROLE_SCANNER')")
-	@Path("/scanner/upload")
-	@POST
-	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public void fileUpload(FormDataMultiPart multiPartData) {
-
-		// non-file fields
-		*//*final String imageId = multiPartData.getField("branchName").getValue();*//*
-
-		// for file field
-		FormDataBodyPart filePart = multiPartData.getField("file");
-		ContentDisposition fileDetails = filePart.getContentDisposition();
-		InputStream fileInputStream = filePart.getValueAs(InputStream.class);
-		System.out.println(fileInputStream);
-
-		// use the above fields as required
-		// file name can be accessed from field "fileDetails"
-	}*/
-
-    @RequestMapping(value = "/scanner/upload",headers = "'Content-Type': 'multipart/form-data'", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    int fileUpload(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
-
+	@RequestMapping(value = "/scanner/upload", method = RequestMethod.POST)
+	@ResponseBody
+	public int continueFileUpload(HttpServletRequest request,
+									 HttpServletResponse response){
 		MultipartHttpServletRequest mRequest;
 		try {
-			mRequest = (MultipartHttpServletRequest) httpServletRequest;
+			mRequest = (MultipartHttpServletRequest) request;
 			mRequest.getParameterMap();
-
+			String fileName = null;
 			Iterator<String> itr = mRequest.getFileNames();
+			MultipartFile mFile = null;
 			while (itr.hasNext()) {
-				MultipartFile mFile = mRequest.getFile(itr.next());
-				String fileName = mFile.getOriginalFilename();
+				mFile = mRequest.getFile(itr.next());
+				fileName = mFile.getOriginalFilename();
 				System.out.println(fileName);
 			}
+			File tmpFile = null;
+			tmpFile = File.createTempFile(FilenameUtils.getBaseName(fileName), "." + FilenameUtils.getExtension(fileName));
+			mFile.transferTo(tmpFile);
+
+			FileReceivedForUploadDO fileReceivedForUploadDO = new FileReceivedForUploadDO();
+			UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			fileReceivedForUploadDO.setCreatedBy(userDetails.getUsername());
+			fileReceivedForUploadDO.setFileLocation(tmpFile.getAbsolutePath());
+			fileReceivedForUploadDO.setFileName(fileName);
+			fileReceivedForUploadDO.setApplicationNo(Integer.parseInt(mRequest.getParameter("applicationNo")));
+			fileReceivedForUploadDO.setBookletNo(Integer.parseInt(mRequest.getParameter("bookletNo")));
+			fileReceivedForUploadDO.setBranchName(mRequest.getParameter("branchName"));
+			fileReceivedForUploadDO.setNumOfCustomers(Integer.parseInt(mRequest.getParameter("numOfCustomers")));
+			fileReceivedForUploadDO.setPlaceOfMeeting(mRequest.getParameter("placeOfMeeting"));
+
+			return documentUploadService.createNewDocument(fileReceivedForUploadDO);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return 1;
-        /*File tmpFile = null;
-        try {
-            tmpFile = File.createTempFile(FilenameUtils.getBaseName(file.getOriginalFilename()), "." + FilenameUtils.getExtension(file.getOriginalFilename()));
-            file.transferTo(tmpFile);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        FileReceivedForUploadDO fileReceivedForUploadDO = new FileReceivedForUploadDO();
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        fileReceivedForUploadDO.setCreatedBy("lokkur");
-        fileReceivedForUploadDO.setFileLocation(tmpFile.getAbsolutePath());
-        fileReceivedForUploadDO.setFileName(fileName);
-        fileReceivedForUploadDO.setApplicationNo(applicationNo);
-        fileReceivedForUploadDO.setBookletNo(bookletNo);
-        fileReceivedForUploadDO.setBranchName(branchName);
-        fileReceivedForUploadDO.setNumOfCustomers(numOfCustomers);
-        fileReceivedForUploadDO.setPlaceOfMeeting(placeOfMeeting);
-
-        return documentUploadService.createNewDocument(fileReceivedForUploadDO);*/
-    }
+		return -1;
+	}
 
 
 	@RequestMapping(method = RequestMethod.POST, value = "/scanner/reupload")
 	public
 	@ResponseBody
-	void documentReUpload(@RequestParam("documentId") int documentId,
-			@RequestParam("file") MultipartFile file,
-			@RequestParam("uploadName") String fileName,
-			@RequestParam("branchName") String branchName,
-			@RequestParam("placeOfMeeting") String placeOfMeeting,
-			@RequestParam("bookletNo") int bookletNo,
-			@RequestParam("applicationNo") int applicationNo,
-			@RequestParam("numOfCustomers") int numOfCustomers){
-
-		File tmpFile = null;
+	void documentReUpload(HttpServletRequest request,
+						  HttpServletResponse response){
+		MultipartHttpServletRequest mRequest;
 		try {
-			tmpFile = File.createTempFile(FilenameUtils.getBaseName(file.getOriginalFilename()), "." + FilenameUtils.getExtension(file.getOriginalFilename()));
-			file.transferTo(tmpFile);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		FileReceivedForUploadDO fileReceivedForUploadDO = new FileReceivedForUploadDO();
-        /*UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();*/
-		fileReceivedForUploadDO.setCreatedBy("lokkur");
-		fileReceivedForUploadDO.setFileLocation(tmpFile.getAbsolutePath());
-		fileReceivedForUploadDO.setFileName(fileName);
-		fileReceivedForUploadDO.setApplicationNo(applicationNo);
-		fileReceivedForUploadDO.setBookletNo(bookletNo);
-		fileReceivedForUploadDO.setBranchName(branchName);
-		fileReceivedForUploadDO.setNumOfCustomers(numOfCustomers);
-		fileReceivedForUploadDO.setPlaceOfMeeting(placeOfMeeting);
-		fileReceivedForUploadDO.setDocumentId(documentId);
+			mRequest = (MultipartHttpServletRequest) request;
+			mRequest.getParameterMap();
+			String fileName = null;
+			Iterator<String> itr = mRequest.getFileNames();
+			MultipartFile mFile = null;
+			while (itr.hasNext()) {
+				mFile = mRequest.getFile(itr.next());
+				fileName = mFile.getOriginalFilename();
+				System.out.println(fileName);
+			}
+			File tmpFile = null;
+			tmpFile = File.createTempFile(FilenameUtils.getBaseName(fileName), "." + FilenameUtils.getExtension(fileName));
+			mFile.transferTo(tmpFile);
+			FileReceivedForUploadDO fileReceivedForUploadDO = new FileReceivedForUploadDO();
+			UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			fileReceivedForUploadDO.setCreatedBy(userDetails.getUsername());
+			fileReceivedForUploadDO.setFileLocation(tmpFile.getAbsolutePath());
+			fileReceivedForUploadDO.setFileName(fileName);
+			fileReceivedForUploadDO.setApplicationNo(Integer.parseInt(mRequest.getParameter("applicationNo")));
+			fileReceivedForUploadDO.setBookletNo(Integer.parseInt(mRequest.getParameter("bookletNo")));
+			fileReceivedForUploadDO.setBranchName(mRequest.getParameter("branchName"));
+			fileReceivedForUploadDO.setNumOfCustomers(Integer.parseInt(mRequest.getParameter("numOfCustomers")));
+			fileReceivedForUploadDO.setPlaceOfMeeting(mRequest.getParameter("placeOfMeeting"));
+			fileReceivedForUploadDO.setDocumentId(Integer.parseInt(mRequest.getParameter("documentId")));
 
-		documentUploadService.reuploadDocument(fileReceivedForUploadDO);
+			documentUploadService.reuploadDocument(fileReceivedForUploadDO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/do/lock")
@@ -425,25 +426,61 @@ public class MainController {
 	public
 	@ResponseBody
 	List<DocumentDO> getNewRecords(){
-		return documentUploadService.retrieveAllNewAndLockedAndRejectedDocuments();
+		return documentUploadService.retrieveAllNewAndLockedDocuments();
 
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/do/getRecordsAssignedTo")
+	@RequestMapping(method = RequestMethod.GET, value = "/do/getAssignedRejectedRecords")
 	public
 	@ResponseBody
-	List<DocumentDO> getRecordsAssignedTo(@RequestParam("userId")String userId){
-		return documentUploadService.retrieveAllDocumentsAssignedTo(userId);
+	List<DocumentDO> getRecordsAssignedTo(){
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return documentUploadService.retrieveAllRejectedDocumentsAssignedTo(userDetails.getUsername());
 
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/scanner/getRecordsWhichNeedRescan")
 	public
 	@ResponseBody
-	List<DocumentDO> getRecordsAssignedTo(){
+	List<DocumentDO> getRecordsWhichNeedRescan(){
 		return documentUploadService.retrieveAllRescanDocuments();
 
 	}
+
+
+	/*@Configuration
+	@EnableWebSecurity
+	static protected class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+		@Override
+		protected void configure(HttpSecurity http) throws Exception {
+			http
+					.httpBasic().and()
+					.authorizeRequests()
+					.antMatchers("/index.html", "/home.html", "/login.html", "/").permitAll().anyRequest()
+					.authenticated().and()
+					.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
+					.csrf().csrfTokenRepository(csrfTokenRepository());
+
+		}
+
+		@Override
+		protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+			auth.inMemoryAuthentication()
+					.withUser( "user" ).password( "password" ).roles( "DO" );
+		}
+
+		private CsrfTokenRepository csrfTokenRepository() {
+			HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
+			repository.setHeaderName("X-XSRF-TOKEN");
+			return repository;
+		}
+
+		@Bean
+		@Override
+		public AuthenticationManager authenticationManagerBean() throws Exception {
+			return super.authenticationManagerBean();
+		}
+	}*/
 
 
 

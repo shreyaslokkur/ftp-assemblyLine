@@ -21,8 +21,8 @@ public interface IDocumentUploadService {
     void reuploadDocument(FileReceivedForUploadDO fileReceivedForUploadDO);
     DocumentDO performOperationOnDocument(FileOperationDO fileOperationDO);
     Document retrieveDocument(int documentId);
-    List<DocumentDO> retrieveAllNewAndLockedAndRejectedDocuments();
-    List<DocumentDO> retrieveAllDocumentsAssignedTo(String userId);
+    List<DocumentDO> retrieveAllNewAndLockedDocuments();
+    List<DocumentDO> retrieveAllRejectedDocumentsAssignedTo(String userId);
     List<DocumentDO> retrieveAllDocumentsWhichNeedRescan(String branchName);
     List<DocumentDO> retrieveAllDocumentsWhichNeedApproval();
     List<DocumentDO> retrieveAllRescanDocuments();

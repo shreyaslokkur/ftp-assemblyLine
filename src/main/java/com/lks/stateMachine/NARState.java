@@ -4,7 +4,9 @@ import com.lks.core.enums.RecStatus;
 import com.lks.orm.entities.Comments;
 import com.lks.orm.entities.Document;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -34,6 +36,9 @@ public class NARState extends AbstractState {
         document.setState(RecStatus.AR);
         document.setApprovedBy(userId);
         document.setApproved(true);
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        document.setRecApprovedOn(simpleDateFormat.format(date));
         documentUploadDao.updateDocument(document);
 
         logger.info("Archive the document");

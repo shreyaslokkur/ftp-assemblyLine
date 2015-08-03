@@ -107,11 +107,14 @@ public class DocumentUploadService implements IDocumentUploadService {
             updatedDocument = currentState.rescan(document);
         }
 
-        DocumentDO documentDO = new DocumentDO(updatedDocument.getDocumentId(),updatedDocument.getState(), updatedDocument.getFileName(), updatedDocument.getFileLocation(),updatedDocument.getCreatedBy(), updatedDocument.getBranchName(), updatedDocument.getPlaceOfMeeting(),updatedDocument.getBookletNo(), updatedDocument.getApplicationNo(), updatedDocument.getNumOfCustomers(), updatedDocument.getLockedBy(), updatedDocument.getCompletedBy(), updatedDocument.getApprovedBy(), updatedDocument.getAssignedTo(), updatedDocument.getQueryLevel(), updatedDocument.isOnHold(), updatedDocument.isLocked(), updatedDocument.isApproved(), updatedDocument.isRescanNeeded(), updatedDocument.getComments());
+        DocumentDO documentDO = setDocumentDo(updatedDocument);
 
         return documentDO;
 
     }
+
+
+
 
     @Override
     public Document retrieveDocument(int documentId) {
@@ -127,14 +130,14 @@ public class DocumentUploadService implements IDocumentUploadService {
     }
 
     @Override
-    public List<DocumentDO> retrieveAllNewAndLockedAndRejectedDocuments() {
+    public List<DocumentDO> retrieveAllNewAndLockedDocuments() {
         logger.info("Entered the method in document upload service to retrieve all new and locked records ");
         List<DocumentDO> documentDOList = new ArrayList<DocumentDO>();
         try{
-            List<Document> allNewAndLockedRecords = documentUploadDao.getAllNewAndLockedAndRejectedRecords();
+            List<Document> allNewAndLockedRecords = documentUploadDao.getAllNewAndLockedRecords();
             DocumentDO documentDO = null;
             for(Document document : allNewAndLockedRecords){
-                documentDO = new DocumentDO(document.getDocumentId(),document.getState(), document.getFileName(), document.getFileLocation(),document.getCreatedBy(), document.getBranchName(), document.getPlaceOfMeeting(),document.getBookletNo(), document.getApplicationNo(), document.getNumOfCustomers(), document.getLockedBy(), document.getCompletedBy(), document.getApprovedBy(), document.getAssignedTo(), document.getQueryLevel(), document.isOnHold(), document.isLocked(), document.isApproved(), document.isRescanNeeded(), document.getComments());
+                documentDO = setDocumentDo(document);
                 documentDOList.add(documentDO);
             }
         }catch(Exception e){
@@ -146,20 +149,19 @@ public class DocumentUploadService implements IDocumentUploadService {
     }
 
     @Override
-    public List<DocumentDO> retrieveAllDocumentsAssignedTo(String userId) {
-        logger.info("Entered the method in document upload service to retrieve all documents assigned to: "+ userId);
-        //TODO: check if the user exists in the userId table
+    public List<DocumentDO> retrieveAllRejectedDocumentsAssignedTo(String userId) {
+        logger.info("Entered the method in document upload service to retrieve all rejected documents assigned to: "+ userId);
 
         List<DocumentDO> documentDOList = new ArrayList<DocumentDO>();
         try{
-            List<Document> allRecordsAssignedToUser = documentUploadDao.getAllRecordsAssignedToUser(userId);
+            List<Document> allRecordsAssignedToUser = documentUploadDao.getAllRejectedRecordsAssignedToUser(userId);
             DocumentDO documentDO = null;
             for(Document document : allRecordsAssignedToUser){
-                documentDO = new DocumentDO(document.getDocumentId(),document.getState(), document.getFileName(), document.getFileLocation(),document.getCreatedBy(), document.getBranchName(), document.getPlaceOfMeeting(),document.getBookletNo(), document.getApplicationNo(), document.getNumOfCustomers(), document.getLockedBy(), document.getCompletedBy(), document.getApprovedBy(), document.getAssignedTo(), document.getQueryLevel(), document.isOnHold(), document.isLocked(), document.isApproved(), document.isRescanNeeded(), document.getComments());
+                documentDO = setDocumentDo(document);
                 documentDOList.add(documentDO);
             }
         }catch(Exception e){
-            logger.severe("Encountered exception in the method retrieve document: "+ e.getMessage());
+            logger.severe("Encountered exception in the method retrieve rejected documents: "+ e.getMessage());
             System.out.println(e.getMessage());
         }
 
@@ -175,7 +177,7 @@ public class DocumentUploadService implements IDocumentUploadService {
             List<Document> allRecordsWhichNeedRescan = documentUploadDao.getAllRecordsWhichNeedRescan(branchName);
             DocumentDO documentDO = null;
             for(Document document : allRecordsWhichNeedRescan){
-                documentDO = new DocumentDO(document.getDocumentId(),document.getState(), document.getFileName(), document.getFileLocation(),document.getCreatedBy(), document.getBranchName(), document.getPlaceOfMeeting(),document.getBookletNo(), document.getApplicationNo(), document.getNumOfCustomers(), document.getLockedBy(), document.getCompletedBy(), document.getApprovedBy(), document.getAssignedTo(), document.getQueryLevel(), document.isOnHold(), document.isLocked(), document.isApproved(), document.isRescanNeeded(), document.getComments());
+                documentDO = setDocumentDo(document);
                 documentDOList.add(documentDO);
             }
         }catch(Exception e){
@@ -195,7 +197,7 @@ public class DocumentUploadService implements IDocumentUploadService {
             List<Document> allRecordsWhichNeedApproval = documentUploadDao.getAllRecordsWhichNeedApproval();
             DocumentDO documentDO = null;
             for(Document document : allRecordsWhichNeedApproval){
-                documentDO = new DocumentDO(document.getDocumentId(),document.getState(), document.getFileName(), document.getFileLocation(),document.getCreatedBy(), document.getBranchName(), document.getPlaceOfMeeting(),document.getBookletNo(), document.getApplicationNo(), document.getNumOfCustomers(), document.getLockedBy(), document.getCompletedBy(), document.getApprovedBy(), document.getAssignedTo(), document.getQueryLevel(), document.isOnHold(), document.isLocked(), document.isApproved(), document.isRescanNeeded(), document.getComments());
+                documentDO = setDocumentDo(document);
                 documentDOList.add(documentDO);
             }
         }catch(Exception e){
@@ -215,7 +217,7 @@ public class DocumentUploadService implements IDocumentUploadService {
             List<Document> allRecordsWhichAreInHold = documentUploadDao.getAllRecordsWhichNeedRescan();
             DocumentDO documentDO = null;
             for(Document document : allRecordsWhichAreInHold){
-                documentDO = new DocumentDO(document.getDocumentId(),document.getState(), document.getFileName(), document.getFileLocation(),document.getCreatedBy(), document.getBranchName(), document.getPlaceOfMeeting(),document.getBookletNo(), document.getApplicationNo(), document.getNumOfCustomers(), document.getLockedBy(), document.getCompletedBy(), document.getApprovedBy(), document.getAssignedTo(), document.getQueryLevel(), document.isOnHold(), document.isLocked(), document.isApproved(), document.isRescanNeeded(), document.getComments());
+                documentDO = setDocumentDo(document);
                 documentDOList.add(documentDO);
             }
         }catch(Exception e){
@@ -226,5 +228,9 @@ public class DocumentUploadService implements IDocumentUploadService {
         return documentDOList;
     }
 
+    private DocumentDO setDocumentDo(Document document) {
+        DocumentDO documentDO = new DocumentDO(document.getDocumentId(),document.getState(), document.getFileName(), document.getFileLocation(),document.getCreatedBy(), document.getBranchName(), document.getPlaceOfMeeting(),document.getBookletNo(), document.getApplicationNo(), document.getNumOfCustomers(), document.getLockedBy(), document.getCompletedBy(), document.getApprovedBy(), document.getAssignedTo(), document.getQueryLevel(), document.isOnHold(), document.isLocked(), document.isApproved(), document.isRescanNeeded(), document.getComments(), document.getRecCreatedOn(), document.getRecCompletedOn(), document.getRecApprovedOn());
+        return documentDO;
+    }
 
 }

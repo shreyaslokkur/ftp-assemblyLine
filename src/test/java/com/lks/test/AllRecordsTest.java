@@ -35,7 +35,7 @@ public class AllRecordsTest extends AbstractTest {
 
     @Test(dependsOnMethods = { "testMultipleUpload" })
     public void testAllRecords(){
-        List<DocumentDO> documentDOList = documentUploadService.retrieveAllNewAndLockedAndRejectedDocuments();
+        List<DocumentDO> documentDOList = documentUploadService.retrieveAllNewAndLockedDocuments();
     }
 
 

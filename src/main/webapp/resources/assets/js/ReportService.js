@@ -323,16 +323,29 @@
         reportService.uploadFileToUrl = function (file,doc, uploadUrl) {
             var fd = new FormData();
             fd.append('file', file);
-            $http.post(uploadUrl, {file :fd ,Document : doc}, {
-                transformRequest: angular.identity,
-                headers: { 'Content-Type': 'multipart/form-data'
+            fd.append('branchName',doc.branchName);
+            fd.append('bookletNo',doc.bookletNo);
+            fd.append('applicationNo',doc.applicationNo);
+            fd.append('placeOfMeeting',doc.placeOfMeeting);
+            fd.append('numOfCustomers',doc.numOfCustomers);
+
+            var data = 'file=' + fd;
+           /* formData.append("file",file);*/
+            $http({
+                method: 'POST',
+                url: uploadUrl,
+                headers: {'Content-Type': undefined},
+                data: fd,
+                transformRequest: function(data, headersGetterFunction) {
+                    return data;
                 }
             })
-            .success(function () {
-            })
-            .error(function () {
-            });
+                .success(function(data, status) {
+                    alert("success");
+                })
+
         };
+
 
 
 

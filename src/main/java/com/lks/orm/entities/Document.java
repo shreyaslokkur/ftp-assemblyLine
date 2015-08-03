@@ -35,6 +35,7 @@ public class Document implements IEntity {
     private boolean rescanNeeded;
     private List<Comments> comments;
     private String recCreatedOn;
+    private String recCompletedOn;
     private String recApprovedOn;
 
     public Document(){
@@ -231,5 +232,13 @@ public class Document implements IEntity {
 
     public void setRecApprovedOn(String recApprovedOn) {
         this.recApprovedOn = recApprovedOn;
+    }
+
+    public String getRecCompletedOn() {
+        return recCompletedOn;
+    }
+
+    public void setRecCompletedOn(String recCompletedOn) {
+        this.recCompletedOn = recCompletedOn;
     }
 }

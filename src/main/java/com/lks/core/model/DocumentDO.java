@@ -30,8 +30,11 @@ public class DocumentDO extends AbstractDO {
     private boolean approved;
     private boolean rescanNeeded;
     private List<Comments> comments;
+    private String recCreatedOn;
+    private String recCompletedOn;
+    private String recApprovedOn;
 
-    public DocumentDO(int documentId,RecStatus state, String fileName, String fileLocation, String createdBy, String branchName, String placeOfMeeting, int bookletNo, int applicationNo, int numOfCustomers, String lockedBy, String completedBy, String approvedBy, String assignedTo, int queryLevel, boolean onHold, boolean locked, boolean approved, boolean rescanNeeded, List<Comments> comments) {
+    public DocumentDO(int documentId,RecStatus state, String fileName, String fileLocation, String createdBy, String branchName, String placeOfMeeting, int bookletNo, int applicationNo, int numOfCustomers, String lockedBy, String completedBy, String approvedBy, String assignedTo, int queryLevel, boolean onHold, boolean locked, boolean approved, boolean rescanNeeded, List<Comments> comments, String recCreatedOn, String recCompletedOn, String recApprovedOn) {
         this.documentId = documentId;
         this.state = state;
         this.fileName = fileName;
@@ -52,6 +55,9 @@ public class DocumentDO extends AbstractDO {
         this.approved = approved;
         this.rescanNeeded = rescanNeeded;
         this.comments = comments;
+        this.recCreatedOn = recCreatedOn;
+        this.recCompletedOn = recCompletedOn;
+        this.recApprovedOn = recApprovedOn;
     }
 
     public int getDocumentId() {
@@ -212,5 +218,29 @@ public class DocumentDO extends AbstractDO {
 
     public void setComments(List<Comments> comments) {
         this.comments = comments;
+    }
+
+    public String getRecCreatedOn() {
+        return recCreatedOn;
+    }
+
+    public void setRecCreatedOn(String recCreatedOn) {
+        this.recCreatedOn = recCreatedOn;
+    }
+
+    public String getRecCompletedOn() {
+        return recCompletedOn;
+    }
+
+    public void setRecCompletedOn(String recCompletedOn) {
+        this.recCompletedOn = recCompletedOn;
+    }
+
+    public String getRecApprovedOn() {
+        return recApprovedOn;
+    }
+
+    public void setRecApprovedOn(String recApprovedOn) {
+        this.recApprovedOn = recApprovedOn;
     }
 }

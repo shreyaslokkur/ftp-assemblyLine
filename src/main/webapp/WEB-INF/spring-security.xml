@@ -25,7 +25,7 @@
 			<concurrency-control max-sessions="1"/>
 		</session-management>
 		<!-- enable csrf protection -->
-		<csrf />
+		<!--<csrf />-->
 	</http>
 
 	<authentication-manager>

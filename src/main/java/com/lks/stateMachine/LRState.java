@@ -4,7 +4,9 @@ import com.lks.core.enums.RecStatus;
 import com.lks.orm.entities.Comments;
 import com.lks.orm.entities.Document;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -71,6 +73,9 @@ public class LRState extends AbstractState {
         document.setLocked(false);
         document.setLockedBy(null);
         document.setAssignedTo(null);
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        document.setRecCompletedOn(simpleDateFormat.format(date));
         logger.info("Update the document into table");
         documentUploadDao.updateDocument(document);
         return document;
