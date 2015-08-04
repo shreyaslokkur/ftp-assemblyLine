@@ -224,8 +224,13 @@ public class MainController {
 			fileReceivedForUploadDO.setBranchName(mRequest.getParameter("branchName"));
 			fileReceivedForUploadDO.setNumOfCustomers(Integer.parseInt(mRequest.getParameter("numOfCustomers")));
 			fileReceivedForUploadDO.setPlaceOfMeeting(mRequest.getParameter("placeOfMeeting"));
+			if(mRequest.getParameter("documentId") != null){
+				fileReceivedForUploadDO.setDocumentId(Integer.parseInt(mRequest.getParameter("documentId")));
+				return documentUploadService.reuploadDocument(fileReceivedForUploadDO);
+			}else {
+				return documentUploadService.createNewDocument(fileReceivedForUploadDO);
+			}
 
-			return documentUploadService.createNewDocument(fileReceivedForUploadDO);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

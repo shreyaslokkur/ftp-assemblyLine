@@ -18,7 +18,7 @@ import java.util.List;
 public interface IDocumentUploadService {
 
     int createNewDocument(FileReceivedForUploadDO fileReceivedForUploadDO);
-    void reuploadDocument(FileReceivedForUploadDO fileReceivedForUploadDO);
+    int reuploadDocument(FileReceivedForUploadDO fileReceivedForUploadDO);
     DocumentDO performOperationOnDocument(FileOperationDO fileOperationDO);
     Document retrieveDocument(int documentId);
     List<DocumentDO> retrieveAllNewAndLockedDocuments();

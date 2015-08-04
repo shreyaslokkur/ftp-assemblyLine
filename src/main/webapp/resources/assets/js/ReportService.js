@@ -214,7 +214,23 @@
           
         };
 
-           reportService.lockRecord = function (record) {
+    reportService.getMydocuments = function () {
+
+
+        var deferred = $q.defer();
+        $http.get('/do/getAssignedRejectedRecords')
+            .success(function(data) {
+                deferred.resolve(data);
+            }).error(function(msg, code) {
+                deferred.reject(msg);
+                $log.error(msg, code);
+            });
+        return deferred.promise;
+
+
+    };
+
+    reportService.lockRecord = function (record) {
 
             var deferred = $q.defer();
                     $http.get('/do/lock', {
@@ -328,7 +344,8 @@
             fd.append('applicationNo',doc.applicationNo);
             fd.append('placeOfMeeting',doc.placeOfMeeting);
             fd.append('numOfCustomers',doc.numOfCustomers);
-
+            if(!isNaN(doc.documentId))
+                fd.append('documentId', doc.documentId);
             var data = 'file=' + fd;
            /* formData.append("file",file);*/
             $http({

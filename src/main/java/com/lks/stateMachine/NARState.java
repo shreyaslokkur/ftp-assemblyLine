@@ -67,7 +67,10 @@ public class NARState extends AbstractState {
         }
 
         logger.info("Update the assigned to field and recStatus. Save it into database");
-        document.setState(RecStatus.NR);
+        document.setState(RecStatus.RJ);
+        if(assignedTo == null || assignedTo.length() == 0){
+            assignedTo = document.getCompletedBy();
+        }
         document.setAssignedTo(assignedTo);
         document.setApprovedBy(userId);
         document.setApproved(false);

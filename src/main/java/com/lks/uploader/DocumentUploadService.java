@@ -56,7 +56,7 @@ public class DocumentUploadService implements IDocumentUploadService {
     }
 
     @Transactional
-    public void reuploadDocument(FileReceivedForUploadDO fileReceivedForUploadDO){
+    public int reuploadDocument(FileReceivedForUploadDO fileReceivedForUploadDO){
         logger.info("Entered the reupload of document in service class");
         try{
             Document document = documentUploadDao.retrieveDocument(fileReceivedForUploadDO.getDocumentId());
@@ -75,11 +75,14 @@ public class DocumentUploadService implements IDocumentUploadService {
             //delete old fileLocation
             File file = new File(oldFileLocation);
             file.delete();
+            return document.getDocumentId();
+
 
         }catch(Exception e){
             logger.severe("Encountered exception in the method reupload document: "+ e.getMessage());
             System.out.println(e.getMessage());
         }
+        return -1;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)

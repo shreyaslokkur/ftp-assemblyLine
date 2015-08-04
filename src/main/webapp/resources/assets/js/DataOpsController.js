@@ -20,16 +20,26 @@
                                            $scope.docRecords = payload;
                                        },
                                        function (errorPayload) {
-                                           $log.error('failure loading movie', errorPayload);
+                                           $log.error('failure: Error while getAllRecords()', errorPayload);
                                        });
 
                                 }, 100000)
-                                
-                               
 
-           
 
-            $scope.lockRecord = function (doc) {
+                                $scope.getMydocuments = function() {
+
+                                    var promise = ReportService.getMydocuments();
+                                promise.then(
+                                    function (payload) {
+                                        $scope.docRecords = payload;
+                                    },
+                                    function (errorPayload) {
+                                        $log.error('failure: Error while getMydocuments()', errorPayload);
+                                    });
+                            },
+
+
+                                $scope.lockRecord = function (doc) {
                 var promise = ReportService.lockRecord(doc);
                 promise.then(
                    function (payload) {
