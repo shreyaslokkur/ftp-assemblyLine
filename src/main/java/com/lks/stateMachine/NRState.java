@@ -1,11 +1,9 @@
 package com.lks.stateMachine;
 
 import com.lks.core.enums.RecStatus;
-import com.lks.orm.dao.DocumentUploadDao;
 import com.lks.orm.entities.Document;
 import org.springframework.beans.factory.annotation.Configurable;
 
-import javax.annotation.Resource;
 import java.util.logging.Logger;
 
 /**
@@ -31,7 +29,7 @@ public class NRState extends AbstractState {
         logger.info("Update the lock flag to true and set the locked by field");
         document.setLocked(true);
         document.setLockedBy(userId);
-        document.setState(RecStatus.LR);
+        document.setState(RecStatus.LNR);
 
         logger.info("Update the document: "+document.getDocumentId()+ " into the table");
         documentUploadDao.updateDocument(document);

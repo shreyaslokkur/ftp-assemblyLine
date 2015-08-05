@@ -8,7 +8,9 @@ public enum RecStatus {
     NR,
     AR,
     HR,
-    LR,
+    LNR,
+    LHR,
+    LRR,
     RN,
     RJ,
     NAR;

@@ -8,202 +8,217 @@
     <meta name="author" content="">
 
     <title>Vindhya eInfomedia</title>
-    
 
-   <script type="text/javascript" src="../../resources/assets/lib/angular.js"></script>
+    <script src="../../resources/assets/lib/jquery.js"></script>
+    <script type="text/javascript" src="../../resources/assets/lib/angular.js"></script>
     <!--script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.0/ui-bootstrap-tpls.min.js"></script>-->
     <script src="../../resources/assets/lib/ui-bootstrap-tpls.js"></script>
-     <script type="text/javascript" src="../../resources/assets/js/reportModule.js"></script>
+    <script type="text/javascript" src="../../resources/assets/js/reportModule.js"></script>
     <script type="text/javascript" src="../../resources/assets/js/ReportService.js"></script>
     <script type="text/javascript" src="../../resources/assets/js/Directives.js"></script>
     <script type="text/javascript" src="../../resources/assets/js/FileUploadController.js"></script>
     <link href="../../resources/assets/css/bootstrap.min.css" rel="stylesheet">
- 
+
     <script type="text/javascript" src="../../resources/assets/js/Common.js"></script>
     <!--<link href="Content/css/bootstrap.min.css" rel="stylesheet" />-->
     <link href="../../resources/assets/css/font-awesome.min.css" rel="stylesheet" />
     <link href="../../resources/assets/css/1-col-portfolio.css" rel="stylesheet" />
-     <link href="../../resources/assets/css/Common.css" rel="stylesheet" />
+    <link href="../../resources/assets/css/Common.css" rel="stylesheet" />
 
-   
+    <script>
+
+        $(document).on('change', '.btn-file', function() {
+            var input = $(this);
+
+            var  label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+            $("#fileName").val(label);
+        });
+
+        $(document).on('click', '#btnBrowse', function() {
+            $('.btn-file').click();
+        });
+    </script>
 </head>
 <body ng-controller="FileUploadController">
-  
-       <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-       
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand pull-left" style="color:azure" href="#">Vindhya eInfomedia</a>
-               
-            
-            <!-- Collect the nav links, forms, and other content for toggling -->
-           <!-- <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                   <!-- <li>
-                        <a href="#">About</a>
-                    </li>
-                    <li>
-                        <a href="#">Services</a>
-                    </li>
-                    <li>
-                        <a href="#">Contact</a>
-                    </li>
-                </ul>
-            </div>-->
-            <!-- /.navbar-collapse -->
+
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand pull-left" style="color:azure" href="#">Vindhya eInfomedia</a>
+
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+             <ul class="nav navbar-nav">
+                <!-- <li>
+                     <a href="#">About</a>
+                 </li>
+                 <li>
+                     <a href="#">Services</a>
+                 </li>
+                 <li>
+                     <a href="#">Contact</a>
+                 </li>
+             </ul>
+         </div>-->
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+<!--   <table id="Table1"  class="table table-bordered table-striped">
+       <tr><td><button class="btn btn-primary"><i class="fa fa-list-ul"></i>&nbsp;All Documents</button>&nbsp;&nbsp;<button class="btn btn-primary"><i class="fa fa-filter"></i>&nbsp;My Documents</button></td></tr>
+
+   </table>-->
+
+<div class="container" style="padding:10px;margin-left:0px!important">
+    <div class="row" >
+        <div class="col-md-2">
+            Branch Name :
         </div>
-        <!-- /.container -->
-    </nav>
+        <div class="col-md-4">
+            <input type="text" class="form-control" ng-model="doc.branchName" placeholder="Enter Branch Name" />
+        </div>
+    </div>
+    <div class="row" style="padding-top:5px">
+        <div class="col-md-2">
+            Booklet Number :
+        </div>
+        <div class="col-md-4">
+            <input type="text" class="form-control" ng-model="doc.bookletNo" placeholder="Enter Booklet Number" />
+        </div>
+    </div>
+    <div class="row" style="padding-top:5px">
+        <div class="col-md-2">
+            Application Number :
+        </div>
+        <div class="col-md-4">
+            <input type="text" class="form-control" ng-model="doc.applicationNo" placeholder="Enter Application Number" />
+        </div>
+    </div>
+    <div class="row" style="padding-top:5px">
+        <div class="col-md-2">
+            Place of Meeting :
+        </div>
+        <div class="col-md-4">
+            <input type="text" class="form-control" ng-model="doc.placeOfMeeting" placeholder="Enter Place of Meeting" />
+        </div>
+    </div>
+    <div class="row" style="padding-top:5px">
+        <div class="col-md-2">
+            Number of Customers :
+        </div>
+        <div class="col-md-4">
+            <input type="text" class="form-control" ng-model="doc.numOfCustomers" placeholder="Enter  Number of Customers" />
+        </div>
+    </div>
+    <div class="row" style="padding-top:5px">
+        <div class="col-md-2">
+            Upload file :
+        </div>
+        <div class="col-md-4">
 
-       <!--   <table id="Table1"  class="table table-bordered table-striped">
-              <tr><td><button class="btn btn-primary"><i class="fa fa-list-ul"></i>&nbsp;All Documents</button>&nbsp;&nbsp;<button class="btn btn-primary"><i class="fa fa-filter"></i>&nbsp;My Documents</button></td></tr>                
-                            
-          </table>-->
+            <input type="text" id="fileName" class="form-control" placeholder="Browse File" />
+        </div>
+        <div class="col-md-6">
 
-     <div class="container" style="padding:10px;margin-left:0px!important">
-         <div class="row" >
-             <div class="col-md-2">
-                 Branch Name :
-             </div>
-              <div class="col-md-4">
-                  <input type="text" class="form-control" ng-model="doc.branchName" placeholder="Enter Branch Name" />
-             </div>
-         </div>
-         <div class="row" style="padding-top:5px">
-             <div class="col-md-2">
-                 Booklet Number :
-             </div>
-              <div class="col-md-4">
-                   <input type="text" class="form-control" ng-model="doc.bookletNo" placeholder="Enter Booklet Number" />
-             </div>
-         </div>
-         <div class="row" style="padding-top:5px">
-             <div class="col-md-2">
-                  Application Number :
-             </div>
-              <div class="col-md-4">
-                   <input type="text" class="form-control" ng-model="doc.applicationNo" placeholder="Enter Application Number" />
-             </div>
-         </div>
-         <div class="row" style="padding-top:5px">
-             <div class="col-md-2">
-                 Place of Meeting :
-             </div>
-              <div class="col-md-4">
-                   <input type="text" class="form-control" ng-model="doc.placeOfMeeting" placeholder="Enter Place of Meeting" />
-             </div>
-         </div>
-         <div class="row" style="padding-top:5px">
-             <div class="col-md-2">
-                 Number of Customers :
-             </div>
-              <div class="col-md-4">
-                  <input type="text" class="form-control" ng-model="doc.numOfCustomers" placeholder="Enter  Number of Customers" />
-             </div>
-         </div>
-         <div class="row" style="padding-top:5px">
-             <div class="col-md-2">
-                 Upload fIle :
-             </div>
-              <div class="col-md-4">
-                  
-                        <input type="text"  class="form-control" placeholder="Browse File" />
-                  </div>
-              <div class="col-md-6">
-                       <input type="file" file-model="myFile"/>&nbsp;
-                        <button class="btn btn-primary" ng-click="uploadFile(doc)">Upload Document</button>
-                  </div>
-                   
 
-               <!--   <input type="file" id="btnBrowse" style="display:none" class="btn btn-primary" />-->
-                  
-             </div>
-         </div>
-         <div class="row" style="padding-left:10px !important;padding-top:10px;padding-bottom:3px !important">
-             <div class="col-md-12">
-                 <b>Documents to be Re-Scanned :</b>
-                 </div>
-             </div>
-         <div class="row">
-             <div class="col-md-12">
+            <input type="file" class="btn-file" style="display:none" file-model="myFile"/>&nbsp;
+            <button id="btnBrowse" class="btn btn-primary">Browse</button>
+            <button class="btn btn-primary" ng-click="uploadFile(doc)">Upload Document</button>
+        </div>
+
+
+        <!--   <input type="file" id="btnBrowse" style="display:none" class="btn btn-primary" />-->
+
+    </div>
+</div>
+<div class="row" style="padding-left:10px !important;padding-top:10px;padding-bottom:3px !important">
+    <div class="col-md-12">
+        <b>Documents to be Re-Scanned :</b>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
                   <span style="text-align:center">
-                       <table id="dOTable"  class="table table-bordered table-striped" style="width:98% !important;margin-left:10px">
-                              
-                         <thead>
+                       <table id="dOTable"  class="table table-bordered table-striped" style="width:90% !important;margin-left:10px;text-align: left">
+                      
+                      <thead style="text-align: center">
 
 
-                                 <th>Booklet No</th>
-                                 <th>Application No</th>
-                                 <th>Branch Name</th>
-                                 <th>Place of Meeting</th>
-                                 <th>No of Customers</th>
-                                  <th>Select</th>
-                                
-                                
-                         </thead>
+                      <th>Booklet No</th>
+                      <th>Application No</th>
+                      <th>Branch Name</th>
+                      <th>Place of Meeting</th>
+                      <th>No of Customers</th>
+                      <th>Select</th>
 
 
-                            
-                                 <tr ng-repeat="doc in docRecords">
-                                    
-                                     <td>{{doc.bookletNo}}</td>
-                                     <td>{{doc.applicationNo}}</td>
-                                     <td>{{doc.branchName}}</td>
-                                     <td>{{doc.placeOfMeeting}}</td>
-                                     <td>{{doc.numOfCustomers}}</td>
-                                   
-                                     
-                                     <td><button class="btn btn-primary" ng-click="selectForRescan(doc)"  title="Select"><i class="fa fa-hand-o-up"></i>&nbsp;&nbsp;Select</button></td>
-                                </tr>
+                      </thead>
 
-                                   
-                            
 
-                             
-                        </table>
+
+                      <tr ng-repeat="doc in docRecords">
+
+                          <td>{{doc.bookletNo}}</td>
+                          <td>{{doc.applicationNo}}</td>
+                          <td>{{doc.branchName}}</td>
+                          <td>{{doc.placeOfMeeting}}</td>
+                          <td>{{doc.numOfCustomers}}</td>
+
+
+                          <td><button class="btn btn-primary" ng-click="selectForRescan(doc)"  title="Select"><i class="fa fa-hand-o-up"></i>&nbsp;&nbsp;Select</button></td>
+                      </tr>
+
+
+
+
+
+                  </table>
                   </span>
 
-             </div>
-         </div>
+    </div>
+</div>
 
-     </div>
-
-
-
-                 
+</div>
 
 
 
-        <hr>
 
-        <!-- Footer -->
-        <footer>
-            <div class="row">
-                <div class="col-lg-12" style="text-align:center">
-                    <p>Copyright &copy; Vindhya eInfomedia 2015</p>
-                </div>
-            </div>
-            <!-- /.row -->
-        </footer>
 
-    
-             
-    <!-- /.container -->
 
-    <!-- jQuery -->
-     <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
 
-    
-    <!-- Bootstrap Core JavaScript -->
-   <!-- <script src="Scripts/bootstrap.min.js"></script>-->
- 
+<hr>
+
+<!-- Footer -->
+<footer>
+    <div class="row">
+        <div class="col-lg-12" style="text-align:center">
+            <p>Copyright &copy; Vindhya eInfomedia 2015</p>
+        </div>
+    </div>
+    <!-- /.row -->
+</footer>
+
+
+
+<!-- /.container -->
+
+<!-- jQuery -->
+<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+
+
+<!-- Bootstrap Core JavaScript -->
+<!-- <script src="Scripts/bootstrap.min.js"></script>-->
+
 
 </body>
 </html>

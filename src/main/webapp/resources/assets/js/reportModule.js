@@ -1,4 +1,4 @@
-﻿var reportApp = angular.module('reportApp', ['ui.bootstrap']);
+﻿var reportApp = angular.module('reportApp', ['ui.bootstrap','ngReallyClickModule']);
 
 reportApp.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'doc', 'ReportService', function ($scope, $modalInstance, doc, ReportService) {
     /* copy rest of example code here */
@@ -7,13 +7,13 @@ reportApp.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'doc', 'R
     $scope.HoldRecord = function (doc) {
         var promise = ReportService.HoldRecord(doc);
         promise.then(
-           function (payload) {
-               angular.extend(doc, payload);
-               $scope.cancel();
-           },
-           function (errorPayload) {
-               $log.error('failure: Error While  Hold document', errorPayload);
-           });
+            function (payload) {
+                angular.extend(doc, payload);
+                $scope.cancel();
+            },
+            function (errorPayload) {
+                $log.error('failure: Error While  Hold document', errorPayload);
+            });
     }
 
 

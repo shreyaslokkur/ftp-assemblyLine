@@ -14,9 +14,9 @@ import java.util.logging.Logger;
  * To change this template use File | Settings | File Templates.
  */
 @Configurable
-public class RNState extends AbstractState {
+public class LRRState extends AbstractState {
 
-    public static final Logger logger = Logger.getLogger(RNState.class.getName());
+    public static final Logger logger = Logger.getLogger(LRRState.class.getName());
 
     @Override
     public Document reupload(Document document) {
@@ -28,15 +28,4 @@ public class RNState extends AbstractState {
 
     }
 
-    @Override
-    public Document lock(Document document, String userId) {
-        logger.info("Update the lock flag to true and set the locked by field");
-        document.setLocked(true);
-        document.setLockedBy(userId);
-        document.setState(RecStatus.LRR);
-
-        logger.info("Update the document: "+document.getDocumentId()+ " into the table");
-        documentUploadDao.updateDocument(document);
-        return document;
-    }
 }

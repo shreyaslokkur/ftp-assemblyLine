@@ -6,17 +6,8 @@ import com.lks.core.model.FileOperationDO;
 import com.lks.core.model.FileReceivedForUploadDO;
 import com.lks.orm.entities.Document;
 import com.lks.stateMachine.InvalidStateTransitionException;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * Created by lokkur on 6/20/2015.
@@ -59,7 +50,7 @@ public class StateMachineTest extends AbstractTest {
         Document document = documentUploadDao.retrieveDocument(documentId);
 
         Assert.assertNotNull(document);
-        Assert.assertEquals(document.getState(), RecStatus.LR);
+        Assert.assertEquals(document.getState(), RecStatus.LNR);
         Assert.assertEquals(document.getLockedBy(),"locker");
 
     }
@@ -123,7 +114,7 @@ public class StateMachineTest extends AbstractTest {
         Document document = documentUploadDao.retrieveDocument(documentId);
 
         Assert.assertNotNull(document);
-        Assert.assertEquals(document.getState(), RecStatus.LR);
+        Assert.assertEquals(document.getState(), RecStatus.LNR);
         Assert.assertEquals(document.getLockedBy(),"locker");
 
 
@@ -180,7 +171,7 @@ public class StateMachineTest extends AbstractTest {
         Document document = documentUploadDao.retrieveDocument(documentId);
 
         Assert.assertNotNull(document);
-        Assert.assertEquals(document.getState(), RecStatus.LR);
+        Assert.assertEquals(document.getState(), RecStatus.LNR);
         Assert.assertEquals(document.getLockedBy(),"locker");
 
 

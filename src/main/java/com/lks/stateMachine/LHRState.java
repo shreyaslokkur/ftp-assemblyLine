@@ -15,9 +15,9 @@ import java.util.logging.Logger;
  * Time: 6:24 PM
  * To change this template use File | Settings | File Templates.
  */
-public class HRState extends AbstractState {
+public class LHRState extends AbstractState {
 
-    public static final Logger logger = Logger.getLogger(HRState.class.getName());
+    public static final Logger logger = Logger.getLogger(LHRState.class.getName());
 
     @Override
     public Document resolve(Document document, String comment,String assignedTo, String userId) {
@@ -48,15 +48,5 @@ public class HRState extends AbstractState {
         return document;
     }
 
-    @Override
-    public Document lock(Document document, String userId) {
-        logger.info("Update the lock flag to true and set the locked by field");
-        document.setLocked(true);
-        document.setLockedBy(userId);
-        document.setState(RecStatus.LHR);
 
-        logger.info("Update the document: "+document.getDocumentId()+ " into the table");
-        documentUploadDao.updateDocument(document);
-        return document;
-    }
 }
