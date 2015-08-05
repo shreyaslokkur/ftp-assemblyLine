@@ -218,7 +218,7 @@
 
 
         var deferred = $q.defer();
-        $http.get('/do/getAssignedRejectedRecords')
+        $http.get('/do/getAssignedRecords')
             .success(function(data) {
                 deferred.resolve(data);
             }).error(function(msg, code) {

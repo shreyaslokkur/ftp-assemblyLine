@@ -15,12 +15,12 @@
 		<!-- access denied page -->
 		<access-denied-handler error-page="/403" />
 		<form-login 
-		    login-page="/login" 
+		    login-page="/login.html"
 		    default-target-url="/"
-			authentication-failure-url="/login?error" 
-			username-parameter="username"
-			password-parameter="password" />
-		<logout logout-success-url="/login?logout" />
+			authentication-failure-url="/login.html?error=true"
+			username-parameter="j_username"
+			password-parameter="j_password" />
+		<logout logout-success-url="/login.html" />
 		<session-management>
 			<concurrency-control max-sessions="1"/>
 		</session-management>

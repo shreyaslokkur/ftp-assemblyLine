@@ -136,14 +136,14 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
     }
 
     @Override
-    public List<Document> getAllRejectedRecordsAssignedToUser(String userId) {
+    public List<Document> getAllRecordsAssignedToUser(String userId) {
 
         //Need to check by that time if the user exists in the list at all
         List<Document> documentList;
         SessionFactory sessionFactory = getSessionFactory();
         Session session = sessionFactory.openSession();
         try{
-            String hql = "from Document d where d.state in ('RJ') and d.assignedTo= :userId";
+            String hql = "from Document d where d.assignedTo= :userId";
             documentList = session.createQuery(hql).
                     setParameter("userId", userId).list();
 

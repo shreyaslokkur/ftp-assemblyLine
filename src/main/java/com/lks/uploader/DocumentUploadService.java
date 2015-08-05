@@ -152,19 +152,19 @@ public class DocumentUploadService implements IDocumentUploadService {
     }
 
     @Override
-    public List<DocumentDO> retrieveAllRejectedDocumentsAssignedTo(String userId) {
-        logger.info("Entered the method in document upload service to retrieve all rejected documents assigned to: "+ userId);
+    public List<DocumentDO> retrieveAllDocumentsAssignedTo(String userId) {
+        logger.info("Entered the method in document upload service to retrieve all documents assigned to: "+ userId);
 
         List<DocumentDO> documentDOList = new ArrayList<DocumentDO>();
         try{
-            List<Document> allRecordsAssignedToUser = documentUploadDao.getAllRejectedRecordsAssignedToUser(userId);
+            List<Document> allRecordsAssignedToUser = documentUploadDao.getAllRecordsAssignedToUser(userId);
             DocumentDO documentDO = null;
             for(Document document : allRecordsAssignedToUser){
                 documentDO = setDocumentDo(document);
                 documentDOList.add(documentDO);
             }
         }catch(Exception e){
-            logger.severe("Encountered exception in the method retrieve rejected documents: "+ e.getMessage());
+            logger.severe("Encountered exception in the method retrieve documents: "+ e.getMessage());
             System.out.println(e.getMessage());
         }
 

@@ -63,11 +63,22 @@
 </nav>
 
 
+<ul class="nav nav-tabs" role="tablist">
+    <li class="active">
+        <a href="#AllDocuments"  role="tab" data-toggle="tab">
+            <i class="fa fa-list-ul"></i> All Documents
+        </a>
+    </li>
+    <li><a href="#MyDocuments" role="tab" ng-click="getMydocuments()" data-toggle="tab">
+        <i class="fa fa-filter"></i> My Documents
+    </a>
+    </li>
+</ul>
+<!-- <span style="padding-left:3px">   <button class="btn btn-primary btn-xs"><i class="fa fa-list-ul"></i>&nbsp;All Documents</button>&nbsp;&nbsp;<button class="btn btn-primary btn-xs"><i class="fa fa-filter"></i>&nbsp;My Documents</button></span>  -->
 
-<span style="padding-left:3px">   <button class="btn btn-primary btn-xs"><i class="fa fa-list-ul"></i>&nbsp;All Documents</button>&nbsp;&nbsp;<button class="btn btn-primary btn-xs"><i class="fa fa-filter"></i>&nbsp;My Documents</button></span>
 
-            
-                            
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="AllDocuments">
        <span style="max-width:98%;padding-left:10px;padding-right:10px;text-align:center">
                        <table id="dOTable"  class="table table-bordered table-striped">
            
@@ -115,8 +126,58 @@
 
        </table>
                   </span>
+    </div>
+
+    <div class="tab-pane fade" id="MyDocuments">
+       <span style="max-width:98%;padding-left:10px;padding-right:10px;text-align:center">
+                       <table id="dOTable"  class="table table-bordered table-striped">
+           
+           <thead>
+
+           <!-- <th>Doc Id</th>-->
+           <th>Booklet No</th>
+           <th>Application No</th>
+           <th>Branch Name</th>
+           <th>Place of Meeting</th>
+           <th>No of Customers</th>
+           <th>Recieved Time</th>
+           <th>Locked By</th>
+           <th>Select</th>
+           <th>Hold</th>
+           <th>Complete</th>
+           <th>View</th>
+           <th>Rescan</th>
+           <th>Comments</th>
+
+           </thead>
 
 
+
+           <tr ng-repeat="doc in MydocRecords">
+               <!-- <td>{{doc.documentId}}</td>-->
+               <td>{{doc.bookletNo}}</td>
+               <td>{{doc.applicationNo}}</td>
+               <td>{{doc.branchName}}</td>
+               <td>{{doc.placeOfMeeting}}</td>
+               <td>{{doc.numOfCustomers}}</td>
+               <td>{{doc.recCreatedOn}}</td>
+               <td>{{doc.lockedBy}}</td>
+               <td><button class="btn" ng-really-message="Do u want to Lock the document for processing?" ng-really-click="lockRecord(doc)" ng-disabled="doc.locked==true" title="Select" ng-class="{'btn-danger': doc.locked==true, 'btn-success': doc.locked==false}"><i ng-class="{'fa fa-lock': doc.locked==true, 'fa fa-unlock': doc.locked==false}"></i>&nbsp;<span>{{doc.locked ? 'Locked' : 'Select'}}</span></button></td>
+               <td><button class="btn btn-warning"   ng-click="openCommentsPopup(doc)" title="Hold" ng-disabled="doc.locked==false"><i class="fa fa-exclamation-triangle"></i></button></td>
+               <td><button class="btn btn-success" ng-really-message="Processing Completed?" ng-really-click="CompleteRecord(doc)" title="Complete" ng-disabled="doc.locked==false"><i class="fa fa-check-square-o"></i></button></td>
+               <td><a ng-href="{{doc.fileLocation}}" title="View file" target="_blank" class="btn btn-primary" ng-disabled="doc.locked==false"><i class="fa fa-search"></i></a></td>
+               <td><button class="btn btn-primary" ng-really-message="Do u want to Lock the document for Re-Scanning?"  ng-really-click="ReScanRecord(doc)" title="Re-scan" ng-disabled="doc.locked==false"><i class="fa fa-undo"></i></button></td>
+               <td><button class="btn btn-primary" title="View Comments" ng-click="ShowComments(doc);" ng-disabled="doc.locked==false"><i class="fa fa-comments"></i></button></td>
+           </tr>
+
+
+
+
+
+       </table>
+                  </span>
+    </div>
+</div>
 
 
 

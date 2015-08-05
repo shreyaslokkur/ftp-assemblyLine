@@ -31,7 +31,7 @@
                                     var promise = ReportService.getMydocuments();
                                 promise.then(
                                     function (payload) {
-                                        $scope.docRecords = payload;
+                                        $scope.MydocRecords = payload;
                                     },
                                     function (errorPayload) {
                                         $log.error('failure: Error while getMydocuments()', errorPayload);

@@ -22,7 +22,7 @@ public interface IDocumentUploadService {
     DocumentDO performOperationOnDocument(FileOperationDO fileOperationDO);
     Document retrieveDocument(int documentId);
     List<DocumentDO> retrieveAllNewAndLockedDocuments();
-    List<DocumentDO> retrieveAllRejectedDocumentsAssignedTo(String userId);
+    List<DocumentDO> retrieveAllDocumentsAssignedTo(String userId);
     List<DocumentDO> retrieveAllDocumentsWhichNeedRescan(String branchName);
     List<DocumentDO> retrieveAllDocumentsWhichNeedApproval();
     List<DocumentDO> retrieveAllRescanDocuments();
