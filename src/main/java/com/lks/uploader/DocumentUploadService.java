@@ -213,7 +213,7 @@ public class DocumentUploadService implements IDocumentUploadService {
 
     @Override
     public List<DocumentDO> retrieveAllRescanDocuments() {
-        logger.info("Entered the method in document upload service to retrieve all documents which are in hold");
+        logger.info("Entered the method in document upload service to retrieve all documents which need rescan");
 
         List<DocumentDO> documentDOList = new ArrayList<DocumentDO>();
         try{

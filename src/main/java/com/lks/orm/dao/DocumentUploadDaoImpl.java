@@ -199,7 +199,7 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
         SessionFactory sessionFactory = getSessionFactory();
         Session session = sessionFactory.openSession();
         try{
-            String hql = "from Document d where d.state in ('RN') and d.assignedTo is null";
+            String hql = "from Document d where d.state in ('RN')";
             documentList = session.createQuery(hql).list();
 
         }catch (HibernateException e){

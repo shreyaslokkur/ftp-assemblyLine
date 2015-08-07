@@ -83,11 +83,7 @@ public class MainController {
 		return redirectUrl;
 	}
 
-	@RequestMapping(value = "/staticPage", method = RequestMethod.GET)
-	public String redirect() {
 
-		return "redirect:/resources/templates/dataOp.html";
-	}
 
 	@RequestMapping(value = "/admin/hello", method = RequestMethod.GET)
 	public ModelAndView adminPage() {

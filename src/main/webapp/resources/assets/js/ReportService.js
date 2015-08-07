@@ -358,7 +358,7 @@
                 }
             })
                 .success(function(data, status) {
-                    alert("success");
+
                 })
 
         };
