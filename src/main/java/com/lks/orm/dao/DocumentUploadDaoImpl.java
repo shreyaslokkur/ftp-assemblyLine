@@ -213,6 +213,26 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
 
     }
 
+    @Override
+    public String retrieveDocumentUrl(int documentId) {
+        SessionFactory sessionFactory = getSessionFactory();
+        Session session = sessionFactory.openSession();
+        String documentUrl = null;
+        try{
+            String hql = "Select d.fileLocation from Document d where d.documentId= :documentId";
+            documentUrl = (String) session.createQuery(hql)
+                    .setParameter("documentId", documentId).uniqueResult();
+
+        }catch (HibernateException e){
+            throw new FALException("Unable to retrieve documentUrl from table with document id: "+ documentId, e);
+        }finally {
+            session.close();
+        }
+
+        return documentUrl;
+
+    }
+
     private boolean deleteById(Class<?> type, Serializable id, Session session) {
         Object persistentInstance = session.load(type, id);
         if (persistentInstance != null) {

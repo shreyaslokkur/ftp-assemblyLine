@@ -1,6 +1,7 @@
 package com.lks.facade;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,6 +26,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -356,6 +360,26 @@ public class MainController {
 
 		return documentDO;
 	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/do/view")
+	public
+	@ResponseBody
+	void viewPdfFile(@RequestParam("documentId") int documentId, HttpServletResponse response) throws ServletException, IOException{
+
+		String documentUrl = documentUploadService.retrieveDocumentUrl(documentId);
+		File pdfFile = new File(documentUrl);
+		response.setContentType("application/pdf");
+		response.addHeader("Content-Disposition", "inline; filenmae="+documentUrl+";");
+		response.setContentLength((int) pdfFile.length());
+
+		FileInputStream fileInputStream = new FileInputStream(pdfFile);
+		OutputStream outputStream = response.getOutputStream();
+		int bytes;
+		while((bytes = fileInputStream.read()) != -1){
+			outputStream.write(bytes);
+		}
+	}
+
 
 	@RequestMapping(method = RequestMethod.GET, value = "/qa/approve")
 	public

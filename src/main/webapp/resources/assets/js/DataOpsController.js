@@ -67,6 +67,19 @@
                        $log.error('failure: Error while Re-Scanning loading document', errorPayload);
                    });
             }
+
+            $scope.ViewRecord = function (doc) {
+                var promise = ReportService.ViewRecord(doc);
+                promise.then(
+                    function (payload) {
+                        angular.extend(doc, payload);
+
+
+                    },
+                    function (errorPayload) {
+                        $log.error('failure: Unable to view the document', errorPayload);
+                    });
+            }
             
             $scope.CompleteRecord = function (doc) {
                 var promise = ReportService.CompleteRecord(doc);
