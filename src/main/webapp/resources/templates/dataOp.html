@@ -115,7 +115,7 @@
                <td><button class="btn" ng-really-message="Do u want to Lock the document for processing?" ng-really-click="lockRecord(doc)" ng-disabled="doc.locked==true" title="Select" ng-class="{'btn-danger': doc.locked==true, 'btn-success': doc.locked==false}"><i ng-class="{'fa fa-lock': doc.locked==true, 'fa fa-unlock': doc.locked==false}"></i>&nbsp;<span>{{doc.locked ? 'Locked' : 'Select'}}</span></button></td>
                <td><button class="btn btn-warning"   ng-click="openCommentsPopup(doc)" title="Hold" ng-disabled="doc.locked==false"><i class="fa fa-exclamation-triangle"></i></button></td>
                <td><button class="btn btn-success" ng-really-message="Processing Completed?" ng-really-click="CompleteRecord(doc)" title="Complete" ng-disabled="doc.locked==false"><i class="fa fa-check-square-o"></i></button></td>
-               <td><a ng-href="{{doc.fileLocation}}" title="View file" target="_blank" class="btn btn-primary" ng-disabled="doc.locked==false"><i class="fa fa-search"></i></a></td>
+               <td><a ng-href="{{doc.documentUrl}}" title="View file" target="_blank" class="btn btn-primary" ng-disabled="doc.locked==false"><i class="fa fa-search"></i></a></td>
                <td><button class="btn btn-primary" ng-really-message="Do u want to Lock the document for Re-Scanning?"  ng-really-click="ReScanRecord(doc)" title="Re-scan" ng-disabled="doc.locked==false"><i class="fa fa-undo"></i></button></td>
                <td><button class="btn btn-primary" title="View Comments" ng-click="ShowComments(doc);" ng-disabled="doc.locked==false"><i class="fa fa-comments"></i></button></td>
            </tr>

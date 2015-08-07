@@ -14,6 +14,7 @@ public class DocumentDO extends AbstractDO {
     private RecStatus state;
     private String fileName;
     private String fileLocation;
+    private String documentUrl = new String("/do/view?documentId=");
     private String createdBy;
     private String branchName;
     private String placeOfMeeting;
@@ -58,6 +59,7 @@ public class DocumentDO extends AbstractDO {
         this.recCreatedOn = recCreatedOn;
         this.recCompletedOn = recCompletedOn;
         this.recApprovedOn = recApprovedOn;
+        this.documentUrl = this.documentUrl.concat(String.valueOf(documentId));
     }
 
     public int getDocumentId() {
@@ -90,6 +92,14 @@ public class DocumentDO extends AbstractDO {
 
     public void setFileLocation(String fileLocation) {
         this.fileLocation = fileLocation;
+    }
+
+    public String getDocumentUrl() {
+        return documentUrl;
+    }
+
+    public void setDocumentUrl(String documentUrl) {
+        this.documentUrl = documentUrl;
     }
 
     public String getCreatedBy() {
