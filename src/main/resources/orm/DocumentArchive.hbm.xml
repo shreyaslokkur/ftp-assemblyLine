@@ -75,6 +75,18 @@
             <one-to-many class="com.lks.orm.entities.CommentsArchive"/>
         </list>
 
+        <property name="recCreatedOn" type="string">
+            <column name="recCreatedOn" length="60" />
+        </property>
+
+        <property name="recCompletedOn" type="string">
+            <column name="recCompletedOn" length="60" />
+        </property>
+
+        <property name="recApprovedOn" type="string">
+            <column name="recApprovedOn" length="60" />
+        </property>
+
 
     </class>
 

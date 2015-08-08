@@ -34,6 +34,9 @@ public class DocumentArchive implements IEntity {
     private boolean approved;
     private boolean rescanNeeded;
     private List<CommentsArchive> comments;
+    private String recCreatedOn;
+    private String recCompletedOn;
+    private String recApprovedOn;
 
     public int getDocumentArchiveId() {
         return documentArchiveId;
@@ -202,5 +205,29 @@ public class DocumentArchive implements IEntity {
 
     public void setComments(List<CommentsArchive> comments) {
         this.comments = comments;
+    }
+
+    public String getRecCreatedOn() {
+        return recCreatedOn;
+    }
+
+    public void setRecCreatedOn(String recCreatedOn) {
+        this.recCreatedOn = recCreatedOn;
+    }
+
+    public String getRecCompletedOn() {
+        return recCompletedOn;
+    }
+
+    public void setRecCompletedOn(String recCompletedOn) {
+        this.recCompletedOn = recCompletedOn;
+    }
+
+    public String getRecApprovedOn() {
+        return recApprovedOn;
+    }
+
+    public void setRecApprovedOn(String recApprovedOn) {
+        this.recApprovedOn = recApprovedOn;
     }
 }

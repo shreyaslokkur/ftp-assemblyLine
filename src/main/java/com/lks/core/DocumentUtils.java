@@ -34,6 +34,9 @@ public class DocumentUtils {
         documentArchive.setQueryLevel(document.getQueryLevel());
         documentArchive.setLockedBy(document.getLockedBy());
         documentArchive.setOnHold(document.isOnHold());
+        documentArchive.setRecCreatedOn(document.getRecCreatedOn());
+        documentArchive.setRecApprovedOn(document.getRecApprovedOn());
+        documentArchive.setRecCompletedOn(document.getRecCompletedOn());
         return documentArchive;
     }
 

@@ -361,7 +361,7 @@ public class MainController {
 		return documentDO;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/do/view")
+	@RequestMapping(method = RequestMethod.GET, value = "/all/view")
 	public
 	@ResponseBody
 	void viewPdfFile(@RequestParam("documentId") int documentId, HttpServletResponse response) throws ServletException, IOException{
@@ -369,7 +369,7 @@ public class MainController {
 		String documentUrl = documentUploadService.retrieveDocumentUrl(documentId);
 		File pdfFile = new File(documentUrl);
 		response.setContentType("application/pdf");
-		response.addHeader("Content-Disposition", "inline; filenmae="+documentUrl+";");
+		response.addHeader("Content-Disposition", "attachment; filename="+documentUrl+";");
 		response.setContentLength((int) pdfFile.length());
 
 		FileInputStream fileInputStream = new FileInputStream(pdfFile);

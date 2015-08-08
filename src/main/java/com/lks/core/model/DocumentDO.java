@@ -14,7 +14,7 @@ public class DocumentDO extends AbstractDO {
     private RecStatus state;
     private String fileName;
     private String fileLocation;
-    private String documentUrl = new String("/do/view?documentId=");
+    private String documentUrl = new String("/all/view?documentId=");
     private String createdBy;
     private String branchName;
     private String placeOfMeeting;

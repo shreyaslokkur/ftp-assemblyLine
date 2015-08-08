@@ -11,6 +11,7 @@
 		<intercept-url pattern="/do/**" access="hasRole('ROLE_DO')" />
 		<intercept-url pattern="/scanner/**" access="hasRole('ROLE_SCANNER')"/>
 		<intercept-url pattern="/qa/**" access="hasRole('ROLE_APPROVER')"/>
+		<intercept-url pattern="/all/**" access="hasAnyRole('ROLE_DO','ROLE_APPROVER')"/>
 
 		<!-- access denied page -->
 		<access-denied-handler error-page="/403" />
