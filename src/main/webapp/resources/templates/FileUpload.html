@@ -18,6 +18,7 @@
     <script type="text/javascript" src="../../resources/assets/js/Directives.js"></script>
     <script type="text/javascript" src="../../resources/assets/js/FileUploadController.js"></script>
     <link href="../../resources/assets/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../../resources/assets/lib/bootstrap.min.js"></script>
 
     <script type="text/javascript" src="../../resources/assets/js/Common.js"></script>
     <!--<link href="Content/css/bootstrap.min.css" rel="stylesheet" />-->
@@ -140,7 +141,20 @@
         <!--   <input type="file" id="btnBrowse" style="display:none" class="btn btn-primary" />-->
 
     </div>
+    <div class="row" style="padding-top:5px">
+    <div class="col-md-12" style="width: 72%">
+    <div ng-show="OperationSuccess==true" class="alert alert-success fade-in-out">
+        <a href="#" class="close" ng-click="OperationSuccess=false">&times;</a>
+        <strong>Success! </strong>File Upload Complete
+    </div>
+    <div ng-show="OperationFailure==true" class="alert alert-danger fade-in-out">
+        <a href="#" class="close" ng-click="OperationFailure=false">&times;</a>
+        <strong>Error!</strong> We are facing technical difficulties
+    </div>
+        </div>
+        </div>
 </div>
+
 <div class="row" style="padding-left:10px !important;padding-top:10px;padding-bottom:3px !important">
     <div class="col-md-12">
         <b>Documents to be Re-Scanned :</b>

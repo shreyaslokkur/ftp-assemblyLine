@@ -65,12 +65,12 @@
 
 <ul class="nav nav-tabs" role="tablist">
     <li class="active">
-        <a href="#AllDocuments"  role="tab" data-toggle="tab">
+        <a href="#AllDocuments" ng-click="IsAllDocuments=true;" role="tab" data-toggle="tab">
             <i class="fa fa-list-ul"></i> All Documents
         </a>
     </li>
-    <li><a href="#MyDocuments" role="tab" ng-click="getMydocuments()" data-toggle="tab">
-        <i class="fa fa-filter"></i> My Documents
+    <li><a href="#MyDocuments" role="tab" ng-click="IsAllDocuments=false;getMydocuments()" data-toggle="tab">
+        <i class="fa fa-filter"></i> My Documents <span>({{recordCount}})</span>
     </a>
     </li>
 </ul>
@@ -79,10 +79,19 @@
 
 <div class="tab-content">
     <div class="tab-pane fade active in" id="AllDocuments">
+
        <span style="max-width:98%;padding-left:10px;padding-right:10px;text-align:center">
+          <div ng-show="OperationSuccess==true" class="alert alert-success fade-in-out">
+              <a href="#" class="close" ng-click="OperationSuccess=false">&times;</a>
+              <strong>Success! </strong>{{successMsg}}
+          </div>
+    <div ng-show="OperationFailure==true" class="alert alert-danger fade-in-out">
+        <a href="#" class="close" ng-click="OperationFailure=false">&times;</a>
+        <strong>Error!</strong> We are facing technical difficulties
+    </div>
                        <table id="dOTable"  class="table table-bordered table-striped">
            
-           <thead>
+           <thead style="font-size: 12px;">
 
            <!-- <th>Doc Id</th>-->
            <th>Booklet No</th>
@@ -130,9 +139,17 @@
 
     <div class="tab-pane fade" id="MyDocuments">
        <span style="max-width:98%;padding-left:10px;padding-right:10px;text-align:center">
+            <div ng-show="OperationSuccess==true" class="alert alert-success fade-in-out">
+                <a href="#" class="close" ng-click="OperationSuccess=false">&times;</a>
+                <strong>Success! </strong>{{successMsg}}
+            </div>
+    <div ng-show="OperationFailure==true" class="alert alert-danger fade-in-out">
+        <a href="#" class="close" ng-click="OperationFailure=false">&times;</a>
+        <strong>Error!</strong> We are facing technical difficulties
+    </div>
                        <table id="dOTable"  class="table table-bordered table-striped">
            
-           <thead>
+           <thead style="font-size: 12px;">
 
            <!-- <th>Doc Id</th>-->
            <th>Booklet No</th>

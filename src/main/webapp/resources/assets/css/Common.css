@@ -29,3 +29,12 @@
     margin-left: 10px !important;
     margin-right: 10px !important;
 }
+
+.fade-in-out {
+    transition: 3s linear all;
+    opacity: 1;
+}
+
+.fade-in-out.ng-hide {
+    opacity: 0;
+}

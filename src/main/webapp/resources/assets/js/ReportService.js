@@ -265,25 +265,6 @@
             return deferred.promise;
         };
 
-
-        //Rescan
-        reportService.ViewRecord = function (record) {
-
-            var deferred = $q.defer();
-            $http.get('/do/view', {
-                params: {
-                    documentId: record.documentId
-                }
-            })
-                .success(function (data) {
-                    deferred.resolve(data);
-                }).error(function (msg, code) {
-                    deferred.reject(msg);
-                    $log.error(msg, code);
-                });
-            return deferred.promise;
-        };
-
         //Complete and send to approver
         reportService.CompleteRecord = function (record) {
 
@@ -350,9 +331,9 @@
             .success(function (data) {
                 deferred.resolve(data);
             }).error(function (msg, code) {
-                deferred.reject(msg);
-                $log.error(msg, code);
-            });
+        deferred.reject(msg);
+        $log.error(msg, code);
+    });
         return deferred.promise;
     };
         reportService.uploadFileToUrl = function (file,doc, uploadUrl) {
@@ -367,6 +348,7 @@
                 fd.append('documentId', doc.documentId);
             var data = 'file=' + fd;
            /* formData.append("file",file);*/
+            var deferred = $q.defer();
             $http({
                 method: 'POST',
                 url: uploadUrl,
@@ -377,8 +359,12 @@
                 }
             })
                 .success(function(data, status) {
-
-                })
+                    deferred.resolve(data);
+                }).error(function (msg, code) {
+                    deferred.reject(msg);
+                    $log.error(msg, code);
+                });
+            return deferred.promise;
 
         };
 

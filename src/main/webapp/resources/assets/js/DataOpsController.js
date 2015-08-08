@@ -1,11 +1,17 @@
 ﻿reportApp.controller('DataOpsController', ['$scope', '$modal','$log', 'ReportService',
                             function ($scope, $modal,$log, ReportService) {
-           
+
+
+                                $scope.OperationSuccess = false;
+                                $scope.OperationFailure = false;
+                                $scope.IsAllDocuments=true;
+
                                 //Initial Load
                                 var promise = ReportService.getAllRecords();
                                 promise.then(
                                    function (payload) {
                                        $scope.docRecords = payload;
+                                       $scope.getMydocuments();
                                    },
                                    function (errorPayload) {
                                        $log.error('failure loading movie', errorPayload);
@@ -32,11 +38,12 @@
                                 promise.then(
                                     function (payload) {
                                         $scope.MydocRecords = payload;
+                                        $scope.recordCount = $scope.MydocRecords.length;
                                     },
                                     function (errorPayload) {
                                         $log.error('failure: Error while getMydocuments()', errorPayload);
                                     });
-                            },
+                            }
 
 
                                 $scope.lockRecord = function (doc) {
@@ -60,25 +67,22 @@
                 promise.then(
                    function (payload) {
                        angular.extend(doc, payload);
-                      
-
+                       $scope.OperationSuccess = true;
+                       $scope.successMsg ="Document Sent for Re-scanning";
+                       if ($scope.IsAllDocuments) {
+                           var index = $scope.docRecords.indexOf(doc);
+                           $scope.docRecords.splice(index, 1);
+                       }
+                       else if(!$scope.IsAllDocuments)
+                       {
+                           var index = $scope.MydocRecords.indexOf(doc);
+                           $scope.MydocRecords.splice(index, 1);
+                       }
                    },
                    function (errorPayload) {
+                       $scope.OperationFailure = true;
                        $log.error('failure: Error while Re-Scanning loading document', errorPayload);
                    });
-            }
-
-            $scope.ViewRecord = function (doc) {
-                var promise = ReportService.ViewRecord(doc);
-                promise.then(
-                    function (payload) {
-                        angular.extend(doc, payload);
-
-
-                    },
-                    function (errorPayload) {
-                        $log.error('failure: Unable to view the document', errorPayload);
-                    });
             }
             
             $scope.CompleteRecord = function (doc) {
@@ -86,10 +90,21 @@
                 promise.then(
                    function (payload) {
                        angular.extend(doc, payload);
-
+                       $scope.OperationSuccess = true;
+                       $scope.successMsg ="Document sent to Approver";
+                       if ($scope.IsAllDocuments) {
+                           var index = $scope.docRecords.indexOf(doc);
+                           $scope.docRecords.splice(index, 1);
+                       }
+                       else if(!$scope.IsAllDocuments)
+                       {
+                           var index = $scope.MydocRecords.indexOf(doc);
+                           $scope.MydocRecords.splice(index, 1);
+                       }
 
                    },
                    function (errorPayload) {
+                       $scope.OperationFailure = true;
                        $log.error('failure: Error while Complete document', errorPayload);
                    });
             }
@@ -105,6 +120,9 @@
                         doc: function () {
                             return doc;
                         }
+
+
+
                     }
                 });
 

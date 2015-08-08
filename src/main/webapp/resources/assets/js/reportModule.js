@@ -24,8 +24,11 @@ reportApp.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'doc', 'R
                 angular.extend(doc, payload);
 
                 $scope.cancel();
+
+
             },
             function (errorPayload) {
+                $scope.OperationFailure = true;
                 $log.error('failure: Error while Re-Scanning loading document', errorPayload);
             });
     }

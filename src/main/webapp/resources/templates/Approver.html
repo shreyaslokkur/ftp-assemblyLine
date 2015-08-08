@@ -22,7 +22,7 @@
     <script src="../../resources/assets/js//ApproverController.js"></script>
     <script src="../../resources/assets/js/Directives.js"></script>
 
-    <link href="../../resources/assets/css/bootstrap.css" rel="stylesheet" />
+    <link href="../../resources/assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="../../resources/assets/css/Common.css" rel="stylesheet" />
     <link href="../../resources/assets/css/font-awesome.min.css" rel="stylesheet" />
     <link href="../../resources/assets/css/1-col-portfolio.css" rel="stylesheet" />
@@ -71,9 +71,18 @@
 
       
        <span style="max-width:98%;padding-left:10px;padding-right:10px;text-align:center">
+             <div ng-show="OperationSuccess==true" class="alert alert-success fade-in-out">
+                 <a href="#" class="close" ng-click="OperationSuccess=false">&times;</a>
+                 <strong>Success! </strong>{{successMsg}}
+             </div>
+    <div ng-show="OperationFailure==true" class="alert alert-danger fade-in-out">
+        <a href="#" class="close" ng-click="OperationFailure=false">&times;</a>
+        <strong>Error!</strong> We are facing technical difficulties
+    </div>
+           </div>
                        <table id="dOTable"  class="table table-bordered table-striped">
            
-           <thead>
+           <thead style="font-size: 12px;">
 
            <th>Doc Id</th>
            <th>Booklet No</th>
@@ -85,6 +94,7 @@
            <th>Completed At</th>
            <th>Completed By</th>
            <th>Query Level</th>
+           <th>View</th>
            <th>Approve</th>
            <th>Reject</th>
            <th>Comments</th>
@@ -105,8 +115,9 @@
                <td>{{doc.recCompletedOn}}</td>
                <td>{{doc.completedBy}}</td>
                <td ng-class="{'colorRed': doc.queryLevel > 3, '': doc.queryLevel < 3}">{{doc.queryLevel}}</td>
+               <td><a ng-href="{{doc.documentUrl}}" title="View file" target="_blank" class="btn btn-primary" ><i class="fa fa-search"></i></a></td>
                <td><button class="btn btn-success" title="Approve" ng-really-message="Are you sure You want to Approve?"  ng-really-click="approveRecord(doc)"><i class="fa fa-check"></i></button></td>
-               <td><button class="btn btn-danger" title="Reject" ng-really-message="Are you sure You want to reject?" ng-really-click="openCommentsPopup(doc)"  ><i class="fa fa-times"></i></button></td>
+               <td><button class="btn btn-danger" title="Reject"  ng-click="openCommentsPopup(doc)"  ><i class="fa fa-times"></i></button></td>
                <td><button class="btn btn-primary"  ng-click="ShowComments(doc);" title="View Comments"><i class="fa fa-comments"></i></button></td>
            </tr>
 
