@@ -212,6 +212,26 @@ public class DocumentUploadService implements IDocumentUploadService {
     }
 
     @Override
+    public List<DocumentDO> retrieveAllDocumentsWhichAreInHold() {
+        logger.info("Entered the method in document upload service to retrieve all documents which are in hold");
+
+        List<DocumentDO> documentDOList = new ArrayList<DocumentDO>();
+        try{
+            List<Document> allRecordsWhichAreInHold = documentUploadDao.getAllRecordsWhichAreInHold();
+            DocumentDO documentDO = null;
+            for(Document document : allRecordsWhichAreInHold){
+                documentDO = setDocumentDo(document);
+                documentDOList.add(documentDO);
+            }
+        }catch(Exception e){
+            logger.severe("Encountered exception in the method retrieve document: "+ e.getMessage());
+            System.out.println(e.getMessage());
+        }
+
+        return documentDOList;
+    }
+
+    @Override
     public List<DocumentDO> retrieveAllRescanDocuments() {
         logger.info("Entered the method in document upload service to retrieve all documents which need rescan");
 

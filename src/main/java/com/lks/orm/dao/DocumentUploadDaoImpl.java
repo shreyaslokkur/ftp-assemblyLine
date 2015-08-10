@@ -199,7 +199,7 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
         SessionFactory sessionFactory = getSessionFactory();
         Session session = sessionFactory.openSession();
         try{
-            String hql = "from Document d where d.state in ('RN')";
+            String hql = "from Document d where d.state in ('RN, LRN')";
             documentList = session.createQuery(hql).list();
 
         }catch (HibernateException e){
@@ -211,6 +211,24 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
         return documentList;
 
 
+    }
+
+    @Override
+    public List<Document> getAllRecordsWhichAreInHold() {
+        List<Document> documentList;
+        SessionFactory sessionFactory = getSessionFactory();
+        Session session = sessionFactory.openSession();
+        try{
+            String hql = "from Document d where d.state in ('HR, LHR')";
+            documentList = session.createQuery(hql).list();
+
+        }catch (HibernateException e){
+            throw new FALException("Unable to retrieve records which are in hold", e);
+        }finally {
+            session.close();
+        }
+
+        return documentList;
     }
 
     @Override

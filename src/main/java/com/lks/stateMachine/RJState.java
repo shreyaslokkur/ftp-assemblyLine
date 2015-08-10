@@ -18,7 +18,7 @@ public class RJState extends AbstractState {
 
     public static final Logger logger = Logger.getLogger(RJState.class.getName());
 
-    /*@Override
+    @Override
     public Document complete(Document document, String userId) {
 
         logger.info("Set the recStatus to complete");
@@ -31,7 +31,7 @@ public class RJState extends AbstractState {
         logger.info("Update the document into table");
         documentUploadDao.updateDocument(document);
         return document;
-    }*/
+    }
 
     @Override
     public Document lock(Document document, String userId) {
@@ -39,7 +39,6 @@ public class RJState extends AbstractState {
         logger.info("Update the lock flag to true and set the locked by field");
         document.setLocked(true);
         document.setLockedBy(userId);
-        document.setState(RecStatus.LNR);
 
         logger.info("Update the document: "+document.getDocumentId()+ " into the table");
         documentUploadDao.updateDocument(document);

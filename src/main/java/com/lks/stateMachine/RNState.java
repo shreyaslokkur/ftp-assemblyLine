@@ -33,7 +33,6 @@ public class RNState extends AbstractState {
         logger.info("Update the lock flag to true and set the locked by field");
         document.setLocked(true);
         document.setLockedBy(userId);
-        document.setState(RecStatus.LRR);
 
         logger.info("Update the document: "+document.getDocumentId()+ " into the table");
         documentUploadDao.updateDocument(document);

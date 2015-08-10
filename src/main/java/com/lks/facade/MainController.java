@@ -105,19 +105,6 @@ public class MainController {
 	public String login(@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "logout", required = false) String logout, HttpServletRequest request) {
 
-
-
-		/*ModelAndView model = new ModelAndView();
-		if (error != null) {
-			model.addObject("error", getErrorMessage(request, "SPRING_SECURITY_LAST_EXCEPTION"));
-		}
-
-		if (logout != null) {
-			model.addObject("msg", "You've been logged out successfully.");
-		}
-		model.setViewName("login");
-
-			return model;*/
 		if(error != null){
 			String errorMessage = getErrorMessage(request, "SPRING_SECURITY_LAST_EXCEPTION");
 			System.out.println("Login Error Message is: " + errorMessage);
@@ -270,6 +257,59 @@ public class MainController {
 
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value = "/scanner/lock")
+	public
+	@ResponseBody
+	DocumentDO lockRescanDocument(@RequestParam("documentId") int documentId){
+
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		FileOperationDO fileOperationDO = new FileOperationDO();
+		fileOperationDO.setDocOperations(DocOperations.LOCK);
+		fileOperationDO.setDocumentId(documentId);
+		fileOperationDO.setUserId(userDetails.getUsername());
+		DocumentDO documentDO = documentUploadService.performOperationOnDocument(fileOperationDO);
+
+
+		return documentDO;
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/scanner/getRescanDocuments")
+	public
+	@ResponseBody
+	List<DocumentDO> getRescanDocuments(@RequestParam("branchName") String branchName){
+
+
+		return documentUploadService.retrieveAllDocumentsWhichNeedRescan(branchName);
+
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/scanner/getRecordsWhichNeedRescan")
+	public
+	@ResponseBody
+	List<DocumentDO> getRecordsWhichNeedRescan(){
+		return documentUploadService.retrieveAllRescanDocuments();
+
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/do/getNewRecords")
+	public
+	@ResponseBody
+	List<DocumentDO> getNewRecords(){
+		return documentUploadService.retrieveAllNewAndLockedDocuments();
+
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/do/getAssignedRecords")
+	public
+	@ResponseBody
+	List<DocumentDO> getRecordsAssignedTo(){
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return documentUploadService.retrieveAllDocumentsAssignedTo(userDetails.getUsername());
+
+	}
+
+
+
 	@RequestMapping(method = RequestMethod.GET, value = "/do/lock")
 	public
 	@ResponseBody
@@ -286,15 +326,7 @@ public class MainController {
 		return documentDO;
 	}
 
-    @RequestMapping(method = RequestMethod.GET, value = "/scanner/getRescanDocuments")
-    public
-    @ResponseBody
-		List<DocumentDO> getRescanDocuments(@RequestParam("branchName") String branchName){
 
-
-        return documentUploadService.retrieveAllDocumentsWhichNeedRescan(branchName);
-
-    }
 
 	@RequestMapping(method = RequestMethod.GET, value = "/do/unlock")
 	public
@@ -361,25 +393,23 @@ public class MainController {
 		return documentDO;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/all/view")
+
+
+	@RequestMapping(method = RequestMethod.GET, value = "/qa/lock")
 	public
 	@ResponseBody
-	void viewPdfFile(@RequestParam("documentId") int documentId, HttpServletResponse response) throws ServletException, IOException{
+	DocumentDO lockNotApprovedDocument(@RequestParam("documentId") int documentId){
 
-		String documentUrl = documentUploadService.retrieveDocumentUrl(documentId);
-		File pdfFile = new File(documentUrl);
-		response.setContentType("application/pdf");
-		response.addHeader("Content-Disposition", "attachment; filename="+documentUrl+";");
-		response.setContentLength((int) pdfFile.length());
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		FileOperationDO fileOperationDO = new FileOperationDO();
+		fileOperationDO.setDocOperations(DocOperations.LOCK);
+		fileOperationDO.setDocumentId(documentId);
+		fileOperationDO.setUserId(userDetails.getUsername());
+		DocumentDO documentDO = documentUploadService.performOperationOnDocument(fileOperationDO);
 
-		FileInputStream fileInputStream = new FileInputStream(pdfFile);
-		OutputStream outputStream = response.getOutputStream();
-		int bytes;
-		while((bytes = fileInputStream.read()) != -1){
-			outputStream.write(bytes);
-		}
+
+		return documentDO;
 	}
-
 
 	@RequestMapping(method = RequestMethod.GET, value = "/qa/approve")
 	public
@@ -423,16 +453,54 @@ public class MainController {
 
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/scanner/rescan")
+
+
+	@RequestMapping(method = RequestMethod.GET, value = "/all/view")
 	public
 	@ResponseBody
-	DocumentDO fileRescanned(@RequestParam("documentId") int documentId, @RequestParam("assignTo") String assignedTo){
+	void viewPdfFile(@RequestParam("documentId") int documentId, HttpServletResponse response) throws ServletException, IOException{
+
+		String documentUrl = documentUploadService.retrieveDocumentUrl(documentId);
+		File pdfFile = new File(documentUrl);
+		response.setContentType("application/pdf");
+		response.addHeader("Content-Disposition", "attachment; filename="+documentUrl+";");
+		response.setContentLength((int) pdfFile.length());
+
+		FileInputStream fileInputStream = new FileInputStream(pdfFile);
+		OutputStream outputStream = response.getOutputStream();
+		int bytes;
+		while((bytes = fileInputStream.read()) != -1){
+			outputStream.write(bytes);
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/resolver/lock")
+	public
+	@ResponseBody
+	DocumentDO lockHoldDocument(@RequestParam("documentId") int documentId){
 
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		FileOperationDO fileOperationDO = new FileOperationDO();
-		/*fileOperationDO.setDocOperations(DocOperations.);*/
+		fileOperationDO.setDocOperations(DocOperations.LOCK);
 		fileOperationDO.setDocumentId(documentId);
 		fileOperationDO.setUserId(userDetails.getUsername());
+		DocumentDO documentDO = documentUploadService.performOperationOnDocument(fileOperationDO);
+
+
+		return documentDO;
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/resolver/resolve")
+	public
+	@ResponseBody
+	DocumentDO fileResolve(@RequestParam("documentId") int documentId, @RequestParam("comment") String comment, @RequestParam("assignTo") String assignedTo){
+
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		FileOperationDO fileOperationDO = new FileOperationDO();
+		fileOperationDO.setDocOperations(DocOperations.RESOLVE);
+		fileOperationDO.setDocumentId(documentId);
+		fileOperationDO.setUserId(userDetails.getUsername());
+		fileOperationDO.setComment(comment);
 		fileOperationDO.setAssignedTo(assignedTo);
 		DocumentDO documentDO = documentUploadService.performOperationOnDocument(fileOperationDO);
 
@@ -440,30 +508,19 @@ public class MainController {
 		return documentDO;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/do/getNewRecords")
+	@RequestMapping(method = RequestMethod.GET, value = "/resolver/getRecordsWhichAreInHold")
 	public
 	@ResponseBody
-	List<DocumentDO> getNewRecords(){
-		return documentUploadService.retrieveAllNewAndLockedDocuments();
+	List<DocumentDO> getRecordsWhichAreInHold(){
+		return documentUploadService.retrieveAllDocumentsWhichNeedApproval();
 
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/do/getAssignedRecords")
-	public
-	@ResponseBody
-	List<DocumentDO> getRecordsAssignedTo(){
-		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		return documentUploadService.retrieveAllDocumentsAssignedTo(userDetails.getUsername());
 
-	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/scanner/getRecordsWhichNeedRescan")
-	public
-	@ResponseBody
-	List<DocumentDO> getRecordsWhichNeedRescan(){
-		return documentUploadService.retrieveAllRescanDocuments();
 
-	}
+
+
 
 
 

@@ -53,8 +53,6 @@ public class HRState extends AbstractState {
         logger.info("Update the lock flag to true and set the locked by field");
         document.setLocked(true);
         document.setLockedBy(userId);
-        document.setState(RecStatus.LHR);
-
         logger.info("Update the document: "+document.getDocumentId()+ " into the table");
         documentUploadDao.updateDocument(document);
         return document;
