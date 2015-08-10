@@ -380,13 +380,14 @@ public class MainController {
 	@RequestMapping(method = RequestMethod.GET, value = "/do/rescan")
 	public
 	@ResponseBody
-	DocumentDO fileRescan(@RequestParam("documentId") int documentId){
+	DocumentDO fileRescan(@RequestParam("documentId") int documentId, @RequestParam("comment") String comment){
 
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		FileOperationDO fileOperationDO = new FileOperationDO();
 		fileOperationDO.setDocOperations(DocOperations.RESCAN);
 		fileOperationDO.setDocumentId(documentId);
 		fileOperationDO.setUserId(userDetails.getUsername());
+		fileOperationDO.setComment(comment);
 		DocumentDO documentDO = documentUploadService.performOperationOnDocument(fileOperationDO);
 
 

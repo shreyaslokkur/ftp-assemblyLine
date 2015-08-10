@@ -112,7 +112,24 @@ public class NRState extends AbstractState {
     }
 
     @Override
-    public Document rescan(Document document) {
+    public Document rescan(Document document, String comment, String userId) {
+
+        logger.info("Creating a new comment object");
+        Comments comments = new Comments();
+        comments.setComments(comment);
+        comments.setCommentedBy(userId);
+        comments.setState(RecStatus.RN);
+        comments.setDocumentId(document.getDocumentId());
+
+        logger.info("Add the comments into the docuemnt object");
+        if(document.getComments() == null){
+            List<Comments> commentsList = new ArrayList<Comments>();
+            commentsList.add(comments);
+            document.setComments(commentsList);
+        }else {
+            document.getComments().add(comments);
+        }
+
         logger.info("Rescan the document, by settting the isRescanNeeded flag to true and remove the lock flag, locked by flag");
         document.setRescanNeeded(true);
         document.setLockedBy(null);

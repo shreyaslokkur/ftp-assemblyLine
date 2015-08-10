@@ -20,6 +20,6 @@ public interface IState {
     public Document approve(Document document, String userId);
     public Document reject(Document document, String comments, String assignedTo, String userId);
     public Document archive(Document document);
-    public Document rescan(Document document);
+    public Document rescan(Document document, String comment, String userId);
     public Document reupload(Document document);
 }

@@ -70,7 +70,7 @@ public class AbstractState implements IState {
     }
 
     @Override
-    public Document rescan(Document document) {
+    public Document rescan(Document document, String comment, String userId) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 

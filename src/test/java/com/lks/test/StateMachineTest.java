@@ -61,7 +61,7 @@ public class StateMachineTest extends AbstractTest {
         FileOperationDO fileOperationDO = new FileOperationDO();
         fileOperationDO.setDocumentId(documentId);
         fileOperationDO.setDocOperations(DocOperations.RESCAN);
-        //fileOperationDO.setComment("I am not sure, what needs to be done");
+        fileOperationDO.setComment("Document corrupted");
         fileOperationDO.setUserId("data Operator");
         documentUploadService.performOperationOnDocument(fileOperationDO);
 
@@ -70,7 +70,7 @@ public class StateMachineTest extends AbstractTest {
         Assert.assertNotNull(document);
         Assert.assertEquals(document.getState(), RecStatus.RN);
         Assert.assertEquals(document.isRescanNeeded(), true);
-       //Assert.assertEquals(document.getComments().get(0).getComments(), fileOperationDO.getComment());
+       Assert.assertEquals(document.getComments().get(0).getComments(), fileOperationDO.getComment());
 
     }
 
@@ -149,7 +149,7 @@ public class StateMachineTest extends AbstractTest {
         Assert.assertNotNull(document);
         Assert.assertEquals(document.getState(), RecStatus.HR);
         Assert.assertEquals(document.isOnHold(), true);
-        Assert.assertEquals(document.getComments().get(0).getComments(), fileOperationDO.getComment());
+        Assert.assertEquals(document.getComments().get(1).getComments(), fileOperationDO.getComment());
 
     }
 
@@ -186,7 +186,7 @@ public class StateMachineTest extends AbstractTest {
         Assert.assertNotNull(document);
         Assert.assertEquals(document.getState(), RecStatus.NR);
         Assert.assertEquals(document.isOnHold(), false);
-        Assert.assertEquals(document.getComments().get(1).getComments(), fileOperationDO.getComment());
+        Assert.assertEquals(document.getComments().get(2).getComments(), fileOperationDO.getComment());
 
     }
 

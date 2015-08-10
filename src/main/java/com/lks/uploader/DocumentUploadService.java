@@ -107,7 +107,7 @@ public class DocumentUploadService implements IDocumentUploadService {
         }else if (DocOperations.UNLOCK.equals(docOperations)){
             updatedDocument = currentState.unlock(document);
         }else if(DocOperations.RESCAN.equals(docOperations)){
-            updatedDocument = currentState.rescan(document);
+            updatedDocument = currentState.rescan(document,fileOperationDO.getComment(), fileOperationDO.getUserId());
         }
 
         DocumentDO documentDO = setDocumentDo(updatedDocument);
