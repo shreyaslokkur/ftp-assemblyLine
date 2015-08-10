@@ -9,10 +9,13 @@
             <generator class="assigned" />
         </id>
         <property name="password" type="string">
-            <column name="password" length="60" not-null="true" />
+            <column name="password" length="100" not-null="true" />
         </property>
         <property name="enabled" type="boolean">
             <column name="enabled" not-null="true" />
+        </property>
+        <property name="branchName" type="string">
+            <column name="branchName" length="45" not-null="true" />
         </property>
         <set name="userRole" table="user_roles" inverse="true" lazy="true" fetch="select">
             <key>

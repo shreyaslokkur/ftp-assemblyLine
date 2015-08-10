@@ -41,7 +41,7 @@ public class UserDaoImpl implements UserDao {
 		String key = null;
 		try{
 			String hashedPassword = UserUtils.createHashedPassword(password);
-			User user = new User(username, hashedPassword, true);
+			User user = new User(username, hashedPassword, branchName, true);
 			UserRole userRole = new UserRole(username, role);
 			key = (String) session.save(user);
 			userRole.setUser(user);
@@ -55,11 +55,12 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void editExisitingUser(User user) {
+	public boolean editExisitingUser(User user) {
 		SessionFactory sessionFactory = getSessionFactory();
 		Session session = sessionFactory.openSession();
 		try{
 			session.merge(user);
+			return true;
 		}catch (HibernateException e) {
 			throw new FALException("Unable to update user with username"+ user.getUsername(), e);
 		}finally {
@@ -69,12 +70,12 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void deleteExistingUser(String username) {
+	public boolean deleteExistingUser(String username) {
 		SessionFactory sessionFactory = getSessionFactory();
 		Session session = sessionFactory.openSession();
 		try{
 
-			deleteById(User.class, username,session);
+			return deleteById(User.class, username,session);
 
 		}catch (HibernateException e) {
 			throw new FALException("Unable to delete user with username"+ username, e);
@@ -83,6 +84,43 @@ public class UserDaoImpl implements UserDao {
 			session.close();
 		}
 
+	}
+
+	@Override
+	public List<User> retrieveAllUsers() {
+		SessionFactory sessionFactory = getSessionFactory();
+		Session session = sessionFactory.getCurrentSession();
+		List<User> userList = new ArrayList<User>();
+		try{
+			userList = session.createQuery("from Users u")
+					.list();
+
+		}catch (HibernateException e){
+			throw new FALException("Unable to retrieve all branches", e);
+		}finally {
+			session.close();
+		}
+
+		return userList;
+	}
+
+	@Override
+	public List<String> retrieveAllUsersInRole(String role){
+		SessionFactory sessionFactory = getSessionFactory();
+		Session session = sessionFactory.getCurrentSession();
+		List<String> userList = new ArrayList<String>();
+		try{
+			userList = session.createQuery("from User_Roles u where u.role=?")
+					.setParameter("role", role)
+					.list();
+
+		}catch (HibernateException e){
+			throw new FALException("Unable to retrieve all branches", e);
+		}finally {
+			session.close();
+		}
+
+		return userList;
 	}
 
 	private boolean deleteById(Class<?> type, Serializable id, Session session) {

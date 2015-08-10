@@ -90,19 +90,61 @@ public class AuthenticationService implements org.springframework.security.core.
 	}
 
 	@Override
-	public int resetPassword(UserModelDO userModelDO) {
+	public boolean resetPassword(UserModelDO userModelDO) {
 		com.lks.orm.entities.User user = userDao.findByUserName(userModelDO.getUsername());
 		user.setPassword(userModelDO.getPassword());
-		userDao.editExisitingUser(user);
-		return 0;
+		return userDao.editExisitingUser(user);
+
 	}
 
 	@Override
-	public void deleteUser(UserModelDO userModelDO) {
+	public boolean deleteUser(UserModelDO userModelDO) {
 		if(userDao.findByUserName(userModelDO.getUsername()) != null){
-			userDao.deleteExistingUser(userModelDO.getUsername());
+			return userDao.deleteExistingUser(userModelDO.getUsername());
 		}else
 			throw new FALException("User does not exist: "+ userModelDO.getUsername());
 
+	}
+
+	@Override
+	public UserModelDO findUser(String username) {
+		com.lks.orm.entities.User user = userDao.findByUserName(username);
+		UserModelDO userModelDO = null;
+		if(user != null){
+			userModelDO = new UserModelDO();
+			userModelDO.setUsername(user.getUsername());
+			userModelDO.setBranchName(user.getBranchName());
+			Set<UserRole> userRoleSet = user.getUserRole();
+			for(UserRole userRole : userRoleSet){
+				userModelDO.setUserRole(userRole.getRole());
+				break;
+			}
+		}
+
+		return userModelDO;
+	}
+
+	@Override
+	public List<String> findUsersByRole(String role) {
+		return userDao.retrieveAllUsersInRole(role);
+	}
+
+	@Override
+	public List<UserModelDO> findAllUsers() {
+		List<com.lks.orm.entities.User> users = userDao.retrieveAllUsers();
+		List<UserModelDO> userModelDOList = new ArrayList<>();
+		UserModelDO userModelDO = null;
+		for(com.lks.orm.entities.User user : users){
+			userModelDO = new UserModelDO();
+			userModelDO.setUsername(user.getUsername());
+			userModelDO.setBranchName(user.getBranchName());
+			Set<UserRole> userRoleSet = user.getUserRole();
+			for(UserRole userRole : userRoleSet){
+				userModelDO.setUserRole(userRole.getRole());
+				break;
+			}
+			userModelDOList.add(userModelDO);
+		}
+		return userModelDOList;
 	}
 }

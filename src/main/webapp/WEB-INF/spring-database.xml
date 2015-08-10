@@ -77,11 +77,18 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
+	<bean id="branchDao" class="com.lks.orm.dao.BranchDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
 	<bean id="commentsDao" class="com.lks.orm.dao.CommentsDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
 	<bean id="documentUploadService" class="com.lks.uploader.DocumentUploadService">
+	</bean>
+
+	<bean id="branchService" class="com.lks.security.BranchService">
 	</bean>
 
 	<bean id="userDaoFactory" class="com.lks.orm.dao.UserDaoFactory">

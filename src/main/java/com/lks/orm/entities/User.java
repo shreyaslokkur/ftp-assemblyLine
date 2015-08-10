@@ -11,14 +11,16 @@ public class User implements IEntity{
 	private String username;
 	private String password;
 	private boolean enabled;
+	private String branchName;
 	private Set<UserRole> userRole = new HashSet<UserRole>(0);
 
 	public User() {
 	}
 
-	public User(String username, String password, boolean enabled) {
+	public User(String username, String password, String branchName, boolean enabled) {
 		this.username = username;
 		this.password = password;
+		this.branchName = branchName;
 		this.enabled = enabled;
 	}
 
@@ -52,6 +54,14 @@ public class User implements IEntity{
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getBranchName() {
+		return branchName;
+	}
+
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
 	}
 
 	public boolean isEnabled() {

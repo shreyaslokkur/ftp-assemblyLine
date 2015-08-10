@@ -6,9 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.lks.core.enums.DocOperations;
-import com.lks.core.model.DocumentDO;
-import com.lks.core.model.FileOperationDO;
-import com.lks.core.model.FileReceivedForUploadDO;
+import com.lks.core.model.*;
+import com.lks.security.IBranchService;
+import com.lks.security.IUserService;
 import com.lks.uploader.IDocumentUploadService;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -38,6 +38,12 @@ public class MainController {
 
     @Resource(name = "documentUploadService")
 	IDocumentUploadService documentUploadService;
+
+	@Resource(name = "branchService")
+	IBranchService branchService;
+
+	@Resource(name = "userDetailService")
+	IUserService userService;
 
 	@RequestMapping(value = { "/welcome**" }, method = RequestMethod.GET)
 	public ModelAndView defaultPage() {
@@ -521,16 +527,78 @@ public class MainController {
 	@RequestMapping(method = RequestMethod.POST, value = "/admin/createnewuser")
 	public
 	@ResponseBody
-	int createNewUser(){
-
-
-
-
-
-
-		return -1;
+	String createNewUser(){
+		return null;
 	}
 
+	@RequestMapping(method = RequestMethod.POST, value = "/admin/editPassword")
+	public
+	@ResponseBody
+	boolean editPasswordOfUser(){
+		return false;
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/admin/deleteUser")
+	public
+	@ResponseBody
+	boolean deleteUser(@RequestParam("username") String username){
+		UserModelDO userModelDO = new UserModelDO();
+		userModelDO.setUsername( username);
+		return userService.deleteUser(userModelDO);
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/admin/getCurrentUser")
+	public
+	@ResponseBody
+	UserModelDO getUser(){
+		UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return userService.findUser(principal.getUsername());
+
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/admin/getAllUsersForRole")
+	public
+	@ResponseBody
+	List<String> getUsersForRole(@RequestParam("role") String role){
+		return userService.findUsersByRole(role);
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/admin/getAllUsers")
+	public
+	@ResponseBody
+	List<UserModelDO> getAllUsers(@RequestParam("role") String role){
+		return userService.findAllUsers();
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/admin/createnewbranch")
+	public
+	@ResponseBody
+	String createNewBranch(){
+		return null;
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/admin/editBranchAddress")
+	public
+	@ResponseBody
+	String editBranchAddress(){
+		return null;
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/admin/deleteBranch")
+	public
+	@ResponseBody
+	boolean deleteBranch(@RequestParam("branchName") String branchName){
+		BranchDO branchDO = new BranchDO();
+		branchDO.setBranchName(branchName);
+		return branchService.deleteBranch(branchDO);
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/admin/getAllBranches")
+	public
+	@ResponseBody
+	List<BranchDO> getAllBranches(){
+		return branchService.getAllBranches();
+	}
 
 
 

@@ -5,10 +5,11 @@ package com.lks.core.enums;
  */
 public enum UserRoles {
 
-    DATAOPERATOR("ROLE_DO"),
-    SCANNER("ROLE_SCANNER"),
-    APPROVER("ROLE_APPROVER"),
-    ADMIN("ROLE_ADMIN");
+    ROLE_DO("Data Operator"),
+    ROLE_SCANNER("Scanner"),
+    ROLE_RESOLVER("Resolver"),
+    ROLE_APPROVER("Approver"),
+    ROLE_ADMIN("Administrator");
 
     private String roleName;
 
