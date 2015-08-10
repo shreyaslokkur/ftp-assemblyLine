@@ -518,6 +518,20 @@ public class MainController {
 	}
 
 
+	@RequestMapping(method = RequestMethod.POST, value = "/admin/createnewuser")
+	public
+	@ResponseBody
+	int createNewUser(){
+
+
+
+
+
+
+		return -1;
+	}
+
+
 
 
 

@@ -31,8 +31,13 @@
 
 	<authentication-manager>
 		<authentication-provider user-service-ref="userDetailService" >
-			<password-encoder hash="sha"/>
+			<password-encoder hash="bcrypt"/>
 		</authentication-provider>
 	</authentication-manager>
+
+	<beans:bean id="encoder"
+				class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+		<beans:constructor-arg name="strength" value="11" />
+	</beans:bean>
 
 </beans:beans>

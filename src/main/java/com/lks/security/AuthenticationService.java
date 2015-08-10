@@ -5,12 +5,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.lks.core.FALException;
+import com.lks.core.model.UserModelDO;
 import com.lks.orm.dao.UserDaoFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.lks.orm.dao.UserDao;
@@ -18,11 +19,9 @@ import com.lks.orm.entities.UserRole;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
-
 @Transactional
 @Service("userDetailService")
-public class AuthenticationService implements org.springframework.security.core.userdetails.UserDetailsService {
+public class AuthenticationService implements org.springframework.security.core.userdetails.UserDetailsService, IUserService {
 
 
 	private UserDao userDao;
@@ -80,4 +79,30 @@ public class AuthenticationService implements org.springframework.security.core.
 		this.userDao = userDao;
 	}
 
+	@Override
+	public String createNewUser(UserModelDO userModelDO) {
+		userDao = UserDaoFactory.getUserDao();
+		//check if the user exists already
+		if(userDao.findByUserName(userModelDO.getUsername()) == null)
+			return userDao.createNewUser(userModelDO.getUsername(), userModelDO.getPassword(), userModelDO.getBranchName(), userModelDO.getUserRole());
+		else
+			throw new FALException("User already Exists");
+	}
+
+	@Override
+	public int resetPassword(UserModelDO userModelDO) {
+		com.lks.orm.entities.User user = userDao.findByUserName(userModelDO.getUsername());
+		user.setPassword(userModelDO.getPassword());
+		userDao.editExisitingUser(user);
+		return 0;
+	}
+
+	@Override
+	public void deleteUser(UserModelDO userModelDO) {
+		if(userDao.findByUserName(userModelDO.getUsername()) != null){
+			userDao.deleteExistingUser(userModelDO.getUsername());
+		}else
+			throw new FALException("User does not exist: "+ userModelDO.getUsername());
+
+	}
 }
