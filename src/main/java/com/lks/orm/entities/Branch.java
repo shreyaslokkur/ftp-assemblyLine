@@ -2,14 +2,27 @@ package com.lks.orm.entities;
 
 public class Branch implements IEntity {
 
+	private int branchCode;
 	private String branchName;
-	private String branchAddress;
+	private String zone;
+	private String region;
 	private boolean enabled;
 
-	public Branch(String branchName, String branchAddress, boolean enabled) {
+
+	public Branch(int branchCode, String branchName, String zone, String region, boolean enabled) {
+		this.branchCode = branchCode;
 		this.branchName = branchName;
-		this.branchAddress = branchAddress;
+		this.zone = zone;
+		this.region = region;
 		this.enabled = enabled;
+	}
+
+	public int getBranchCode() {
+		return branchCode;
+	}
+
+	public void setBranchCode(int branchCode) {
+		this.branchCode = branchCode;
 	}
 
 	public String getBranchName() {
@@ -20,12 +33,20 @@ public class Branch implements IEntity {
 		this.branchName = branchName;
 	}
 
-	public String getBranchAddress() {
-		return branchAddress;
+	public String getZone() {
+		return zone;
 	}
 
-	public void setBranchAddress(String branchAddress) {
-		this.branchAddress = branchAddress;
+	public void setZone(String zone) {
+		this.zone = zone;
+	}
+
+	public String getRegion() {
+		return region;
+	}
+
+	public void setRegion(String region) {
+		this.region = region;
 	}
 
 	public boolean isEnabled() {

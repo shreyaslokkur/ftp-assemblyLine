@@ -591,9 +591,9 @@ public class MainController {
 	@RequestMapping(method = RequestMethod.GET, value = "/admin/deleteBranch")
 	public
 	@ResponseBody
-	boolean deleteBranch(@RequestParam("branchName") String branchName){
+	boolean deleteBranch(@RequestParam("branchCode") int branchCode){
 		BranchDO branchDO = new BranchDO();
-		branchDO.setBranchName(branchName);
+		branchDO.setBranchCode(branchCode);
 		return branchService.deleteBranch(branchDO);
 	}
 

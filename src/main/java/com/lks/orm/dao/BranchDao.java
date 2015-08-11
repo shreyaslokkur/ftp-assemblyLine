@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface BranchDao {
 
-	String createBranch(String branchName, String branchAddress);
+	String createBranch(int branchCode, String branchName, String zone, String region);
     List<Branch> retrieveAllBranches();
-    Branch retrieveBranch(String branchName);
+    Branch retrieveBranch(int branchCode);
     boolean editBranch(Branch branch);
-    boolean deleteExistingBranch(String branchName);
+    boolean deleteExistingBranch(int branchCode);
 }

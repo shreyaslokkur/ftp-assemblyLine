@@ -28,10 +28,10 @@ public class BranchDaoImpl implements BranchDao {
 
 
     @Override
-    public String createBranch(String branchName, String branchAddress) {
+    public String createBranch(int branchCode, String branchName,String zone, String region) {
         SessionFactory sessionFactory = getSessionFactory();
         Session session = sessionFactory.openSession();
-        Branch branch = new Branch(branchName, branchAddress, true);
+        Branch branch = new Branch(branchCode,branchName, zone, region, true);
         String key = null;
         try{
             key = (String) session.save(branch);
@@ -62,16 +62,16 @@ public class BranchDaoImpl implements BranchDao {
     }
 
     @Override
-    public Branch retrieveBranch(String branchName) {
+    public Branch retrieveBranch(int branchCode) {
         SessionFactory sessionFactory = getSessionFactory();
         Session session = sessionFactory.getCurrentSession();
         Branch branch = null;
         try{
-            branch = (Branch) session.createQuery("from Branch b where b.branchName=?")
-                    .setParameter(0, branchName).uniqueResult();
+            branch = (Branch) session.createQuery("from Branch b where b.branchCode=?")
+                    .setParameter(0, branchCode).uniqueResult();
 
         }catch (HibernateException e){
-            throw new FALException("Unable to retrieve branch from table with branch name: "+ branchName, e);
+            throw new FALException("Unable to retrieve branch from table with branch code: "+ branchCode, e);
         }finally {
             session.close();
         }
@@ -95,15 +95,15 @@ public class BranchDaoImpl implements BranchDao {
     }
 
     @Override
-    public boolean deleteExistingBranch(String branchName) {
+    public boolean deleteExistingBranch(int branchCode) {
         SessionFactory sessionFactory = getSessionFactory();
         Session session = sessionFactory.openSession();
         try{
 
-            return deleteById(Branch.class, branchName,session);
+            return deleteById(Branch.class, branchCode,session);
 
         }catch (HibernateException e) {
-            throw new FALException("Unable to delete branch with branchName"+ branchName, e);
+            throw new FALException("Unable to delete branch with branchCode"+ branchCode, e);
         }finally {
             session.flush();
             session.close();

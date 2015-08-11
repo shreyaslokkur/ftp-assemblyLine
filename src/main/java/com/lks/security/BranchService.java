@@ -20,23 +20,23 @@ public class BranchService implements IBranchService {
     @Override
     public String createNewBranch(BranchDO branchDO) {
         //check if the user exists already
-        if(branchDao.retrieveBranch(branchDO.getBranchName()) == null)
-            return branchDao.createBranch(branchDO.getBranchName(), branchDO.getBranchAddress());
+        if(branchDao.retrieveBranch(branchDO.getBranchCode()) == null)
+            return branchDao.createBranch(branchDO.getBranchCode(),branchDO.getBranchName(), branchDO.getZone(), branchDO.getRegion());
         else
             throw new FALException("Branch already Exists");
     }
 
     @Override
-    public boolean editBranchAddress(BranchDO branchDO) {
-        Branch branch = branchDao.retrieveBranch(branchDO.getBranchName());
+    public boolean editBranch(BranchDO branchDO) {
+        Branch branch = branchDao.retrieveBranch(branchDO.getBranchCode());
         branch.setBranchName(branchDO.getBranchName());
         return branchDao.editBranch(branch);
     }
 
     @Override
     public boolean deleteBranch(BranchDO branchDO) {
-        if(branchDao.retrieveBranch(branchDO.getBranchName()) != null){
-            return branchDao.deleteExistingBranch(branchDO.getBranchName());
+        if(branchDao.retrieveBranch(branchDO.getBranchCode()) != null){
+            return branchDao.deleteExistingBranch(branchDO.getBranchCode());
         }else
             throw new FALException("Branch does not exist: "+  branchDO.getBranchName());
 
@@ -49,8 +49,10 @@ public class BranchService implements IBranchService {
         BranchDO branchDO = null;
         for(Branch branch : branchList){
             branchDO = new BranchDO();
+            branchDO.setBranchCode(branch.getBranchCode());
             branchDO.setBranchName(branch.getBranchName());
-            branchDO.setBranchAddress( branch.getBranchAddress());
+            branchDO.setZone( branch.getZone());
+            branchDO.setRegion(branch.getRegion());
             branchDOList.add(branchDO);
         }
         return branchDOList;

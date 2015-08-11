@@ -5,8 +5,18 @@ package com.lks.core.model;
  */
 public class BranchDO extends AbstractDO {
 
+    private int branchCode;
     private String branchName;
-    private String branchAddress;
+    private String zone;
+    private String region;
+
+    public int getBranchCode() {
+        return branchCode;
+    }
+
+    public void setBranchCode(int branchCode) {
+        this.branchCode = branchCode;
+    }
 
     public String getBranchName() {
         return branchName;
@@ -16,11 +26,19 @@ public class BranchDO extends AbstractDO {
         this.branchName = branchName;
     }
 
-    public String getBranchAddress() {
-        return branchAddress;
+    public String getZone() {
+        return zone;
     }
 
-    public void setBranchAddress(String branchAddress) {
-        this.branchAddress = branchAddress;
+    public void setZone(String zone) {
+        this.zone = zone;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
     }
 }

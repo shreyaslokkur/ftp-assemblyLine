@@ -4,12 +4,18 @@
 <hibernate-mapping>
     <class name="com.lks.orm.entities.Branch" table="branch" catalog="test">
 
-        <id name="branchName" type="string">
-            <column name="branchName" length="45" not-null="true" />
+        <id name="branchCode">
+            <column name="branchCode" not-null="true" />
             <generator class="assigned" />
         </id>
-        <property name="branchAddress" type="string">
-            <column name="password" length="60" not-null="true" />
+        <property name="branchName" type="string">
+            <column name="branchName" length="60" not-null="true" />
+        </property>
+        <property name="zone" type="string">
+            <column name="zone" length="60" not-null="true" />
+        </property>
+        <property name="region" type="string">
+            <column name="region" length="60" not-null="true" />
         </property>
         <property name="enabled" type="boolean">
             <column name="enabled" not-null="true" />
