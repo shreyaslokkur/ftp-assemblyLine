@@ -36,6 +36,8 @@ public class NARState extends AbstractState {
         document.setState(RecStatus.AR);
         document.setApprovedBy(userId);
         document.setApproved(true);
+        document.setLocked(false);
+        document.setLockedBy(null);
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         document.setRecApprovedOn(simpleDateFormat.format(date));
@@ -74,6 +76,8 @@ public class NARState extends AbstractState {
         document.setAssignedTo(assignedTo);
         document.setApprovedBy(userId);
         document.setApproved(false);
+        document.setLocked(false);
+        document.setLockedBy(null);
         documentUploadDao.updateDocument(document);
         return document;
 

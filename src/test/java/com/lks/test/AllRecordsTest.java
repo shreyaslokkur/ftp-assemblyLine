@@ -19,7 +19,7 @@ public class AllRecordsTest extends AbstractTest {
             fileReceivedForUploadDO = new FileReceivedForUploadDO();
             fileReceivedForUploadDO.setFileName("test.txt");
             fileReceivedForUploadDO.setFileLocation("/src/test/resources/test.txt");
-            fileReceivedForUploadDO.setBranchName("abc");
+            fileReceivedForUploadDO.setBranchCode(3000);
             fileReceivedForUploadDO.setCreatedBy("scanner");
             fileReceivedForUploadDO.setPlaceOfMeeting("bangalore");
             fileReceivedForUploadDO.setApplicationNo(123);

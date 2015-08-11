@@ -39,10 +39,15 @@ public class HRState extends AbstractState {
         }
 
         logger.info("Update the assignedTo, onHold flag and recStatus");
-        document.setOnHold(false);
+        if(assignedTo == null || assignedTo.length() == 0){
+            assignedTo = document.getPutOnHoldBy();
+        }
         document.setAssignedTo(assignedTo);
+        document.setPutOnHoldBy(null);
+        document.setOnHold(false);
         document.setState(RecStatus.NR);
-
+        document.setLocked(false);
+        document.setLockedBy(null);
         logger.info("Update the document: "+document.getDocumentId()+" in the table");
         documentUploadDao.updateDocument(document);
         return document;

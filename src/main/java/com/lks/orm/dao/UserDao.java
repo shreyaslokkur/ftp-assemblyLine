@@ -7,7 +7,7 @@ import java.util.List;
 public interface UserDao {
 
 	User findByUserName(String username);
-	String createNewUser(String username, String password, String branchName, String role);
+	String createNewUser(String username, String password, int branchCode, String role);
 	boolean editExisitingUser(User user);
 	boolean deleteExistingUser(String username);
 	List<User> retrieveAllUsers();

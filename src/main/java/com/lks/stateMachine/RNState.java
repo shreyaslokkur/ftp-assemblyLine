@@ -23,6 +23,8 @@ public class RNState extends AbstractState {
         logger.info("Reset state to NR, rescanNeededFlag to false");
         document.setState(RecStatus.NR);
         document.setRescanNeeded(false);
+        document.setLocked(false);
+        document.setLockedBy(null);
         documentUploadDao.updateDocument(document);
         return document;
 

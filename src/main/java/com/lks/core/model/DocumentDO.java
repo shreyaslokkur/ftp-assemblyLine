@@ -16,7 +16,7 @@ public class DocumentDO extends AbstractDO {
     private String fileLocation;
     private String documentUrl = new String("/all/view?documentId=");
     private String createdBy;
-    private String branchName;
+    private int branchCode;
     private String placeOfMeeting;
     private int bookletNo;
     private int applicationNo;
@@ -34,14 +34,15 @@ public class DocumentDO extends AbstractDO {
     private String recCreatedOn;
     private String recCompletedOn;
     private String recApprovedOn;
+    private boolean hasCrossedTat;
 
-    public DocumentDO(int documentId,RecStatus state, String fileName, String fileLocation, String createdBy, String branchName, String placeOfMeeting, int bookletNo, int applicationNo, int numOfCustomers, String lockedBy, String completedBy, String approvedBy, String assignedTo, int queryLevel, boolean onHold, boolean locked, boolean approved, boolean rescanNeeded, List<Comments> comments, String recCreatedOn, String recCompletedOn, String recApprovedOn) {
+    public DocumentDO(int documentId,RecStatus state, String fileName, String fileLocation, String createdBy, int branchCode, String placeOfMeeting, int bookletNo, int applicationNo, int numOfCustomers, String lockedBy, String completedBy, String approvedBy, String assignedTo, int queryLevel, boolean onHold, boolean locked, boolean approved, boolean rescanNeeded, List<Comments> comments, String recCreatedOn, String recCompletedOn, String recApprovedOn) {
         this.documentId = documentId;
         this.state = state;
         this.fileName = fileName;
         this.fileLocation = fileLocation;
         this.createdBy = createdBy;
-        this.branchName = branchName;
+        this.branchCode = branchCode;
         this.placeOfMeeting = placeOfMeeting;
         this.bookletNo = bookletNo;
         this.applicationNo = applicationNo;
@@ -110,12 +111,12 @@ public class DocumentDO extends AbstractDO {
         this.createdBy = createdBy;
     }
 
-    public String getBranchName() {
-        return branchName;
+    public int getBranchCode() {
+        return branchCode;
     }
 
-    public void setBranchName(String branchName) {
-        this.branchName = branchName;
+    public void setBranchCode(int branchCode) {
+        this.branchCode = branchCode;
     }
 
     public String getPlaceOfMeeting() {
@@ -252,5 +253,13 @@ public class DocumentDO extends AbstractDO {
 
     public void setRecApprovedOn(String recApprovedOn) {
         this.recApprovedOn = recApprovedOn;
+    }
+
+    public boolean isHasCrossedTat() {
+        return hasCrossedTat;
+    }
+
+    public void setHasCrossedTat(boolean hasCrossedTat) {
+        this.hasCrossedTat = hasCrossedTat;
     }
 }

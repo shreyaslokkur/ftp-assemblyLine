@@ -5,7 +5,6 @@ import com.lks.core.enums.RecStatus;
 import com.lks.core.model.FileOperationDO;
 import com.lks.core.model.FileReceivedForUploadDO;
 import com.lks.orm.entities.Document;
-import com.lks.stateMachine.InvalidStateTransitionException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -21,7 +20,7 @@ public class StateMachineTest extends AbstractTest {
         FileReceivedForUploadDO fileReceivedForUploadDO = new FileReceivedForUploadDO();
         fileReceivedForUploadDO.setFileName("test.txt");
         fileReceivedForUploadDO.setFileLocation("/src/test/resources/test.txt");
-        fileReceivedForUploadDO.setBranchName("abc");
+        fileReceivedForUploadDO.setBranchCode("abc");
         fileReceivedForUploadDO.setCreatedBy("scanner");
         fileReceivedForUploadDO.setPlaceOfMeeting("bangalore");
         fileReceivedForUploadDO.setApplicationNo(123);
@@ -97,7 +96,7 @@ public class StateMachineTest extends AbstractTest {
         FileReceivedForUploadDO fileReceivedForUploadDO = new FileReceivedForUploadDO();
         fileReceivedForUploadDO.setFileName("test.txt");
         fileReceivedForUploadDO.setFileLocation("/src/test/resources/test.txt");
-        fileReceivedForUploadDO.setBranchName("abcReupload");
+        fileReceivedForUploadDO.setBranchCode("abcReupload");
         fileReceivedForUploadDO.setCreatedBy("scanner");
         fileReceivedForUploadDO.setPlaceOfMeeting("bangalore");
         fileReceivedForUploadDO.setApplicationNo(123);

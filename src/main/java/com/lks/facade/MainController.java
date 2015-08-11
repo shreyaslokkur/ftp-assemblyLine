@@ -82,6 +82,8 @@ public class MainController {
 						case "ROLE_APPROVER":
 							redirectUrl = "redirect:/resources/templates/Approver.html";
 							break;
+						case "ROLE_RESOLVER":
+							redirectUrl = "redirect:/resources/templates/QueryResolver.html";
 					}
 
 				}
@@ -211,7 +213,7 @@ public class MainController {
 			fileReceivedForUploadDO.setFileName(fileName);
 			fileReceivedForUploadDO.setApplicationNo(Integer.parseInt(mRequest.getParameter("applicationNo")));
 			fileReceivedForUploadDO.setBookletNo(Integer.parseInt(mRequest.getParameter("bookletNo")));
-			fileReceivedForUploadDO.setBranchName(mRequest.getParameter("branchName"));
+			fileReceivedForUploadDO.setBranchCode(Integer.parseInt(mRequest.getParameter("branchCode")));
 			fileReceivedForUploadDO.setNumOfCustomers(Integer.parseInt(mRequest.getParameter("numOfCustomers")));
 			fileReceivedForUploadDO.setPlaceOfMeeting(mRequest.getParameter("placeOfMeeting"));
 			if(mRequest.getParameter("documentId") != null){
@@ -255,7 +257,7 @@ public class MainController {
 			fileReceivedForUploadDO.setFileName(fileName);
 			fileReceivedForUploadDO.setApplicationNo(Integer.parseInt(mRequest.getParameter("applicationNo")));
 			fileReceivedForUploadDO.setBookletNo(Integer.parseInt(mRequest.getParameter("bookletNo")));
-			fileReceivedForUploadDO.setBranchName(mRequest.getParameter("branchName"));
+			fileReceivedForUploadDO.setBranchCode(Integer.parseInt(mRequest.getParameter("branchCode")));
 			fileReceivedForUploadDO.setNumOfCustomers(Integer.parseInt(mRequest.getParameter("numOfCustomers")));
 			fileReceivedForUploadDO.setPlaceOfMeeting(mRequest.getParameter("placeOfMeeting"));
 			fileReceivedForUploadDO.setDocumentId(Integer.parseInt(mRequest.getParameter("documentId")));
@@ -305,7 +307,14 @@ public class MainController {
 	public
 	@ResponseBody
 	List<DocumentDO> getNewRecords(){
-		return documentUploadService.retrieveAllNewAndLockedDocuments();
+		List<DocumentDO> documentDOList = documentUploadService.retrieveAllNewAndLockedDocuments();
+		int tatTimeInMinutes = documentUtils.getTatTimeInMinutes();
+		for(DocumentDO documentDO : documentDOList){
+
+
+
+		}
+		return documentDOList;
 
 	}
 
@@ -523,7 +532,7 @@ public class MainController {
 	public
 	@ResponseBody
 	List<DocumentDO> getRecordsWhichAreInHold(){
-		return documentUploadService.retrieveAllDocumentsWhichNeedApproval();
+		return documentUploadService.retrieveAllDocumentsWhichAreInHold();
 
 	}
 

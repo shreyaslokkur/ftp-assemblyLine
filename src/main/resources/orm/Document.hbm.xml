@@ -17,8 +17,8 @@
         <property name="createdBy" type="string">
             <column name="createdBy" length="60" not-null="true" />
         </property>
-        <property name="branchName" type="string">
-            <column name="branchName" length="100" not-null="true" />
+        <property name="branchCode" >
+            <column name="branchCode" not-null="true" />
         </property>
         <property name="placeOfMeeting" type="string">
             <column name="placeOfMeeting" length="100" not-null="true"  />
@@ -61,6 +61,10 @@
 
         <property name="rescanNeeded" type="boolean">
             <column name="rescanNeeded"  />
+        </property>
+
+        <property name="putOnHoldBy" type="string">
+            <column name="putOnHoldBy" length="60"  />
         </property>
 
         <property name="state">

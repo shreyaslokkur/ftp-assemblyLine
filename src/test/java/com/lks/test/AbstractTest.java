@@ -13,7 +13,7 @@ import javax.annotation.Resource;
  * Created by lokkur on 6/20/2015.
  */
 
-@ContextConfiguration(locations = {"classpath:test-application-context.xml", "file:../../../../../main/resources/spring-database.xml"})
+@ContextConfiguration(locations = {"classpath:test-application-context.xml", "classpath:spring-database.xml"})
 public class AbstractTest extends AbstractTransactionalTestNGSpringContextTests {
 
     @Resource(name = "controller")

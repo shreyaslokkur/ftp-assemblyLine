@@ -32,14 +32,14 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
 
 
     @Override
-    public int fileUploaded(String fileName, String fileLocation, String createdBy, String branchName, String placeOfMeeting, int bookletNo, int applicationNo, int numOfCustomers) {
+    public int fileUploaded(String fileName, String fileLocation, String createdBy, int branchCode, String placeOfMeeting, int bookletNo, int applicationNo, int numOfCustomers) {
         SessionFactory sessionFactory = getSessionFactory();
         Session session = sessionFactory.openSession();
         Integer documentId = null;
         try{
             Date date = new Date();
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Document document = new Document(RecStatus.NR, fileName, fileLocation, createdBy, branchName, placeOfMeeting, bookletNo, applicationNo, numOfCustomers, simpleDateFormat.format(date));
+            Document document = new Document(RecStatus.NR, fileName, fileLocation, createdBy, branchCode, placeOfMeeting, bookletNo, applicationNo, numOfCustomers, simpleDateFormat.format(date));
             documentId = (Integer) session.save(document);
         }catch (HibernateException e) {
             throw new FALException("Unable to create new document with file name"+ fileName, e);
@@ -123,7 +123,7 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
         SessionFactory sessionFactory = getSessionFactory();
         Session session = sessionFactory.openSession();
         try{
-            String hql = "from Document d where d.state in ('NR','LNR') and d.assignedTo is null ORDER BY d.recCreatedOn DESC ";
+            String hql = "from Document d where d.state in ('NR') and d.assignedTo is null ORDER BY d.recCreatedOn DESC ";
             documentList = session.createQuery(hql).list();
 
         }catch (HibernateException e){
@@ -199,7 +199,7 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
         SessionFactory sessionFactory = getSessionFactory();
         Session session = sessionFactory.openSession();
         try{
-            String hql = "from Document d where d.state in ('RN, LRN')";
+            String hql = "from Document d where d.state in ('RN')";
             documentList = session.createQuery(hql).list();
 
         }catch (HibernateException e){
@@ -219,7 +219,7 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
         SessionFactory sessionFactory = getSessionFactory();
         Session session = sessionFactory.openSession();
         try{
-            String hql = "from Document d where d.state in ('HR, LHR')";
+            String hql = "from Document d where d.state in ('HR')";
             documentList = session.createQuery(hql).list();
 
         }catch (HibernateException e){

@@ -45,7 +45,7 @@ public class DocumentUploadService implements IDocumentUploadService {
         logger.info("Entered the creation of new document method in data upload service");
         try{
             IState currentState = new NRState();
-            return currentState.create(fileReceivedForUploadDO.getFileName(), fileReceivedForUploadDO.getFileLocation(), fileReceivedForUploadDO.getCreatedBy(), fileReceivedForUploadDO.getBranchName(), fileReceivedForUploadDO.getPlaceOfMeeting(), fileReceivedForUploadDO.getBookletNo(), fileReceivedForUploadDO.getApplicationNo(), fileReceivedForUploadDO.getNumOfCustomers());
+            return currentState.create(fileReceivedForUploadDO.getFileName(), fileReceivedForUploadDO.getFileLocation(), fileReceivedForUploadDO.getCreatedBy(), fileReceivedForUploadDO.getBranchCode(), fileReceivedForUploadDO.getPlaceOfMeeting(), fileReceivedForUploadDO.getBookletNo(), fileReceivedForUploadDO.getApplicationNo(), fileReceivedForUploadDO.getNumOfCustomers());
 
         }catch(Exception e){
             logger.severe("Encountered exception in the method create New document: "+ e.getMessage());
@@ -66,7 +66,7 @@ public class DocumentUploadService implements IDocumentUploadService {
             document.setFileLocation(fileReceivedForUploadDO.getFileLocation());
             document.setApplicationNo(fileReceivedForUploadDO.getApplicationNo());
             document.setBookletNo(fileReceivedForUploadDO.getBookletNo());
-            document.setBranchName(fileReceivedForUploadDO.getBranchName());
+            document.setBranchCode(fileReceivedForUploadDO.getBranchCode());
             document.setCreatedBy(fileReceivedForUploadDO.getCreatedBy());
             document.setNumOfCustomers(fileReceivedForUploadDO.getNumOfCustomers());
             document.setPlaceOfMeeting(fileReceivedForUploadDO.getPlaceOfMeeting());
@@ -269,7 +269,7 @@ public class DocumentUploadService implements IDocumentUploadService {
     }
 
     private DocumentDO setDocumentDo(Document document) {
-        DocumentDO documentDO = new DocumentDO(document.getDocumentId(),document.getState(), document.getFileName(), document.getFileLocation(),document.getCreatedBy(), document.getBranchName(), document.getPlaceOfMeeting(),document.getBookletNo(), document.getApplicationNo(), document.getNumOfCustomers(), document.getLockedBy(), document.getCompletedBy(), document.getApprovedBy(), document.getAssignedTo(), document.getQueryLevel(), document.isOnHold(), document.isLocked(), document.isApproved(), document.isRescanNeeded(), document.getComments(), document.getRecCreatedOn(), document.getRecCompletedOn(), document.getRecApprovedOn());
+        DocumentDO documentDO = new DocumentDO(document.getDocumentId(),document.getState(), document.getFileName(), document.getFileLocation(),document.getCreatedBy(), document.getBranchCode(), document.getPlaceOfMeeting(),document.getBookletNo(), document.getApplicationNo(), document.getNumOfCustomers(), document.getLockedBy(), document.getCompletedBy(), document.getApprovedBy(), document.getAssignedTo(), document.getQueryLevel(), document.isOnHold(), document.isLocked(), document.isApproved(), document.isRescanNeeded(), document.getComments(), document.getRecCreatedOn(), document.getRecCompletedOn(), document.getRecApprovedOn());
         return documentDO;
     }
 

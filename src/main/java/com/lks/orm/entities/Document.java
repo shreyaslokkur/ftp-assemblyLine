@@ -19,7 +19,7 @@ public class Document implements IEntity {
     private String fileName;
     private String fileLocation;
     private String createdBy;
-    private String branchName;
+    private int branchCode;
     private String placeOfMeeting;
     private int bookletNo;
     private int applicationNo;
@@ -28,6 +28,7 @@ public class Document implements IEntity {
     private String completedBy;
     private String approvedBy;
     private String assignedTo;
+    private String putOnHoldBy;
     private int queryLevel;
     private boolean onHold;
     private boolean locked;
@@ -42,13 +43,13 @@ public class Document implements IEntity {
 
     }
 
-    public Document(RecStatus recStatus, String fileName, String fileLocation, String createdBy, String branchName, String placeOfMeeting, int bookletNo, int applicationNo, int numOfCustomers, String recCreatedOn) {
+    public Document(RecStatus recStatus, String fileName, String fileLocation, String createdBy, int branchCode, String placeOfMeeting, int bookletNo, int applicationNo, int numOfCustomers, String recCreatedOn) {
 
         this.state = recStatus;
         this.fileName = fileName;
         this.fileLocation = fileLocation;
         this.createdBy = createdBy;
-        this.branchName = branchName;
+        this.branchCode = branchCode;
         this.placeOfMeeting = placeOfMeeting;
         this.bookletNo = bookletNo;
         this.applicationNo = applicationNo;
@@ -97,12 +98,12 @@ public class Document implements IEntity {
         this.createdBy = createdBy;
     }
 
-    public String getBranchName() {
-        return branchName;
+    public int getBranchCode() {
+        return branchCode;
     }
 
-    public void setBranchName(String branchName) {
-        this.branchName = branchName;
+    public void setBranchCode(int branchCode) {
+        this.branchCode = branchCode;
     }
 
     public String getPlaceOfMeeting() {
@@ -240,5 +241,13 @@ public class Document implements IEntity {
 
     public void setRecCompletedOn(String recCompletedOn) {
         this.recCompletedOn = recCompletedOn;
+    }
+
+    public String getPutOnHoldBy() {
+        return putOnHoldBy;
+    }
+
+    public void setPutOnHoldBy(String putOnHoldBy) {
+        this.putOnHoldBy = putOnHoldBy;
     }
 }

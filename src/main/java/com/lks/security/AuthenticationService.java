@@ -84,7 +84,7 @@ public class AuthenticationService implements org.springframework.security.core.
 		userDao = UserDaoFactory.getUserDao();
 		//check if the user exists already
 		if(userDao.findByUserName(userModelDO.getUsername()) == null)
-			return userDao.createNewUser(userModelDO.getUsername(), userModelDO.getPassword(), userModelDO.getBranchName(), userModelDO.getUserRole());
+			return userDao.createNewUser(userModelDO.getUsername(), userModelDO.getPassword(), userModelDO.getBranchCode(), userModelDO.getUserRole());
 		else
 			throw new FALException("User already Exists");
 	}
@@ -113,7 +113,7 @@ public class AuthenticationService implements org.springframework.security.core.
 		if(user != null){
 			userModelDO = new UserModelDO();
 			userModelDO.setUsername(user.getUsername());
-			userModelDO.setBranchName(user.getBranchName());
+			userModelDO.setBranchCode(user.getBranchCode());
 			Set<UserRole> userRoleSet = user.getUserRole();
 			for(UserRole userRole : userRoleSet){
 				userModelDO.setUserRole(userRole.getRole());
@@ -137,7 +137,7 @@ public class AuthenticationService implements org.springframework.security.core.
 		for(com.lks.orm.entities.User user : users){
 			userModelDO = new UserModelDO();
 			userModelDO.setUsername(user.getUsername());
-			userModelDO.setBranchName(user.getBranchName());
+			userModelDO.setBranchCode(user.getBranchCode());
 			Set<UserRole> userRoleSet = user.getUserRole();
 			for(UserRole userRole : userRoleSet){
 				userModelDO.setUserRole(userRole.getRole());

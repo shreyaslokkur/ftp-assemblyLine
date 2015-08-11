@@ -19,7 +19,7 @@ public class DocumentArchive implements IEntity {
     private String fileName;
     private String fileLocation;
     private String createdBy;
-    private String branchName;
+    private int branchCode;
     private String placeOfMeeting;
     private int bookletNo;
     private int applicationNo;
@@ -86,12 +86,12 @@ public class DocumentArchive implements IEntity {
         this.createdBy = createdBy;
     }
 
-    public String getBranchName() {
-        return branchName;
+    public int getBranchCode() {
+        return branchCode;
     }
 
-    public void setBranchName(String branchName) {
-        this.branchName = branchName;
+    public void setBranchCode(int branchCode) {
+        this.branchCode = branchCode;
     }
 
     public String getPlaceOfMeeting() {

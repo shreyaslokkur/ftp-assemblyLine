@@ -197,16 +197,16 @@
             return deferred.promise;
         },
         reportService.getAllRecordsForQueryResolver = function () {
-            return  reportService.data;
-           /* var deferred = $q.defer();
-            $http.get('/scanner/getRecordsWhichNeedRescan')
+
+            var deferred = $q.defer();
+            $http.get('/resolver/getRecordsWhichAreInHold')
                 .success(function(data) {
                     deferred.resolve(data);
                 }).error(function(msg, code) {
                     deferred.reject(msg);
                     $log.error(msg, code);
                 });
-            return deferred.promise;*/
+            return deferred.promise;
         },
     
         reportService.getAllRecords = function () {
@@ -264,7 +264,9 @@
             var deferred = $q.defer();
             $http.get('/do/rescan', {
                 params: {
-                    documentId: record.documentId
+                    documentId: record.documentId,
+                    comment: record.newComment,
+                    assignTo:''
                 }
             })
            .success(function (data) {
@@ -379,10 +381,10 @@
 
         };
 
-    reportService.resolveAndAssign = function (record) {
+    reportService.resolveAndAssignRecord = function (record) {
 
         var deferred = $q.defer();
-        $http.get('/qa/reject', {
+        $http.get('/resolver/resolve', {
             params: {
                 documentId: record.documentId,
                 comment: record.newComment,

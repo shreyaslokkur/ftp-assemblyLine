@@ -35,13 +35,13 @@ public class UserDaoImpl implements UserDao {
 
 
 	@Override
-	public String createNewUser(String username, String password, String branchName, String role) {
+	public String createNewUser(String username, String password, int branchCode, String role) {
 		SessionFactory sessionFactory = getSessionFactory();
 		Session session = sessionFactory.openSession();
 		String key = null;
 		try{
 			String hashedPassword = UserUtils.createHashedPassword(password);
-			User user = new User(username, hashedPassword, branchName, true);
+			User user = new User(username, hashedPassword, branchCode, true);
 			UserRole userRole = new UserRole(username, role);
 			key = (String) session.save(user);
 			userRole.setUser(user);
@@ -92,7 +92,7 @@ public class UserDaoImpl implements UserDao {
 		Session session = sessionFactory.getCurrentSession();
 		List<User> userList = new ArrayList<User>();
 		try{
-			userList = session.createQuery("from Users u")
+			userList = session.createQuery("from User u")
 					.list();
 
 		}catch (HibernateException e){

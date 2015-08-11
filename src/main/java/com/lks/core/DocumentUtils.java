@@ -25,7 +25,7 @@ public class DocumentUtils {
         documentArchive.setApplicationNo(document.getApplicationNo());
         documentArchive.setApprovedBy(document.getApprovedBy());
         documentArchive.setAssignedTo(document.getAssignedTo());
-        documentArchive.setBranchName(document.getBranchName());
+        documentArchive.setBranchCode(document.getBranchCode());
         documentArchive.setComments(archiveComments(document.getComments()));
         documentArchive.setCompletedBy(document.getCompletedBy());
         documentArchive.setCreatedBy(document.getCreatedBy());
@@ -64,5 +64,14 @@ public class DocumentUtils {
 
     public void setTatTime(String tatTime) {
         this.tatTime = tatTime;
+    }
+
+    public int getTatTimeInMinutes(){
+        String tatTime = getTatTime();
+        String[] split = tatTime.split(":");
+        int tatTimeInHours = Integer.parseInt(split[0]);
+        int tatTimeInMinutes = Integer.parseInt(split[1]);
+        int totalTatTimeInMinutes = (tatTimeInHours * 60) + tatTimeInMinutes;
+        return totalTatTimeInMinutes;
     }
 }

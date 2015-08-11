@@ -1,7 +1,5 @@
 package com.lks.core.model;
 
-import com.lks.orm.entities.UserRole;
-
 /**
  * Created by lokkur on 8/10/2015.
  */
@@ -9,7 +7,7 @@ public class UserModelDO extends AbstractDO {
 
     private String username;
     private String password;
-    private String branchName;
+    private int branchCode;
     private String userRole;
 
     public String getUsername() {
@@ -28,12 +26,12 @@ public class UserModelDO extends AbstractDO {
         this.password = password;
     }
 
-    public String getBranchName() {
-        return branchName;
+    public int getBranchCode() {
+        return branchCode;
     }
 
-    public void setBranchName(String branchName) {
-        this.branchName = branchName;
+    public void setBranchCode(int branchCode) {
+        this.branchCode = branchCode;
     }
 
     public String getUserRole() {

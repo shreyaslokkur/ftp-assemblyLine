@@ -1,7 +1,5 @@
 package com.lks.orm.entities;
 
-import com.lks.core.IFALDictionaryBased;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,16 +9,16 @@ public class User implements IEntity{
 	private String username;
 	private String password;
 	private boolean enabled;
-	private String branchName;
+	private int branchCode;
 	private Set<UserRole> userRole = new HashSet<UserRole>(0);
 
 	public User() {
 	}
 
-	public User(String username, String password, String branchName, boolean enabled) {
+	public User(String username, String password, int branchCode, boolean enabled) {
 		this.username = username;
 		this.password = password;
-		this.branchName = branchName;
+		this.branchCode = branchCode;
 		this.enabled = enabled;
 	}
 
@@ -56,12 +54,12 @@ public class User implements IEntity{
 		this.password = password;
 	}
 
-	public String getBranchName() {
-		return branchName;
+	public int getBranchCode() {
+		return branchCode;
 	}
 
-	public void setBranchName(String branchName) {
-		this.branchName = branchName;
+	public void setBranchCode(int branchCode) {
+		this.branchCode = branchCode;
 	}
 
 	public boolean isEnabled() {

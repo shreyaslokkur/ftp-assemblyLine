@@ -24,8 +24,8 @@ public class NRState extends AbstractState {
     public static final Logger logger = Logger.getLogger(NRState.class.getName());
 
     @Override
-    public int create(String fileName, String fileLocation, String createdBy, String branchName, String placeOfMeeting, int bookletNo, int applicationNo, int numOfCustomers) {
-        return documentUploadDao.fileUploaded(fileName, fileLocation, createdBy, branchName, placeOfMeeting, bookletNo, applicationNo, numOfCustomers);
+    public int create(String fileName, String fileLocation, String createdBy, int branchCode, String placeOfMeeting, int bookletNo, int applicationNo, int numOfCustomers) {
+        return documentUploadDao.fileUploaded(fileName, fileLocation, createdBy, branchCode, placeOfMeeting, bookletNo, applicationNo, numOfCustomers);
     }
 
     @Override
@@ -74,6 +74,7 @@ public class NRState extends AbstractState {
         document.setLocked(false);
         document.setOnHold(true);
         document.setAssignedTo(null);
+        document.setPutOnHoldBy(userId);
         logger.info("Update the document into table");
         documentUploadDao.updateDocument(document);
         return document;
@@ -134,6 +135,7 @@ public class NRState extends AbstractState {
         document.setRescanNeeded(true);
         document.setLockedBy(null);
         document.setLocked(false);
+        document.setAssignedTo(null);
         document.setState(RecStatus.RN);
 
         logger.info("Update the document: "+document.getDocumentId()+ " into the table");

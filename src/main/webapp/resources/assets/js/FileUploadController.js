@@ -26,6 +26,8 @@
                                                 $scope.OperationFailure = true;
                                                 $scope.FailureMsg = "This record is being processing by another person";
 
+                                            }else{
+                                                $scope.selectForRescan(doc);
                                             }
 
                                         },
