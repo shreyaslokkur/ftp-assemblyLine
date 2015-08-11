@@ -5,6 +5,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.lks.core.DocumentUtils;
 import com.lks.core.enums.DocOperations;
 import com.lks.core.model.*;
 import com.lks.security.IBranchService;
@@ -44,6 +45,9 @@ public class MainController {
 
 	@Resource(name = "userDetailService")
 	IUserService userService;
+
+	@Resource(name = "documentUtils")
+	DocumentUtils documentUtils;
 
 	@RequestMapping(value = { "/welcome**" }, method = RequestMethod.GET)
 	public ModelAndView defaultPage() {
@@ -598,6 +602,13 @@ public class MainController {
 	@ResponseBody
 	List<BranchDO> getAllBranches(){
 		return branchService.getAllBranches();
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/all/getTat")
+	public
+	@ResponseBody
+	String getTatTime(){
+		return documentUtils.getTatTime();
 	}
 
 

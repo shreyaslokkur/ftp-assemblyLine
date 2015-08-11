@@ -14,14 +14,26 @@
 	<!--<context:component-scan base-package="com.lks.uploader"/>-->
 
 
+	<bean
+			class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+
+		<property name="locations">
+			<list>
+				<value>classpath:/database.properties</value>
+				<value>classpath:/config.properties</value>
+			</list>
+
+		</property>
+	</bean>
 
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/test" />
-		<property name="username" value="root" />
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<!--<property name="password" value="${jdbc.password}" />-->
 	</bean>
 
 	<bean id="sessionFactory"
@@ -100,6 +112,10 @@
 	<bean id="multipartResolver"
 		  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="maxUploadSize" value="2097152" />
+	</bean>
+
+	<bean id="documentUtils" class="com.lks.core.DocumentUtils">
+		<property name="tatTime" value="${tat.time}"/>
 	</bean>
 
 </beans>

@@ -13,6 +13,8 @@ import java.util.List;
  */
 public class DocumentUtils {
 
+    private String tatTime;
+
     public static DocumentArchive archiveDocument(Document document){
         DocumentArchive documentArchive = new DocumentArchive();
         documentArchive.setApproved(document.isApproved());
@@ -54,5 +56,13 @@ public class DocumentUtils {
 
         }
         return commentsArchives;
+    }
+
+    public String getTatTime() {
+        return tatTime;
+    }
+
+    public void setTatTime(String tatTime) {
+        this.tatTime = tatTime;
     }
 }
