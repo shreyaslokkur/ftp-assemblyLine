@@ -531,15 +531,15 @@ public class MainController {
 	@RequestMapping(method = RequestMethod.POST, value = "/admin/createnewuser")
 	public
 	@ResponseBody
-	String createNewUser(){
-		return null;
+	String createNewUser(@ModelAttribute UserModelDO userModelDO){
+		return userService.createNewUser(userModelDO);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/admin/editPassword")
 	public
 	@ResponseBody
-	boolean editPasswordOfUser(){
-		return false;
+	boolean editPasswordOfUser(@ModelAttribute UserModelDO userModelDO){
+		return userService.resetPassword(userModelDO);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/admin/deleteUser")
@@ -577,15 +577,15 @@ public class MainController {
 	@RequestMapping(method = RequestMethod.POST, value = "/admin/createnewbranch")
 	public
 	@ResponseBody
-	String createNewBranch(){
-		return null;
+	String createNewBranch(@ModelAttribute BranchDO branchDO){
+		return branchService.createNewBranch(branchDO);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/admin/editBranchAddress")
 	public
 	@ResponseBody
-	String editBranchAddress(){
-		return null;
+	boolean editBranchAddress(@ModelAttribute BranchDO branchDO){
+		return branchService.editBranch(branchDO);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/admin/deleteBranch")
