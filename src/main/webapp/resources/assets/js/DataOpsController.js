@@ -14,7 +14,9 @@
                                        $scope.getMydocuments();
                                    },
                                    function (errorPayload) {
-                                       $log.error('failure loading movie', errorPayload);
+                                       $scope.OperationFailure = true;
+                                       $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                                       $log.error('failure: Error at getAllRecords', errorPayload);
                                    });
 
 
@@ -26,6 +28,8 @@
                                            $scope.docRecords = payload;
                                        },
                                        function (errorPayload) {
+                                           $scope.OperationFailure = true;
+                                           $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
                                            $log.error('failure: Error while getAllRecords()', errorPayload);
                                        });
 
@@ -41,22 +45,28 @@
                                         $scope.recordCount = $scope.MydocRecords.length;
                                     },
                                     function (errorPayload) {
+                                        $scope.OperationFailure = true;
+                                        $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
                                         $log.error('failure: Error while getMydocuments()', errorPayload);
                                     });
                             }
 
 
-                                $scope.lockRecord = function (doc) {
-                var promise = ReportService.lockRecord(doc);
+            $scope.lockRecord = function (doc) {
+                var promise = ReportService.lockRecord(doc,'do');
                 promise.then(
                    function (payload) {
                        angular.extend(doc, payload);
                        if (doc.locked != true) {
-                           alert("Unable to Lock Record , this record has been locked by " + doc.userName)
+                           //alert("Unable to Lock Record , this record has been locked by " + doc.userName)
+                           $scope.OpereationFailure = true;
+
                        }
                       
                    },
                    function (errorPayload) {
+                       $scope.OperationFailure = true;
+                       $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
                        $log.error('failure: Error while Locking document', errorPayload);
                    }); 
             }
@@ -81,6 +91,7 @@
                    },
                    function (errorPayload) {
                        $scope.OperationFailure = true;
+                       $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
                        $log.error('failure: Error while Re-Scanning loading document', errorPayload);
                    });
             }
@@ -105,28 +116,81 @@
                    },
                    function (errorPayload) {
                        $scope.OperationFailure = true;
+                       $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
                        $log.error('failure: Error while Complete document', errorPayload);
                    });
             }
             
            
 
-            $scope.openCommentsPopup = function (doc) {
-                doc.ViewOnly = false;
+            $scope.openCommentsPopupForHold = function (doc) {
                 var modalInstance = $modal.open({
-                    controller: "ModalInstanceCtrl",
                     templateUrl: 'myModalContent.html',
+                    controller: 'ModalInstanceCtrl',
                     resolve: {
                         doc: function () {
                             return doc;
                         }
-
-
-
                     }
                 });
 
-            };
+                modalInstance.result.then(function (doc) {
+                    $scope.HoldRecord(doc);
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+
+
+
+            },
+            $scope.openCommentsPopupForRescan = function (doc) {
+                var modalInstance = $modal.open({
+                    templateUrl: 'myModalContent.html',
+                    controller: 'ModalInstanceCtrl',
+                    resolve: {
+                        doc: function () {
+                            return doc;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (doc) {
+                    $scope.ReScanRecord(doc);
+                }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                });
+
+
+
+            },
+
+
+            $scope.HoldRecord = function (doc) {
+                var promise = ReportService.HoldRecord(doc);
+                promise.then(
+                    function (payload) {
+                        angular.extend(doc, payload);
+                        $scope.OperationSuccess = true;
+                        $scope.successMsg ="Document is put on Hold";
+                        if ($scope.IsAllDocuments) {
+                            var index = $scope.docRecords.indexOf(doc);
+                            $scope.docRecords.splice(index, 1);
+                        }
+                        else if(!$scope.IsAllDocuments)
+                        {
+                            var index = $scope.MydocRecords.indexOf(doc);
+                            $scope.MydocRecords.splice(index, 1);
+                        }
+
+                    },
+                    function (errorPayload) {
+                        $scope.OperationFailure = true;
+                        $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+
+                        $log.error('failure: Error while Complete document', errorPayload);
+                    });
+            }
+
 
             $scope.ShowComments = function (doc) {
                 doc.ViewOnly = true;

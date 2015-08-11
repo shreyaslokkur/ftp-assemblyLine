@@ -3,7 +3,7 @@
 
         var reportService = {};
 
-        reportService.data = reportService.data = [
+      reportService.data = [
                 {
                     documentId: '0000',
                     state: '',
@@ -196,7 +196,18 @@
                 });
             return deferred.promise;
         },
-
+        reportService.getAllRecordsForQueryResolver = function () {
+            return  reportService.data;
+           /* var deferred = $q.defer();
+            $http.get('/scanner/getRecordsWhichNeedRescan')
+                .success(function(data) {
+                    deferred.resolve(data);
+                }).error(function(msg, code) {
+                    deferred.reject(msg);
+                    $log.error(msg, code);
+                });
+            return deferred.promise;*/
+        },
     
         reportService.getAllRecords = function () {
 
@@ -230,10 +241,10 @@
 
     };
 
-    reportService.lockRecord = function (record) {
+    reportService.lockRecord = function (record,ServiceType) {
 
             var deferred = $q.defer();
-                    $http.get('/do/lock', {
+                    $http.get('/'+ServiceType+'/lock', {
                         params: {
                             documentId: record.documentId
                         }
@@ -368,10 +379,46 @@
 
         };
 
+    reportService.resolveAndAssign = function (record) {
+
+        var deferred = $q.defer();
+        $http.get('/qa/reject', {
+            params: {
+                documentId: record.documentId,
+                comment: record.newComment,
+                assignTo:''
+            }
+        })
+            .success(function (data) {
+                deferred.resolve(data);
+            }).error(function (msg, code) {
+                deferred.reject(msg);
+                $log.error(msg, code);
+            });
+        return deferred.promise;
+    },
+
+    reportService.GetUsers= function(){
+
+        var deferred = $q.defer();
+        $http.get('yettoAdd', {
+
+        })
+            .success(function (data) {
+                deferred.resolve(data);
+            }).error(function (msg, code) {
+                deferred.reject(msg);
+                $log.error(msg, code);
+            });
+        return deferred.promise;
+
+    }
 
 
 
-        return reportService;
+
+
+    return reportService;
 
 
    

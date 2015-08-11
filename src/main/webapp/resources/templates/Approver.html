@@ -33,35 +33,22 @@
 
 <!-- Navigation -->
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <a class="navbar-brand pull-left active" style="color: #fff;margin-left: -110px !important;" >Vindhya eInfomedia</a>
 
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand pull-left"  style="color:azure" href="#">Vindhya eInfomedia</a>
+        <!-- I don't want it apart of the collapsible portion -->
+        <div class="navbar-header pull-right">
+            <ul class="nav navbar-nav">
+                <li class="active" style="color:#fff"> <a href="">Hi, Username</a> </li>
+            </ul>
+            <ul class="nav navbar-nav">
 
+                <li class="active"><a href="j_spring_security_logout">Logout</a> </li>
+            </ul>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <!-- <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-             <ul class="nav navbar-nav">
-                <!-- <li>
-                     <a href="#">About</a>
-                 </li>
-                 <li>
-                     <a href="#">Services</a>
-                 </li>
-                 <li>
-                     <a href="#">Contact</a>
-                 </li>
-             </ul>
-         </div>-->
-        <!-- /.navbar-collapse -->
+        </div>
+
     </div>
-    <!-- /.container -->
 </nav>
 
 <!-- <table id="Table1"  class="table table-bordered table-striped">
@@ -70,35 +57,37 @@
  </table>-->
 
       
-       <span style="max-width:98%;padding-left:10px;padding-right:10px;text-align:center">
+       <span style="max-width:100%;padding-left:3px;padding-right:3px;text-align:center">
              <div ng-show="OperationSuccess==true" class="alert alert-success fade-in-out">
                  <a href="#" class="close" ng-click="OperationSuccess=false">&times;</a>
                  <strong>Success! </strong>{{successMsg}}
              </div>
     <div ng-show="OperationFailure==true" class="alert alert-danger fade-in-out">
         <a href="#" class="close" ng-click="OperationFailure=false">&times;</a>
-        <strong>Error!</strong> We are facing technical difficulties
+        <strong>Error!</strong> {{FailureMsg}}
     </div>
            </div>
-                       <table id="dOTable"  class="table table-bordered table-striped">
+       <table id="dOTable"  class="table table-bordered table-striped">
            
-           <thead style="font-size: 12px;">
-
-           <th>Doc Id</th>
-           <th>Booklet No</th>
-           <th>Application No</th>
-           <th>Branch Name</th>
-           <th>Place of Meeting</th>
-           <th>No of Customers</th>
-           <th>Recieved Time</th>
-           <th>Completed At</th>
-           <th>Completed By</th>
-           <th>Query Level</th>
-           <th>View</th>
-           <th>Approve</th>
-           <th>Reject</th>
-           <th>Comments</th>
-
+           <thead align="center" style="font-size: 11px">
+            <tr>
+               <th>Doc Id</th>
+               <th>Booklet No</th>
+               <th>Application No</th>
+               <th>Branch Name</th>
+               <th>Place of Meeting</th>
+               <th>No of Customers</th>
+               <th>Recieved Time</th>
+               <th>Completed At DO</th>
+               <th>Completed By</th>
+               <th>Query Level</th>
+               <th>Locked By</th>
+               <th>Select</th>
+               <th>View</th>
+               <th>Approve</th>
+               <th>Reject</th>
+               <th>Comments</th>
+             </tr>
 
            </thead>
 
@@ -115,10 +104,12 @@
                <td>{{doc.recCompletedOn}}</td>
                <td>{{doc.completedBy}}</td>
                <td ng-class="{'colorRed': doc.queryLevel > 3, '': doc.queryLevel < 3}">{{doc.queryLevel}}</td>
-               <td><a ng-href="{{doc.documentUrl}}" title="View file" target="_blank" class="btn btn-primary" ><i class="fa fa-search"></i></a></td>
-               <td><button class="btn btn-success" title="Approve" ng-really-message="Are you sure You want to Approve?"  ng-really-click="approveRecord(doc)"><i class="fa fa-check"></i></button></td>
-               <td><button class="btn btn-danger" title="Reject"  ng-click="openCommentsPopup(doc)"  ><i class="fa fa-times"></i></button></td>
-               <td><button class="btn btn-primary"  ng-click="ShowComments(doc);" title="View Comments"><i class="fa fa-comments"></i></button></td>
+               <td>{{doc.lockedBy}}</td>
+               <td><button class="btn" ng-really-message="Do u want to Lock the document for processing?" ng-really-click="lockRecord(doc)" ng-disabled="doc.locked==true" title="Select" ng-class="{'btn-danger': doc.locked==true, 'btn-success': doc.locked==false}"><i ng-class="{'fa fa-lock': doc.locked==true, 'fa fa-unlock': doc.locked==false}"></i>&nbsp;<span>{{doc.locked ? 'Locked' : 'Select'}}</span></button></td>
+               <td><a ng-href="{{doc.documentUrl}}" ng-disabled="doc.locked==false" title="View file" target="_blank" class="btn btn-primary" ><i class="fa fa-search"></i></a></td>
+               <td><button class="btn btn-success" ng-disabled="doc.locked==false" title="Approve" ng-really-message="Are you sure You want to Approve?"  ng-really-click="approveRecord(doc)"><i class="fa fa-check"></i></button></td>
+               <td><button class="btn btn-danger" ng-disabled="doc.locked==false" title="Reject"  ng-click="openCommentsPopupForReject(doc)"  ><i class="fa fa-times"></i></button></td>
+               <td><button class="btn btn-primary" ng-disabled="doc.locked==false"  ng-click="ShowComments(doc);" title="View Comments"><i class="fa fa-comments"></i></button></td>
            </tr>
 
 
@@ -220,17 +211,19 @@
 
 
             </div>
-            <div class="row" ng-if="doc.ViewOnly!=true">
+            <form name="commentForm">
+                <div class="row" ng-if="doc.ViewOnly!=true">
 
-                <textarea rows="6" cols="75" ng-model="doc.newComment" placeholder="Enter Your Comments Here"></textarea>
+                    <textarea rows="6" cols="75" ng-model="doc.newComment" placeholder="Enter Your Comments Here" required></textarea>
 
 
-            </div>
+                </div>
+            </form>
 
 
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" ng-click="rejectRecord(doc)" ng-if="doc.ViewOnly!=true" >Save</button>
+            <button class="btn btn-primary" ng-click="save()" ng-disabled="commentForm.$invalid" ng-if="doc.ViewOnly!=true" >Save</button>
             <button class="btn btn-primary" ng-click="cancel()">Cancel</button>
         </div>
 </script>

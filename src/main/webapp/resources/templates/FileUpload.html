@@ -33,8 +33,8 @@
 
             var  label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
             $("#fileName").val(label);
-        });
 
+        });
         $(document).on('click', '#btnBrowse', function() {
             $('.btn-file').click();
         });
@@ -44,112 +44,100 @@
 
 <!-- Navigation -->
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <a class="navbar-brand pull-left active" style="color: #fff;margin-left: -110px !important;" >Vindhya eInfomedia</a>
 
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand pull-left" style="color:azure" href="#">Vindhya eInfomedia</a>
+        <!-- I don't want it apart of the collapsible portion -->
+        <div class="navbar-header pull-right">
+            <ul class="nav navbar-nav">
+                <li class="active" style="color:#fff"> <a href="">Hi, Username</a> </li>
+            </ul>
+            <ul class="nav navbar-nav">
 
+                <li class="active"> <a href="j_spring_security_logout">Logout</a> </li>
+            </ul>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <!-- <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-             <ul class="nav navbar-nav">
-                <!-- <li>
-                     <a href="#">About</a>
-                 </li>
-                 <li>
-                     <a href="#">Services</a>
-                 </li>
-                 <li>
-                     <a href="#">Contact</a>
-                 </li>
-             </ul>
-         </div>-->
-        <!-- /.navbar-collapse -->
+        </div>
+
     </div>
-    <!-- /.container -->
 </nav>
 
 <!--   <table id="Table1"  class="table table-bordered table-striped">
        <tr><td><button class="btn btn-primary"><i class="fa fa-list-ul"></i>&nbsp;All Documents</button>&nbsp;&nbsp;<button class="btn btn-primary"><i class="fa fa-filter"></i>&nbsp;My Documents</button></td></tr>
 
    </table>-->
-
+<form name="uploadForm">
 <div class="container" style="padding:10px;margin-left:0px!important">
     <div class="row" >
         <div class="col-md-2">
-            Branch Name :
+            Branch Name : <span class="colorRed">*</span>
         </div>
         <div class="col-md-4">
-            <input type="text" class="form-control" ng-model="doc.branchName" placeholder="Enter Branch Name" />
+            <input type="text"  class="form-control" ng-model="doc.branchName" placeholder="Enter Branch Name" required />
         </div>
     </div>
     <div class="row" style="padding-top:5px">
         <div class="col-md-2">
-            Booklet Number :
+            Booklet Number : <span class="colorRed">*</span>
         </div>
         <div class="col-md-4">
-            <input type="text" class="form-control" ng-model="doc.bookletNo" placeholder="Enter Booklet Number" />
+            <input type="text" class="form-control" ng-model="doc.bookletNo" placeholder="Enter Booklet Number" required />
         </div>
     </div>
     <div class="row" style="padding-top:5px">
         <div class="col-md-2">
-            Application Number :
+            Application Number : <span class="colorRed">*</span>
         </div>
         <div class="col-md-4">
-            <input type="text" class="form-control" ng-model="doc.applicationNo" placeholder="Enter Application Number" />
+            <input type="text" class="form-control" ng-model="doc.applicationNo" placeholder="Enter Application Number" required />
         </div>
     </div>
     <div class="row" style="padding-top:5px">
         <div class="col-md-2">
-            Place of Meeting :
+            Place of Meeting : <span class="colorRed">*</span>
         </div>
         <div class="col-md-4">
-            <input type="text" class="form-control" ng-model="doc.placeOfMeeting" placeholder="Enter Place of Meeting" />
+            <input type="text" class="form-control" ng-model="doc.placeOfMeeting" placeholder="Enter Place of Meeting" required />
         </div>
     </div>
     <div class="row" style="padding-top:5px">
         <div class="col-md-2">
-            Number of Customers :
+            Number of Customers : <span class="colorRed">*</span>
         </div>
         <div class="col-md-4">
-            <input type="text" class="form-control" ng-model="doc.numOfCustomers" placeholder="Enter  Number of Customers" />
+            <input type="text" class="form-control" ng-model="doc.numOfCustomers" placeholder="Enter  Number of Customers" required />
         </div>
     </div>
     <div class="row" style="padding-top:5px">
         <div class="col-md-2">
-            Upload file :
+            Upload file : <span class="colorRed">*</span>
         </div>
         <div class="col-md-4">
 
-            <input type="text" id="fileName" class="form-control" placeholder="Browse File" />
+            <input type="text" id="fileName"   class="form-control" placeholder="Browse File"  />
         </div>
         <div class="col-md-6">
 
 
-            <input type="file" class="btn-file" style="display:none" file-model="myFile"/>&nbsp;
+            <input type="file" class="btn-file" style="display:none" accept="application/pdf" ng-model="myFile" file-model="myFile" required />&nbsp;
             <button id="btnBrowse" class="btn btn-primary">Browse</button>
-            <button class="btn btn-primary" ng-click="uploadFile(doc)">Upload Document</button>
+            <button class="btn btn-primary" ng-click="uploadFile(doc)" ng-disabled="uploadForm.$invalid">Upload Document</button>
         </div>
 
 
         <!--   <input type="file" id="btnBrowse" style="display:none" class="btn btn-primary" />-->
 
     </div>
+</form>
     <div class="row" style="padding-top:5px">
     <div class="col-md-12" style="width: 72%">
     <div ng-show="OperationSuccess==true" class="alert alert-success fade-in-out">
         <a href="#" class="close" ng-click="OperationSuccess=false">&times;</a>
-        <strong>Success! </strong>File Upload Complete
+        <strong>Success! </strong>{{successMsg}}
     </div>
     <div ng-show="OperationFailure==true" class="alert alert-danger fade-in-out">
         <a href="#" class="close" ng-click="OperationFailure=false">&times;</a>
-        <strong>Error!</strong> We are facing technical difficulties
+        <strong>Error!</strong> {{FailureMsg}
     </div>
         </div>
         </div>
@@ -163,9 +151,9 @@
 <div class="row">
     <div class="col-md-12">
                   <span style="text-align:center">
-                       <table id="dOTable"  class="table table-bordered table-striped" style="width:90% !important;margin-left:10px;text-align: left">
+                       <table id="dOTable"  class="table table-bordered table-striped" style="width:98% !important;margin-left:10px;">
                       
-                      <thead style="text-align: center">
+                      <thead align="center" style="font-size: 12px;">
 
 
                       <th>Booklet No</th>
@@ -173,7 +161,9 @@
                       <th>Branch Name</th>
                       <th>Place of Meeting</th>
                       <th>No of Customers</th>
+                      <th>Locked By</th>
                       <th>Select</th>
+                      <th>Comments</th>
 
 
                       </thead>
@@ -187,9 +177,9 @@
                           <td>{{doc.branchName}}</td>
                           <td>{{doc.placeOfMeeting}}</td>
                           <td>{{doc.numOfCustomers}}</td>
-
-
-                          <td><button class="btn btn-primary" ng-click="selectForRescan(doc)"  title="Select"><i class="fa fa-hand-o-up"></i>&nbsp;&nbsp;Select</button></td>
+                          <td>{{doc.lockedBy}}</td>
+                          <td><button class="btn" ng-really-message="Do u want to Lock the document for processing?" ng-really-click="lockRecord(doc)" ng-disabled="doc.locked==true" title="Select" ng-class="{'btn-danger': doc.locked==true, 'btn-success': doc.locked==false}"><i ng-class="{'fa fa-lock': doc.locked==true, 'fa fa-unlock': doc.locked==false}"></i>&nbsp;<span>{{doc.locked ? 'Locked' : 'Select'}}</span></button></td>
+                          <td><button class="btn btn-primary" title="View Comments" ng-click="ShowComments(doc);" ng-disabled="doc.locked==false"><i class="fa fa-comments"></i></button></td>
                       </tr>
 
 
@@ -205,7 +195,95 @@
 </div>
 
 
+<script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Comments</h3>
+    </div>
+    <div class="modal-body">
 
+        <div class="container" >
+            <div class="row" style="padding-top:5px">
+                <div class="col-md-2" style="padding-left:0px!important">
+                    <b>Branch Name :</b>
+                </div>
+
+                <div class="col-md-10">
+                    {{doc.branchName}}
+                </div>
+            </div>
+            <div class="row" style="padding-top:5px;">
+                <div class="col-md-2" style="padding-left:0px!important">
+
+                    <b>Booklet No :</b>
+                </div>
+
+                <div class="col-md-10">
+                    {{doc.bookletNo}}
+                </div>
+
+            </div>
+            <div class="row" style="padding-top:5px">
+                <div class="col-md-2" style="padding-left:0px!important">
+
+                    <b>Application No :</b>
+                </div>
+
+                <div class="col-md-10">
+                    {{doc.applicationNo}}
+                </div>
+
+            </div>
+
+            <br/>
+
+            <div class="row" ng-if="doc.comments.length>0" ng-repeat="comment in doc.comments">
+
+                <div class="container" >
+                    <div class="row" style="border: 1px solid grey ;background-color:#e9eaed;width:505px;padding-top:5px;padding-left:2px" >
+
+                        <p>{{comment.comments}}   <span class="pull-right" style="font-size:6pt">- {{comment.commentedBy}}</span></p>
+                    </div>
+
+                </div>
+                <br/>
+
+
+            </div>
+
+            <div class="row colorRed" ng-if="doc.comments.length==0">
+                <div class="container" >
+                    <div class="row">
+                        No Comments to show
+                    </div>
+
+                </div>
+
+                <br>
+            </div>
+
+
+            <div class="row" ng-if="doc.ViewOnly!=true">
+
+                <b>Add Comments :</b>
+
+
+            </div>
+            <form name="commentForm">
+            <div class="row" ng-if="doc.ViewOnly!=true">
+
+                <textarea rows="6" cols="75" ng-model="doc.newComment" placeholder="Enter Your Comments Here" required></textarea>
+
+
+            </div>
+            </form>
+
+
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="save()" ng-disabled="commentForm.$invalid" ng-if="doc.ViewOnly!=true" >Save</button>
+            <button class="btn btn-primary" ng-click="cancel()">Cancel</button>
+        </div>
+</script>
 
 
 
