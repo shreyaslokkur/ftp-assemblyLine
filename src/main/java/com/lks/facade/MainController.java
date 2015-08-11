@@ -581,7 +581,7 @@ public class MainController {
 		return branchService.createNewBranch(branchDO);
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/admin/editBranchAddress")
+	@RequestMapping(method = RequestMethod.POST, value = "/admin/editBranch")
 	public
 	@ResponseBody
 	boolean editBranchAddress(@ModelAttribute BranchDO branchDO){
