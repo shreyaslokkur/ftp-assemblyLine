@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 import com.lks.core.FALException;
+import com.lks.core.enums.UserRoles;
+import com.lks.core.model.RoleDO;
 import com.lks.core.model.UserModelDO;
 import com.lks.orm.dao.UserDaoFactory;
 import org.springframework.security.core.GrantedAuthority;
@@ -146,5 +148,20 @@ public class AuthenticationService implements org.springframework.security.core.
 			userModelDOList.add(userModelDO);
 		}
 		return userModelDOList;
+	}
+
+	@Override
+	public List<RoleDO> getAllRoles() {
+		List<String> allRoles = userDao.getAllRoles();
+		List<RoleDO> roleDOList = new ArrayList<>();
+		RoleDO roleDO = null;
+		for(String role : allRoles){
+			roleDO = new RoleDO();
+			roleDO.setRoleName(role);
+			UserRoles userRoles = UserRoles.valueOf(role);
+			roleDO.setRoleDescription(userRoles.getRoleDescription());
+			roleDOList.add(roleDO);
+		}
+		return roleDOList;
 	}
 }

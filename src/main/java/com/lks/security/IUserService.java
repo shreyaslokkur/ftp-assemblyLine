@@ -1,5 +1,6 @@
 package com.lks.security;
 
+import com.lks.core.model.RoleDO;
 import com.lks.core.model.UserModelDO;
 import com.lks.orm.entities.User;
 
@@ -16,4 +17,6 @@ public interface IUserService {
     UserModelDO findUser(String username);
     List<String> findUsersByRole(String role);
     List<UserModelDO> findAllUsers();
+    List<RoleDO> getAllRoles();
+
 }

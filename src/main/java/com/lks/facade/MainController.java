@@ -657,6 +657,13 @@ public class MainController {
 		return branchService.getAllBranches();
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value = "/admin/getAllRoles")
+	public
+	@ResponseBody
+	List<RoleDO> getAllRoles(){
+		return userService.getAllRoles();
+	}
+
 	@RequestMapping(method = RequestMethod.GET, value = "/all/getTat")
 	public
 	@ResponseBody

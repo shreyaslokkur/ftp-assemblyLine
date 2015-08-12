@@ -11,10 +11,13 @@ public enum UserRoles {
     ROLE_APPROVER("Approver"),
     ROLE_ADMIN("Administrator");
 
-    private String roleName;
+    private String roleDescription;
 
-    UserRoles(String roleName) {
-        this.roleName = roleName;
+    UserRoles(String roleDescription) {
+        this.roleDescription = roleDescription;
     }
 
+    public String getRoleDescription() {
+        return roleDescription;
+    }
 }

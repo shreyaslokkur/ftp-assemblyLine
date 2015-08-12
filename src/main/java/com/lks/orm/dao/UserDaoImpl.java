@@ -123,6 +123,24 @@ public class UserDaoImpl implements UserDao {
 		return userList;
 	}
 
+	@Override
+	public List<String> getAllRoles() {
+		SessionFactory sessionFactory = getSessionFactory();
+		Session session = sessionFactory.getCurrentSession();
+		List<String> userRoleList = new ArrayList<String>();
+		try{
+			userRoleList = session.createQuery("Select u.role from User_Roles u group by u.role")
+					.list();
+
+		}catch (HibernateException e){
+			throw new FALException("Unable to retrieve all branches", e);
+		}finally {
+			session.close();
+		}
+
+		return userRoleList;
+	}
+
 	private boolean deleteById(Class<?> type, Serializable id, Session session) {
 		Object persistentInstance = session.load(type, id);
 		if (persistentInstance != null) {

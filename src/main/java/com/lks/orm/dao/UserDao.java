@@ -12,4 +12,5 @@ public interface UserDao {
 	boolean deleteExistingUser(String username);
 	List<User> retrieveAllUsers();
 	List<String> retrieveAllUsersInRole(String role);
+	List<String> getAllRoles();
 }
