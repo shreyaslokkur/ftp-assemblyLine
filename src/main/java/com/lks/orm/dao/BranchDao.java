@@ -7,9 +7,10 @@ import java.util.List;
 
 public interface BranchDao {
 
-	String createBranch(int branchCode, String branchName, String zone, String region);
+	int createBranch(int branchCode, String branchName, String zone, String region);
     List<Branch> retrieveAllBranches();
     Branch retrieveBranch(int branchCode);
     boolean editBranch(Branch branch);
     boolean deleteExistingBranch(int branchCode);
+    Branch findByBranchCode(int branchCode);
 }

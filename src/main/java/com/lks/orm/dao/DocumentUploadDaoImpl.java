@@ -44,6 +44,7 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
         }catch (HibernateException e) {
             throw new FALException("Unable to create new document with file name"+ fileName, e);
         }finally {
+            session.flush();
             session.close();
         }
         return documentId;

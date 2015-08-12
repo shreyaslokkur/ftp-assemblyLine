@@ -45,6 +45,7 @@
 				<value>orm/UserRoles.hbm.xml</value>
 				<value>orm/Document.hbm.xml</value>
 				<value>orm/DocumentArchive.hbm.xml</value>
+				<value>orm/Branch.hbm.xml</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">

@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface IBranchService {
 
-    String createNewBranch(BranchDO branchDO);
+    int createNewBranch(BranchDO branchDO);
     boolean editBranch(BranchDO branchDO);
     boolean deleteBranch(BranchDO branchDO);
     List<BranchDO> getAllBranches();

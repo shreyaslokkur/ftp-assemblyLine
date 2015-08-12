@@ -2,6 +2,7 @@ package com.lks.test;
 
 import com.lks.facade.MainController;
 import com.lks.orm.dao.DocumentUploadDao;
+import com.lks.security.IBranchService;
 import com.lks.security.IUserService;
 import com.lks.uploader.IDocumentUploadService;
 import org.springframework.test.context.ContextConfiguration;
@@ -27,4 +28,7 @@ public class AbstractTest extends AbstractTransactionalTestNGSpringContextTests 
 
     @Resource(name = "userDetailService")
     IUserService userService;
+
+    @Resource(name = "branchService")
+    IBranchService branchService;
 }

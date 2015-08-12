@@ -17,10 +17,12 @@ public class BranchService implements IBranchService {
     @Resource(name = "branchDao")
     BranchDao branchDao;
 
+
+
     @Override
-    public String createNewBranch(BranchDO branchDO) {
+    public int createNewBranch(BranchDO branchDO) {
         //check if the user exists already
-        if(branchDao.retrieveBranch(branchDO.getBranchCode()) == null)
+        if(branchDao.findByBranchCode(branchDO.getBranchCode()) == null)
             return branchDao.createBranch(branchDO.getBranchCode(),branchDO.getBranchName(), branchDO.getZone(), branchDO.getRegion());
         else
             throw new FALException("Branch already Exists");

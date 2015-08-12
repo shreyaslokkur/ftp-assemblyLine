@@ -2,7 +2,6 @@ package com.lks.orm.dao;
 
 import com.lks.core.FALException;
 import com.lks.orm.entities.Branch;
-import com.lks.orm.entities.Comments;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -26,18 +25,33 @@ public class BranchDaoImpl implements BranchDao {
 		this.sessionFactory = sessionFactory;
 	}
 
+    public Branch findByBranchCode(int branchCode) {
+
+        List<Branch> branches = new ArrayList<Branch>();
+
+        branches = getSessionFactory().getCurrentSession().createQuery("from Branch where branchCode=?")
+                .setParameter(0, branchCode).list();
+
+        if (branches.size() > 0) {
+            return branches.get(0);
+        } else {
+            return null;
+        }
+
+    }
 
     @Override
-    public String createBranch(int branchCode, String branchName,String zone, String region) {
+    public int createBranch(int branchCode, String branchName,String zone, String region) {
         SessionFactory sessionFactory = getSessionFactory();
         Session session = sessionFactory.openSession();
         Branch branch = new Branch(branchCode,branchName, zone, region, true);
-        String key = null;
+        Integer key = null;
         try{
-            key = (String) session.save(branch);
+            key = (Integer) session.save(branch);
         }catch (HibernateException e) {
             throw new FALException("Unable to create new branch : "+ branch.getBranchName(), e);
         }finally {
+            session.flush();
             session.close();
         }
         return key;

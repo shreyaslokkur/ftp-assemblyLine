@@ -1,26 +1,110 @@
-CREATE  TABLE users (
-  username VARCHAR(45) NOT NULL ,
-  password VARCHAR(60) NOT NULL ,
-  enabled TINYINT NOT NULL DEFAULT 1 ,
-  PRIMARY KEY (username));
+DROP TABLE users;
+DROP TABLE user_roles;
+DROP TABLE document_archive;
+DROP TABLE document;
+DROP TABLE comments_archive;
+DROP TABLE comments;
+DROP TABLE branch;
+
+ CREATE TABLE users (
+  username varchar(45) NOT NULL,
+  password varchar(60) NOT NULL,
+  enabled tinyint(4) NOT NULL DEFAULT 1,
+  branchCode int(11) DEFAULT NULL,
+  PRIMARY KEY (username)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE user_roles (
   user_role_id int(11) NOT NULL AUTO_INCREMENT,
-  username varchar(45) NOT NULL,
+  username varchar(45) DEFAULT NULL,
   role varchar(45) NOT NULL,
   PRIMARY KEY (user_role_id),
   UNIQUE KEY uni_username_role (role,username),
-  KEY fk_username_idx (username),
-  CONSTRAINT fk_username FOREIGN KEY (username) REFERENCES users (username));
+  KEY fk_username_idx (username)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
-INSERT INTO users(username,password,enabled)
-VALUES ('mkyong','$2a$10$04TVADrR6/SPLBjsK0N30.Jf5fNjBugSACeGv1S69dZALR7lSov0y', true);
-INSERT INTO users(username,password,enabled)
-VALUES ('alex','$2a$10$04TVADrR6/SPLBjsK0N30.Jf5fNjBugSACeGv1S69dZALR7lSov0y', true);
+CREATE TABLE document_archive (
+  documentId int(11) DEFAULT NULL,
+  state varchar(45) DEFAULT NULL,
+  fileName varchar(100) DEFAULT NULL,
+  fileLocation varchar(255) DEFAULT NULL,
+  branchCode int(11) DEFAULT NULL,
+  createdBy varchar(60) DEFAULT NULL,
+  placeOfMeeting varchar(100) DEFAULT NULL,
+  bookletNo int(11) DEFAULT NULL,
+  applicationNo int(11) DEFAULT NULL,
+  numOfCustomers int(11) DEFAULT NULL,
+  lockedBy varchar(60) DEFAULT NULL,
+  completedBy varchar(60) DEFAULT NULL,
+  approvedBy varchar(60) DEFAULT NULL,
+  assignedTo varchar(60) DEFAULT NULL,
+  queryLevel int(11) DEFAULT NULL,
+  onHold tinyint(4) DEFAULT NULL,
+  locked tinyint(4) DEFAULT NULL,
+  approved tinyint(4) DEFAULT NULL,
+  documentArchiveId int(11) NOT NULL AUTO_INCREMENT,
+  rescanNeeded tinyint(4) DEFAULT NULL,
+  recCreatedOn varchar(60) DEFAULT NULL,
+  recCompletedOn varchar(60) DEFAULT NULL,
+  recApprovedOn varchar(60) DEFAULT NULL,
+  PRIMARY KEY (documentArchiveId)
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
 
-INSERT INTO user_roles (username, role)
-VALUES ('mkyong', 'ROLE_USER');
-INSERT INTO user_roles (username, role)
-VALUES ('mkyong', 'ROLE_ADMIN');
-INSERT INTO user_roles (username, role)
-VALUES ('alex', 'ROLE_USER');
+CREATE TABLE document (
+  documentId int(11) NOT NULL AUTO_INCREMENT,
+  state varchar(60) DEFAULT NULL,
+  fileName varchar(100) DEFAULT NULL,
+  fileLocation varchar(255) DEFAULT NULL,
+  branchCode int(11) DEFAULT NULL,
+  createdBy varchar(60) DEFAULT NULL,
+  placeOfMeeting varchar(100) DEFAULT NULL,
+  bookletNo int(11) DEFAULT NULL,
+  applicationNo int(11) DEFAULT NULL,
+  numOfCustomers int(11) DEFAULT NULL,
+  lockedBy varchar(60) DEFAULT NULL,
+  completedBy varchar(60) DEFAULT NULL,
+  approvedBy varchar(60) DEFAULT NULL,
+  assignedTo varchar(60) DEFAULT NULL,
+  queryLevel int(11) DEFAULT NULL,
+  onHold tinyint(4) DEFAULT NULL,
+  locked tinyint(4) DEFAULT NULL,
+  approved tinyint(4) DEFAULT NULL,
+  rescanNeeded tinyint(4) DEFAULT NULL,
+  recCreatedOn varchar(60) DEFAULT NULL,
+  recApprovedOn varchar(60) DEFAULT NULL,
+  recCompletedOn varchar(60) DEFAULT NULL,
+  putOnHoldBy varchar(60) DEFAULT NULL,
+  PRIMARY KEY (documentId)
+) ENGINE=InnoDB AUTO_INCREMENT=256 DEFAULT CHARSET=utf8;
+
+CREATE TABLE comments_archive (
+  commentId int(11) DEFAULT NULL,
+  documentId int(11) DEFAULT NULL,
+  commentedBy varchar(60) DEFAULT NULL,
+  state varchar(45) DEFAULT NULL,
+  comments text,
+  idx varchar(45) DEFAULT NULL,
+  commentArchiveId int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (commentArchiveId)
+) ENGINE=InnoDB AUTO_INCREMENT=96 DEFAULT CHARSET=utf8;
+
+CREATE TABLE comments (
+  commentId int(11) NOT NULL AUTO_INCREMENT,
+  documentId int(11) NOT NULL,
+  commentedBy varchar(60) NOT NULL,
+  state varchar(45) DEFAULT NULL,
+  comments text,
+  idx int(11) DEFAULT NULL,
+  PRIMARY KEY (commentId)
+) ENGINE=InnoDB AUTO_INCREMENT=190 DEFAULT CHARSET=utf8;
+
+CREATE TABLE branch (
+  branchCode int(11) NOT NULL,
+  branchName varchar(60) NOT NULL,
+  zone varchar(60) NOT NULL,
+  region varchar(60) NOT NULL,
+  enabled tinyint(4) NOT NULL,
+  PRIMARY KEY (branchCode)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
