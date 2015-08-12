@@ -9,6 +9,9 @@ public class Branch implements IEntity {
 	private boolean enabled;
 
 
+	public Branch() {
+	}
+
 	public Branch(int branchCode, String branchName, String zone, String region, boolean enabled) {
 		this.branchCode = branchCode;
 		this.branchName = branchName;
