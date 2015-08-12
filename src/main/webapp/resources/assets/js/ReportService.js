@@ -400,10 +400,13 @@
         return deferred.promise;
     },
 
-    reportService.GetUsers= function(){
+
+
+
+    reportService.getAllUsers= function(){
 
         var deferred = $q.defer();
-        $http.get('yettoAdd', {
+        $http.get('/admin/getAllUsers', {
 
         })
             .success(function (data) {
@@ -418,8 +421,155 @@
 
 
 
+    reportService.getCurrentUser= function(){
 
+        var deferred = $q.defer();
+        $http.get('/admin/getCurrentUser', {
 
+        })
+            .success(function (data) {
+                deferred.resolve(data);
+            }).error(function (msg, code) {
+                deferred.reject(msg);
+                $log.error(msg, code);
+            });
+        return deferred.promise;
+
+    }
+
+    reportService.createUser= function(user){
+
+        var deferred = $q.defer();
+        $http({
+            method: 'POST',
+            url: '/admin/createnewuser',
+            headers: {'Content-Type': application/json},
+            data: user
+
+        })
+            .success(function(data, status) {
+                deferred.resolve(data);
+            }).error(function (msg, code) {
+                deferred.reject(msg);
+                $log.error(msg, code);
+            });
+        return deferred.promise;
+
+    },
+
+        reportService.resetPassword= function(user){
+
+            var deferred = $q.defer();
+            $http({
+                method: 'POST',
+                url: '/admin/editPassword',
+                headers: {'Content-Type': application/json},
+                data: user
+
+            })
+                .success(function(data, status) {
+                    deferred.resolve(data);
+                }).error(function (msg, code) {
+                    deferred.reject(msg);
+                    $log.error(msg, code);
+                });
+            return deferred.promise;
+
+        },
+
+        reportService.deleteUser= function(user){
+
+            var deferred = $q.defer();
+            $http({
+                method: 'POST',
+                url: '/admin/deleteUser',
+                data: user.username
+
+            })
+                .success(function(data, status) {
+                    deferred.resolve(data);
+                }).error(function (msg, code) {
+                    deferred.reject(msg);
+                    $log.error(msg, code);
+                });
+            return deferred.promise;
+
+        },
+
+    reportService.getAllBranches= function(){
+
+        var deferred = $q.defer();
+        $http.get('/admin/getAllBranches', {
+
+        })
+            .success(function (data) {
+                deferred.resolve(data);
+            }).error(function (msg, code) {
+                deferred.reject(msg);
+                $log.error(msg, code);
+            });
+        return deferred.promise;
+
+    },
+
+        reportService.createBranch= function(branch){
+
+            var deferred = $q.defer();
+            $http({
+                method: 'POST',
+                url: '/admin/createnewbranch',
+                headers: {'Content-Type': application/json},
+                data: branch
+
+            })
+                .success(function(data, status) {
+                    deferred.resolve(data);
+                }).error(function (msg, code) {
+                    deferred.reject(msg);
+                    $log.error(msg, code);
+                });
+            return deferred.promise;
+
+        },
+
+        reportService.editBranch= function(branch){
+
+            var deferred = $q.defer();
+            $http({
+                method: 'POST',
+                url: '/admin/editBranch',
+                headers: {'Content-Type': application/json},
+                data: branch
+
+            })
+                .success(function(data, status) {
+                    deferred.resolve(data);
+                }).error(function (msg, code) {
+                    deferred.reject(msg);
+                    $log.error(msg, code);
+                });
+            return deferred.promise;
+
+        },
+
+        reportService.deleteBranch= function(branch){
+
+            var deferred = $q.defer();
+            $http({
+                method: 'POST',
+                url: '/admin/deleteBranch',
+                data: branch.branchCode
+
+            })
+                .success(function(data, status) {
+                    deferred.resolve(data);
+                }).error(function (msg, code) {
+                    deferred.reject(msg);
+                    $log.error(msg, code);
+                });
+            return deferred.promise;
+
+        }
     return reportService;
 
 
