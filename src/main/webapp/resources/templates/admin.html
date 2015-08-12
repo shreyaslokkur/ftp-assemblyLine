@@ -54,20 +54,219 @@
             <i class="fa fa-user"></i> Users
         </a>
     </li>
-    <li><a href="#Branches" role="tab" ng-click="IsAllDocuments=false;getMydocuments()" data-toggle="tab">
+    <li>
+        <a href="#Branches" role="tab" ng-click="IsAllDocuments=false;getMydocuments()" data-toggle="tab">
         <i class="fa fa-home"></i> Branch
     </a>
     </li>
 </ul>
+
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="Users">
+    <div class="tab-pane fade active in" id="Users" >
+        <form name="UserForm">
+            <div class="container" style="text-align: left;margin-left: 0px;">
+                <div class="row" >
+                    <div class="col-md-2">
+                        Role : <span class="colorRed">*</span>
+                    </div>
+                    <div class="col-md-4">
+                        <select ng-model="user.userRole" ng-options="Role.Code as Role.RoleDesc for Role in Roles">
+                        </select>
+                    </div>
+                </div>
+                <div class="row" ng-show="user.userRole=='ROLE_SCANNER'" >
+                    <div class="col-md-2">
+                        Branch Name : <span class="colorRed">*</span>
+                    </div>
+                    <div class="col-md-4">
+                        <select ng-model="user.branchCode" ng-options="Role.Code as Role.RoleDesc for Role in Roles">
+                        </select>
+                    </div>
+                </div>
+                <div class="row" style="padding-top:5px">
+                    <div class="col-md-2">
+                        User Name : <span class="colorRed">*</span>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" ng-model="user.userName" placeholder="Enter UserName" required />
+                    </div>
+                </div>
+                <div class="row" style="padding-top:5px">
+                    <div class="col-md-2">
+                        Password : <span class="colorRed">*</span>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="password" class="form-control" ng-model="user.password"   placeholder="Enter Password" required />
+                    </div>
+                </div>
+                <div class="row" style="padding-top:5px">
+                    <div class="col-md-2">
+                        Confirm Password : <span class="colorRed">*</span>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="password" class="form-control" ng-model="user.confirmPassword" compare-to="user.password" placeholder="Enter  Confirm Password" required />
+                    </div>
+                    <div class="col-md-6" ng-messages="UserForm.confirmPassword.$error"
+                         ng-messages-include="messages.html"></div>
+                </div>
+                <div class="row" style="padding-top:5px">
+                    <div class="col-md-2">
+                        &nbsp;
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-primary" style="width: 100%" ng-click="createUser(doc)" ng-disabled="UserForm.$invalid">Create/Update User</button>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+
+                          <table id="dOTable"  class="table table-bordered table-striped" style="margin-left:10px;">
+                        
+                        <thead align="center" style="font-size: 12px;">
+
+
+                        <th>User Name</th>
+                        <th>User Role</th>
+                        <th>Branch Code</th>
+                        <th>Reset Password</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+
+
+
+                        </thead>
+
+
+
+                        <tr ng-repeat="user in Users">
+
+                            <td>{{user.userName}}</td>
+                            <td>{{doc.userRole}}</td>
+                            <td>{{doc.branchCode}}</td>
+                            <td><button class="btn btn-primary" title="Reset Password" ng-click="ResetPassword(user);" /><i class="fa fa-cogs"></i></button></td>
+                            <td><button class="btn btn-primary" title="Edit" ng-click="Edit(user);" /><i class="fa fa-pencil-square-o"></i></button></td>
+                            <td><button class="btn btn-danger" title="Delete"ng-really-message="Are you sure you want to delete the user?" ng-really-click="deleteUser(user);" /><i class="fa fa-trash-o"></i>&nbsp;</button></td>
+
+                        </tr>
+
+
+
+
+
+                    </table>
+                        
+
+                    </div>
+                    <div class="col-md-6"></div>
+                </div>
+
+
+                <!--   <input type="file" id="btnBrowse" style="display:none" class="btn btn-primary" />-->
+
+            </div>
+        </form>
+
+
+
+    </div>
+    <div class="tab-pane fade" id="Branches">
+        <form name="BranchForm">
+            <div class="container" style="text-align: left;margin-left: 0px;">
+                <div class="row" >
+                    <div class="col-md-2">
+                        Branch Code : <span class="colorRed">*</span>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" ng-model="branch.branchCode" placeholder="Enter Branch Code" required />
+                    </div>
+                </div>
+                <div class="row" ng-show="user.userRole=='ROLE_SCANNER'" >
+                    <div class="col-md-2">
+                        Branch Name : <span class="colorRed">*</span>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" ng-model="branch.branchName" placeholder="Enter Branch Name" required />
+                    </div>
+                </div>
+                <div class="row" style="padding-top:5px">
+                    <div class="col-md-2">
+                        Zone : <span class="colorRed">*</span>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" ng-model="branch.zone" placeholder="Enter Zone" required />
+                    </div>
+                </div>
+                <div class="row" style="padding-top:5px">
+                    <div class="col-md-2">
+                        Region : <span class="colorRed">*</span>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" ng-model="branch.region"   placeholder="Enter Region" required />
+                    </div>
+                </div>
+                <div class="row" style="padding-top:5px">
+                    <div class="col-md-2">
+                        &nbsp;
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-primary" style="width: 100%" ng-click="createBranch(doc)" ng-disabled="BranchForm.$invalid">Create/Update Branch</button>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+
+                          <table id="dOTable"  class="table table-bordered table-striped" style="margin-left:10px;">
+                        
+                        <thead align="center" style="font-size: 12px;">
+
+
+                        <th>Branch Code</th>
+                        <th>Branch Name</th>
+                        <th>Zone</th>
+                        <th>Region</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+
+
+
+                        </thead>
+
+
+
+                        <tr ng-repeat="br in Branches">
+
+                            <td>{{br.branchCode}}</td>
+                            <td>{{br.branchName}}</td>
+                            <td>{{br.zone}}</td>
+                            <td>{{br.region}}</td>
+                            <td><button class="btn btn-primary" title="Edit" ng-click="editBranch(br);" /><i class="fa fa-pencil-square-o"></i></button></td>
+                            <td><button class="btn btn-danger" title="Delete"ng-really-message="Are you sure you want to delete the user?" ng-really-click="deletebranch(br);" /><i class="fa fa-trash-o"></i>&nbsp;</button></td>
+
+                        </tr>
+
+
+
+
+
+                    </table>
+                        
+
+                    </div>
+                    <div class="col-md-6"></div>
+                </div>
+
+
+                <!--   <input type="file" id="btnBrowse" style="display:none" class="btn btn-primary" />-->
+
+            </div>
+        </form>
 
     </div>
 </div>
 
-<div class="tab-content">
-    <div class="tab-pane fade active in" id="Branches">
 
-    </div>
-</div>
 </body>
