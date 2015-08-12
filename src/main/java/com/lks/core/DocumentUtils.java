@@ -5,7 +5,10 @@ import com.lks.orm.entities.CommentsArchive;
 import com.lks.orm.entities.Document;
 import com.lks.orm.entities.DocumentArchive;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,6 +17,8 @@ import java.util.List;
 public class DocumentUtils {
 
     private String tatTime;
+
+    private int tatTimeInMinutes;
 
     public static DocumentArchive archiveDocument(Document document){
         DocumentArchive documentArchive = new DocumentArchive();
@@ -64,14 +69,35 @@ public class DocumentUtils {
 
     public void setTatTime(String tatTime) {
         this.tatTime = tatTime;
+        setTatTimeInMinutes(tatTime);
     }
 
     public int getTatTimeInMinutes(){
-        String tatTime = getTatTime();
+
+        return tatTimeInMinutes;
+    }
+
+    public void setTatTimeInMinutes(String tatTime) {
         String[] split = tatTime.split(":");
-        int tatTimeInHours = Integer.parseInt(split[0]);
-        int tatTimeInMinutes = Integer.parseInt(split[1]);
-        int totalTatTimeInMinutes = (tatTimeInHours * 60) + tatTimeInMinutes;
-        return totalTatTimeInMinutes;
+        int tatHours = Integer.parseInt(split[0]);
+        int tatMinutes = Integer.parseInt(split[1]);
+        int totalTatTimeInMinutes = (tatHours * 60) + tatMinutes;
+        tatTimeInMinutes = totalTatTimeInMinutes;
+    }
+
+    public static Date convertStringToDate(String dateInString){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null;
+
+        try {
+
+            date = formatter.parse(dateInString);
+            System.out.println(date);
+            System.out.println(formatter.format(date));
+
+        } catch (ParseException e) {
+            throw new FALException("Unable to covert string to date: "+ dateInString);
+        }
+        return date;
     }
 }

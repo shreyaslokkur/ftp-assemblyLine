@@ -30,7 +30,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -303,13 +305,24 @@ public class MainController {
 
 	}
 
+
 	@RequestMapping(method = RequestMethod.GET, value = "/do/getNewRecords")
 	public
 	@ResponseBody
 	List<DocumentDO> getNewRecords(){
 		List<DocumentDO> documentDOList = documentUploadService.retrieveAllNewAndLockedDocuments();
 		int tatTimeInMinutes = documentUtils.getTatTimeInMinutes();
+		Date currentDate = new Date();
+
+		Date recCreatedOn = null;
 		for(DocumentDO documentDO : documentDOList){
+			recCreatedOn = DocumentUtils.convertStringToDate(documentDO.getRecCreatedOn());
+			if(hasCrossedTat(recCreatedOn,currentDate,tatTimeInMinutes))
+			{
+				documentDO.setHasCrossedTat(true);
+			}else {
+				documentDO.setHasCrossedTat(false);
+			}
 
 
 
@@ -323,7 +336,34 @@ public class MainController {
 	@ResponseBody
 	List<DocumentDO> getRecordsAssignedTo(){
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		return documentUploadService.retrieveAllDocumentsAssignedTo(userDetails.getUsername());
+		List<DocumentDO> documentDOList = documentUploadService.retrieveAllDocumentsAssignedTo(userDetails.getUsername());
+		int tatTimeInMinutes = documentUtils.getTatTimeInMinutes();
+		Date currentDate = new Date();
+
+		Date recCreatedOn = null;
+		for(DocumentDO documentDO : documentDOList){
+			recCreatedOn = DocumentUtils.convertStringToDate(documentDO.getRecCreatedOn());
+			if(hasCrossedTat(recCreatedOn,currentDate,tatTimeInMinutes))
+			{
+				documentDO.setHasCrossedTat(true);
+			}else {
+				documentDO.setHasCrossedTat(false);
+			}
+
+
+
+		}
+		return documentDOList;
+
+	}
+
+	private boolean hasCrossedTat(Date recCreatedOn, Date currentDate, int tatInMinutes){
+		long t=recCreatedOn.getTime();
+		Date afterAddingTat=new Date(t + (tatInMinutes * 60000));
+		if(currentDate.after(afterAddingTat)){
+			return true;
+		}
+		return false;
 
 	}
 
