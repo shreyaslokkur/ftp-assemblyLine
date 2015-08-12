@@ -1,18 +1,7 @@
 ﻿reportApp.controller('ApproverController', ['$scope', '$modal', 'ReportService',
                             function ($scope, $modal, ReportService) {
 
-                                $scope.OperationSuccess = false;
-                                $scope.OperationFailure = false;
-                                var promise = ReportService.getAllRecordsForApprover();
-                                promise.then(
-                                    function (payload) {
-                                        $scope.docRecords = payload;
-                                    },
-                                    function (errorPayload) {
-                                        $scope.OperationFailure = true;
-                                        $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
-                                        $log.error('Error in getAllRecordsForApprover', errorPayload);
-                                    });
+
 
                                 $scope.approveRecord = function (doc) {
                                     var promise = ReportService.approveRecord(doc);
@@ -110,5 +99,21 @@
 
                                 };
 
+                                var init = function () {
+                                    $scope.OperationSuccess = false;
+                                    $scope.OperationFailure = false;
+                                    var promise = ReportService.getAllRecordsForApprover();
+                                    promise.then(
+                                        function (payload) {
+                                            $scope.docRecords = payload;
+                                        },
+                                        function (errorPayload) {
+                                            $scope.OperationFailure = true;
+                                            $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                                            $log.error('Error in getAllRecordsForApprover', errorPayload);
+                                        });
+                                };
+
+                                init();
 
                             }]);

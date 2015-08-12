@@ -2,38 +2,7 @@
                             function ($scope, $modal,$log, ReportService) {
 
 
-                                $scope.OperationSuccess = false;
-                                $scope.OperationFailure = false;
-                                $scope.IsAllDocuments=true;
 
-                                //Initial Load
-                                var promise = ReportService.getAllRecords();
-                                promise.then(
-                                   function (payload) {
-                                       $scope.docRecords = payload;
-                                       $scope.getMydocuments();
-                                   },
-                                   function (errorPayload) {
-                                       $scope.OperationFailure = true;
-                                       $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
-                                       $log.error('failure: Error at getAllRecords', errorPayload);
-                                   });
-
-
-                                //Refresh every Minute 
-                                setInterval(function () {
-                                    var promise = ReportService.getAllRecords();
-                                    promise.then(
-                                       function (payload) {
-                                           $scope.docRecords = payload;
-                                       },
-                                       function (errorPayload) {
-                                           $scope.OperationFailure = true;
-                                           $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
-                                           $log.error('failure: Error while getAllRecords()', errorPayload);
-                                       });
-
-                                }, 100000)
 
 
                                 $scope.getMydocuments = function() {
@@ -205,6 +174,43 @@
                 });
 
             };
+
+            var init = function () {
+                $scope.OperationSuccess = false;
+                $scope.OperationFailure = false;
+                $scope.IsAllDocuments=true;
+
+                //Initial Load
+                var promise = ReportService.getAllRecords();
+                promise.then(
+                    function (payload) {
+                        $scope.docRecords = payload;
+                        $scope.getMydocuments();
+                    },
+                    function (errorPayload) {
+                        $scope.OperationFailure = true;
+                        $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                        $log.error('failure: Error at getAllRecords', errorPayload);
+                    });
+
+
+                //Refresh every Minute
+                setInterval(function () {
+                    var promise = ReportService.getAllRecords();
+                    promise.then(
+                        function (payload) {
+                            $scope.docRecords = payload;
+                        },
+                        function (errorPayload) {
+                            $scope.OperationFailure = true;
+                            $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                            $log.error('failure: Error while getAllRecords()', errorPayload);
+                        });
+
+                }, 100000)
+            };
+
+            init();
 
 }]);
 
