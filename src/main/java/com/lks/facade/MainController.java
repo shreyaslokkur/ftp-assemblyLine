@@ -6,7 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.lks.core.DocumentUtils;
+import com.lks.core.FALException;
 import com.lks.core.enums.DocOperations;
+import com.lks.core.enums.ExceptionCode;
 import com.lks.core.model.*;
 import com.lks.security.IBranchService;
 import com.lks.security.IUserService;
@@ -30,7 +32,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -658,6 +659,15 @@ public class MainController {
 	@ResponseBody
 	String getTatTime(){
 		return documentUtils.getTatTime();
+	}
+
+	@ExceptionHandler(FALException.class)
+	public @ResponseBody
+	String handleCustomException(FALException ex, HttpServletResponse response) {
+
+		response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+		return ex.getMessage();
+
 	}
 
 
