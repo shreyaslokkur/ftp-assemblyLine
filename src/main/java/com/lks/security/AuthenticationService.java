@@ -93,6 +93,7 @@ public class AuthenticationService implements org.springframework.security.core.
 
 	@Override
 	public boolean resetPassword(UserModelDO userModelDO) {
+		userDao = UserDaoFactory.getUserDao();
 		com.lks.orm.entities.User user = userDao.findByUserName(userModelDO.getUsername());
 		user.setPassword(userModelDO.getPassword());
 		return userDao.editExisitingUser(user);
@@ -101,6 +102,7 @@ public class AuthenticationService implements org.springframework.security.core.
 
 	@Override
 	public boolean deleteUser(UserModelDO userModelDO) {
+		userDao = UserDaoFactory.getUserDao();
 		if(userDao.findByUserName(userModelDO.getUsername()) != null){
 			return userDao.deleteExistingUser(userModelDO.getUsername());
 		}else
@@ -110,6 +112,7 @@ public class AuthenticationService implements org.springframework.security.core.
 
 	@Override
 	public UserModelDO findUser(String username) {
+		userDao = UserDaoFactory.getUserDao();
 		com.lks.orm.entities.User user = userDao.findByUserName(username);
 		UserModelDO userModelDO = null;
 		if(user != null){
@@ -128,11 +131,13 @@ public class AuthenticationService implements org.springframework.security.core.
 
 	@Override
 	public List<String> findUsersByRole(String role) {
+		userDao = UserDaoFactory.getUserDao();
 		return userDao.retrieveAllUsersInRole(role);
 	}
 
 	@Override
 	public List<UserModelDO> findAllUsers() {
+		userDao = UserDaoFactory.getUserDao();
 		List<com.lks.orm.entities.User> users = userDao.retrieveAllUsers();
 		List<UserModelDO> userModelDOList = new ArrayList<>();
 		UserModelDO userModelDO = null;
@@ -152,6 +157,7 @@ public class AuthenticationService implements org.springframework.security.core.
 
 	@Override
 	public List<RoleDO> getAllRoles() {
+		userDao = UserDaoFactory.getUserDao();
 		List<String> allRoles = userDao.getAllRoles();
 		List<RoleDO> roleDOList = new ArrayList<>();
 		RoleDO roleDO = null;

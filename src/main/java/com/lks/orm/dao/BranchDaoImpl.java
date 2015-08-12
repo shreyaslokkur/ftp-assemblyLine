@@ -29,7 +29,7 @@ public class BranchDaoImpl implements BranchDao {
 
         List<Branch> branches = new ArrayList<Branch>();
 
-        branches = getSessionFactory().getCurrentSession().createQuery("from Branch where branchCode=?")
+        branches = getSessionFactory().openSession().createQuery("from Branch where branchCode=?")
                 .setParameter(0, branchCode).list();
 
         if (branches.size() > 0) {
@@ -60,7 +60,7 @@ public class BranchDaoImpl implements BranchDao {
     @Override
     public List<Branch> retrieveAllBranches() {
         SessionFactory sessionFactory = getSessionFactory();
-        Session session = sessionFactory.getCurrentSession();
+        Session session = sessionFactory.openSession();
         List<Branch> branchList = new ArrayList<Branch>();
         try{
             branchList = session.createQuery("from Branch b")
@@ -78,7 +78,7 @@ public class BranchDaoImpl implements BranchDao {
     @Override
     public Branch retrieveBranch(int branchCode) {
         SessionFactory sessionFactory = getSessionFactory();
-        Session session = sessionFactory.getCurrentSession();
+        Session session = sessionFactory.openSession();
         Branch branch = null;
         try{
             branch = (Branch) session.createQuery("from Branch b where b.branchCode=?")

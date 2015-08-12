@@ -22,7 +22,7 @@ public class UserDaoImpl implements UserDao {
 
 		List<User> users = new ArrayList<User>();
 
-		users = getSessionFactory().getCurrentSession().createQuery("from User where username=?")
+		users = getSessionFactory().openSession().createQuery("from User where username=?")
 				.setParameter(0, username).list();
 
 		if (users.size() > 0) {
@@ -89,7 +89,7 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public List<User> retrieveAllUsers() {
 		SessionFactory sessionFactory = getSessionFactory();
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactory.openSession();
 		List<User> userList = new ArrayList<User>();
 		try{
 			userList = session.createQuery("from User u")
@@ -107,10 +107,10 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public List<String> retrieveAllUsersInRole(String role){
 		SessionFactory sessionFactory = getSessionFactory();
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactory.openSession();
 		List<String> userList = new ArrayList<String>();
 		try{
-			userList = session.createQuery("from User_Roles u where u.role=?")
+			userList = session.createQuery("from UserRole u where u.role=?")
 					.setParameter("role", role)
 					.list();
 
@@ -126,10 +126,10 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public List<String> getAllRoles() {
 		SessionFactory sessionFactory = getSessionFactory();
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactory.openSession();
 		List<String> userRoleList = new ArrayList<String>();
 		try{
-			userRoleList = session.createQuery("Select u.role from User_Roles u group by u.role")
+			userRoleList = session.createQuery("Select u.role from UserRole u group by u.role")
 					.list();
 
 		}catch (HibernateException e){

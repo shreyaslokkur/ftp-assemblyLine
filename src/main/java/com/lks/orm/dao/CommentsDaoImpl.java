@@ -43,7 +43,7 @@ public class CommentsDaoImpl implements CommentsDao {
     @Override
     public List<Comments> retrieveComments(int documentId) {
         SessionFactory sessionFactory = getSessionFactory();
-        Session session = sessionFactory.getCurrentSession();
+        Session session = sessionFactory.openSession();
         List<Comments> commentsList = new ArrayList<Comments>();
         try{
             commentsList = session.createQuery("from Comments c where c.documentId=?")
