@@ -1,10 +1,10 @@
-DROP TABLE users;
-DROP TABLE user_roles;
-DROP TABLE document_archive;
-DROP TABLE document;
-DROP TABLE comments_archive;
-DROP TABLE comments;
-DROP TABLE branch;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS user_roles;
+DROP TABLE IF EXISTS document_archive;
+DROP TABLE IF EXISTS document;
+DROP TABLE IF EXISTS comments_archive;
+DROP TABLE IF EXISTS comments;
+DROP TABLE IF EXISTS branch;
 
  CREATE TABLE users (
   username varchar(45) NOT NULL,
