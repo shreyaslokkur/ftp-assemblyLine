@@ -1,18 +1,7 @@
 reportApp.controller('QueryController', ['$scope', '$modal', 'ReportService',
     function ($scope, $modal, ReportService) {
 
-        $scope.OperationSuccess = false;
-        $scope.OperationFailure = false;
-        var promise = ReportService.getAllRecordsForQueryResolver();
-        promise.then(
-            function (payload) {
-                $scope.docRecords = payload;
-            },
-            function (errorPayload) {
-                $scope.OperationFailure = true;
-                $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
-                $log.error('Error in getAllRecordsForApprover', errorPayload);
-            });
+
 
 
 
@@ -93,5 +82,20 @@ reportApp.controller('QueryController', ['$scope', '$modal', 'ReportService',
 
         };
 
+        var init = function () {
+            $scope.OperationSuccess = false;
+            $scope.OperationFailure = false;
+            var promise = ReportService.getAllRecordsForQueryResolver();
+            promise.then(
+                function (payload) {
+                    $scope.docRecords = payload;
+                },
+                function (errorPayload) {
+                    $scope.OperationFailure = true;
+                    $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                    $log.error('Error in getAllRecordsForApprover', errorPayload);
+                });
+        };
 
+        init();
     }]);

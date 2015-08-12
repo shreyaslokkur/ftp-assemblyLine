@@ -87,6 +87,9 @@ public class MainController {
 							break;
 						case "ROLE_RESOLVER":
 							redirectUrl = "redirect:/resources/templates/QueryResolver.html";
+                            break;
+						case "ROLE_ADMIN":
+							redirectUrl = "redirect:/resources/templates/admin.html";
 					}
 
 				}
