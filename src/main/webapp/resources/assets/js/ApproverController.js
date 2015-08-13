@@ -18,6 +18,19 @@
 
 
                                 },
+                                    $scope.getAllUsersBasedOnRole = function(){
+                                        var promise = ReportService.getAllUsersBasedOnRole();
+                                        promise.then(
+                                            function (payload) {
+                                                $scope.usersDo = payload;
+
+                                            },
+                                            function (errorPayload) {
+                                                $log.error('failure: Error while Locking document', errorPayload);
+                                                $scope.OperationFailure = true;
+                                                $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                                            });
+                                    },
 
                                 $scope.approveRecord = function (doc) {
                                     var promise = ReportService.approveRecord(doc);
@@ -99,6 +112,9 @@
                                         resolve: {
                                             doc: function () {
                                                 return doc;
+                                            },
+                                            users: function(){
+                                                return $scope.usersDo;
                                             }
                                         }
                                     });
@@ -120,6 +136,9 @@
                                         resolve: {
                                             doc: function () {
                                                 return doc;
+                                            },
+                                            users: function(){
+                                                return null;
                                             }
                                         }
                                     });
@@ -132,6 +151,7 @@
                                     $scope.OperationFailure = false;
                                     $scope.getCurrentUser();
                                     $scope.getAllRecordsForApprover();
+                                    $scope.getAllUsersBasedOnRole();
 
                                 };
 

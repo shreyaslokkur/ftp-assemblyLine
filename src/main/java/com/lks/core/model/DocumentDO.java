@@ -35,8 +35,9 @@ public class DocumentDO extends AbstractDO {
     private String recCompletedOn;
     private String recApprovedOn;
     private boolean hasCrossedTat;
+    private String putOnHoldBy;
 
-    public DocumentDO(int documentId,RecStatus state, String fileName, String fileLocation, String createdBy, int branchCode, String placeOfMeeting, int bookletNo, int applicationNo, int numOfCustomers, String lockedBy, String completedBy, String approvedBy, String assignedTo, int queryLevel, boolean onHold, boolean locked, boolean approved, boolean rescanNeeded, List<Comments> comments, String recCreatedOn, String recCompletedOn, String recApprovedOn) {
+    public DocumentDO(int documentId,RecStatus state, String fileName, String fileLocation, String createdBy, int branchCode, String placeOfMeeting, int bookletNo, int applicationNo, int numOfCustomers, String lockedBy, String completedBy, String approvedBy, String assignedTo, int queryLevel, boolean onHold, boolean locked, boolean approved, boolean rescanNeeded, List<Comments> comments, String recCreatedOn, String recCompletedOn, String recApprovedOn, String putOnHoldBy) {
         this.documentId = documentId;
         this.state = state;
         this.fileName = fileName;
@@ -61,6 +62,7 @@ public class DocumentDO extends AbstractDO {
         this.recCompletedOn = recCompletedOn;
         this.recApprovedOn = recApprovedOn;
         this.documentUrl = this.documentUrl.concat(String.valueOf(documentId));
+        this.putOnHoldBy = putOnHoldBy;
     }
 
     public int getDocumentId() {
@@ -261,5 +263,13 @@ public class DocumentDO extends AbstractDO {
 
     public void setHasCrossedTat(boolean hasCrossedTat) {
         this.hasCrossedTat = hasCrossedTat;
+    }
+
+    public String getPutOnHoldBy() {
+        return putOnHoldBy;
+    }
+
+    public void setPutOnHoldBy(String putOnHoldBy) {
+        this.putOnHoldBy = putOnHoldBy;
     }
 }

@@ -116,6 +116,9 @@
                                             resolve: {
                                                 doc: function () {
                                                     return doc;
+                                                },
+                                                users: function(){
+                                                    return null;
                                                 }
                                             }
                                         });

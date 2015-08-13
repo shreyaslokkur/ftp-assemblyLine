@@ -115,6 +115,9 @@
                     resolve: {
                         doc: function () {
                             return doc;
+                        },
+                        users: function(){
+                            return null;
                         }
                     }
                 });
@@ -135,6 +138,9 @@
                     resolve: {
                         doc: function () {
                             return doc;
+                        },
+                        users: function(){
+                            return null;
                         }
                     }
                 });
@@ -185,6 +191,9 @@
                     resolve: {
                         doc: function () {
                             return doc;
+                        },
+                        users: function(){
+                            return null;
                         }
                     }
                 });

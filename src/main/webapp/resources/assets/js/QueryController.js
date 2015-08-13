@@ -51,7 +51,19 @@ reportApp.controller('QueryController', ['$scope', '$modal', 'ReportService',
                     });
             }
 
+        $scope.getAllUsersBasedOnRole = function(){
+            var promise = ReportService.getAllUsersBasedOnRole();
+            promise.then(
+                function (payload) {
+                   $scope.usersDo = payload;
 
+                },
+                function (errorPayload) {
+                    $log.error('failure: Error while Locking document', errorPayload);
+                    $scope.OperationFailure = true;
+                    $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                });
+        },
 
 
         $scope.resolveAndAssignRecord = function (doc) {
@@ -81,6 +93,9 @@ reportApp.controller('QueryController', ['$scope', '$modal', 'ReportService',
                 resolve: {
                     doc: function () {
                         return doc;
+                    },
+                    users: function(){
+                        return $scope.usersDo;
                     }
                 }
             });
@@ -102,6 +117,9 @@ reportApp.controller('QueryController', ['$scope', '$modal', 'ReportService',
                 resolve: {
                     doc: function () {
                         return doc;
+                    },
+                    users: function(){
+                        return null;
                     }
                 }
             });
@@ -113,6 +131,8 @@ reportApp.controller('QueryController', ['$scope', '$modal', 'ReportService',
             $scope.OperationFailure = false;
            $scope.getCurrentUser();
             $scope.getAllRecordsForQueryResolver();
+            $scope.getAllUsersBasedOnRole();
+
         };
 
         init();

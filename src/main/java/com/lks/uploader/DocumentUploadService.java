@@ -289,7 +289,7 @@ public class DocumentUploadService implements IDocumentUploadService {
     }
 
     private DocumentDO setDocumentDo(Document document) {
-        DocumentDO documentDO = new DocumentDO(document.getDocumentId(),document.getState(), document.getFileName(), document.getFileLocation(),document.getCreatedBy(), document.getBranchCode(), document.getPlaceOfMeeting(),document.getBookletNo(), document.getApplicationNo(), document.getNumOfCustomers(), document.getLockedBy(), document.getCompletedBy(), document.getApprovedBy(), document.getAssignedTo(), document.getQueryLevel(), document.isOnHold(), document.isLocked(), document.isApproved(), document.isRescanNeeded(), document.getComments(), document.getRecCreatedOn(), document.getRecCompletedOn(), document.getRecApprovedOn());
+        DocumentDO documentDO = new DocumentDO(document.getDocumentId(),document.getState(), document.getFileName(), document.getFileLocation(),document.getCreatedBy(), document.getBranchCode(), document.getPlaceOfMeeting(),document.getBookletNo(), document.getApplicationNo(), document.getNumOfCustomers(), document.getLockedBy(), document.getCompletedBy(), document.getApprovedBy(), document.getAssignedTo(), document.getQueryLevel(), document.isOnHold(), document.isLocked(), document.isApproved(), document.isRescanNeeded(), document.getComments(), document.getRecCreatedOn(), document.getRecCompletedOn(), document.getRecApprovedOn(), document.getPutOnHoldBy());
         return documentDO;
     }
 

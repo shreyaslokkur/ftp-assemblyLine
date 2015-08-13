@@ -82,7 +82,7 @@ public class AuthenticationService implements org.springframework.security.core.
 	}
 
 	@Override
-	public String createNewUser(UserModelDO userModelDO) {
+	public int createNewUser(UserModelDO userModelDO) {
 		userDao = UserDaoFactory.getUserDao();
 		//check if the user exists already
 		if(userDao.findByUserName(userModelDO.getUsername()) == null)
@@ -130,9 +130,19 @@ public class AuthenticationService implements org.springframework.security.core.
 	}
 
 	@Override
-	public List<String> findUsersByRole(String role) {
+	public List<UserModelDO> findUsersByRole(String role) {
 		userDao = UserDaoFactory.getUserDao();
-		return userDao.retrieveAllUsersInRole(role);
+		List<UserRole> userRoles = userDao.retrieveAllUsersInRole(role);
+		List<UserModelDO> userModelDOList = new ArrayList<>();
+		UserModelDO userModelDO = null;
+		for(UserRole user : userRoles){
+			userModelDO = new UserModelDO();
+			userModelDO.setUsername(user.getUser().getUsername());
+			userModelDO.setUserRole(user.getRole());
+
+			userModelDOList.add(userModelDO);
+		}
+		return userModelDOList;
 	}
 
 	@Override

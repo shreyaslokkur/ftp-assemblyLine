@@ -35,7 +35,7 @@ public class UserDaoImpl implements UserDao {
 
 
 	@Override
-	public String createNewUser(String username, String password, int branchCode, String role) {
+	public int createNewUser(String username, String password, int branchCode, String role) {
 		SessionFactory sessionFactory = getSessionFactory();
 		Session session = sessionFactory.openSession();
 		String key = null;
@@ -51,7 +51,9 @@ public class UserDaoImpl implements UserDao {
 		}finally {
 			session.close();
 		}
-		return key;
+		if(key != null)
+			return 1;
+		return 0;
 	}
 
 	@Override
@@ -105,13 +107,13 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public List<String> retrieveAllUsersInRole(String role){
+	public List<UserRole> retrieveAllUsersInRole(String role){
 		SessionFactory sessionFactory = getSessionFactory();
 		Session session = sessionFactory.openSession();
-		List<String> userList = new ArrayList<String>();
+		List<UserRole> userRoleList = new ArrayList<UserRole>();
 		try{
-			userList = session.createQuery("from UserRole u where u.role=?")
-					.setParameter("role", role)
+			userRoleList = session.createQuery("from UserRole ur where ur.role=?")
+					.setParameter(0, role)
 					.list();
 
 		}catch (HibernateException e){
@@ -120,7 +122,7 @@ public class UserDaoImpl implements UserDao {
 			session.close();
 		}
 
-		return userList;
+		return userRoleList;
 	}
 
 	@Override

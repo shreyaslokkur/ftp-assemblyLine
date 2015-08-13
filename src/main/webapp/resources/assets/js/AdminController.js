@@ -101,6 +101,9 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
                     function (payload) {
                         if(parseInt(payload) > 0)
                             $scope.Users.push(user);
+                        $scope.OperationSuccess = true;
+                        $scope.successMsg = "User Created Succssfully!";
+
                     },
                     function (errorPayload) {
                         $scope.OperationFailure = true;

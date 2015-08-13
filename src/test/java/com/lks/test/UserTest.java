@@ -20,8 +20,8 @@ public class UserTest extends AbstractTest {
         userModelDO.setUserRole(role);
         if(branchCode != 0)
             userModelDO.setBranchCode(branchCode);
-        String newUser = userService.createNewUser(userModelDO);
-        Assert.assertEquals(newUser, userModelDO.getUsername());
+        int newUser = userService.createNewUser(userModelDO);
+        Assert.assertEquals(newUser, 1);
 
 
     }

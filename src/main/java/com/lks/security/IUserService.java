@@ -11,11 +11,11 @@ import java.util.List;
  */
 public interface IUserService {
 
-    String createNewUser(UserModelDO userModelDO);
+    int createNewUser(UserModelDO userModelDO);
     boolean resetPassword(UserModelDO userModelDO);
     boolean deleteUser(UserModelDO userModelDO);
     UserModelDO findUser(String username);
-    List<String> findUsersByRole(String role);
+    List<UserModelDO> findUsersByRole(String role);
     List<UserModelDO> findAllUsers();
     List<RoleDO> getAllRoles();
 

@@ -337,7 +337,7 @@
             params: {
                 documentId: record.documentId,
                 comment: record.newComment,
-                assignTo:''
+                assignTo:record.completedBy
             }
         })
             .success(function (data) {
@@ -368,7 +368,7 @@
         reportService.uploadFileToUrl = function (file,doc, uploadUrl) {
             var fd = new FormData();
             fd.append('file', file);
-            fd.append('branchName',doc.branchName);
+            fd.append('branchCode',doc.branchCode);
             fd.append('bookletNo',doc.bookletNo);
             fd.append('applicationNo',doc.applicationNo);
             fd.append('placeOfMeeting',doc.placeOfMeeting);
@@ -404,7 +404,7 @@
             params: {
                 documentId: record.documentId,
                 comment: record.newComment,
-                assignTo:''
+                assignTo:record.putOnHoldBy
             }
         })
             .success(function (data) {
@@ -453,13 +453,15 @@
 
     }
 
-    reportService.createUser= function(user){
+    reportService.createUser = function(user){
 
         var deferred = $q.defer();
         $http({
             method: 'POST',
             url: '/admin/createnewuser',
-            data: user
+            data: JSON.stringify(user),
+            headers: {'Content-Type': 'application/json'}
+
 
         })
             .success(function(data, status) {
@@ -505,8 +507,24 @@
             return deferred.promise;
 
         },
+        reportService.getAllUsersBasedOnRole= function(){
 
-    reportService.getAllBranches= function(){
+            var deferred = $q.defer();
+            $http.get('/all/getAllUsersForRole', {
+                params: { role: 'ROLE_DO'}
+
+            })
+                .success(function (data) {
+                    deferred.resolve(data);
+                }).error(function (msg, code) {
+                    deferred.reject(msg);
+                    $log.error(msg, code);
+                });
+            return deferred.promise;
+
+        },
+
+        reportService.getAllBranches= function(){
 
         var deferred = $q.defer();
         $http.get('/all/getAllBranches', {

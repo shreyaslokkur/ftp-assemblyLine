@@ -57,10 +57,10 @@
     to { background-color: inherit; }
 }
 .invalid {
-    -webkit-animation: invalid 1s infinite; /* Safari 4+ */
-    -moz-animation:    invalid 1s infinite; /* Fx 5+ */
-    -o-animation:      invalid 1s infinite; /* Opera 12+ */
-    animation:         invalid 1s infinite; /* IE 10+ */
+    -webkit-animation: invalid 2.5s infinite; /* Safari 4+ */
+    -moz-animation:    invalid 2.5s infinite; /* Fx 5+ */
+    -o-animation:      invalid 2.5s infinite; /* Opera 12+ */
+    animation:         invalid 2.5s infinite; /* IE 10+ */
 }
 
 /*Search*/

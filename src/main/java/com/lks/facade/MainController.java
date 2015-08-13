@@ -584,7 +584,7 @@ public class MainController {
 	@RequestMapping(method = RequestMethod.POST, value = "/admin/createnewuser")
 	public
 	@ResponseBody
-	String createNewUser(@RequestBody UserModelDO userModelDO){
+	int createNewUser(@RequestBody UserModelDO userModelDO){
 		return userService.createNewUser(userModelDO);
 	}
 
@@ -613,10 +613,10 @@ public class MainController {
 
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/admin/getAllUsersForRole")
+	@RequestMapping(method = RequestMethod.GET, value = "/all/getAllUsersForRole")
 	public
 	@ResponseBody
-	List<String> getUsersForRole(@RequestParam("role") String role){
+	List<UserModelDO> getUsersForRole(@RequestParam("role") String role){
 		return userService.findUsersByRole(role);
 	}
 
