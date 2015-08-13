@@ -27,5 +27,6 @@ public interface IDocumentUploadService {
     List<DocumentDO> retrieveAllDocumentsWhichNeedApproval();
     List<DocumentDO> retrieveAllDocumentsWhichAreInHold();
     List<DocumentDO> retrieveAllRescanDocuments();
+    List<DocumentDO> retrieveAllDocuments();
     String retrieveDocumentUrl(int documentId);
 }

@@ -19,5 +19,6 @@ public interface DocumentUploadDao {
     List<Document> getAllRecordsWhichNeedApproval();
     List<Document> getAllRecordsWhichNeedRescan();
     List<Document> getAllRecordsWhichAreInHold();
+    List<Document> getAllRecords();
     String retrieveDocumentUrl(int documentId);
 }

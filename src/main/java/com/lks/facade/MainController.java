@@ -664,6 +664,13 @@ public class MainController {
 		return userService.getAllRoles();
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value = "/admin/getAllDocuments")
+	public
+	@ResponseBody
+	List<DocumentDO> getAllDocuments(){
+		return documentUploadService.retrieveAllDocuments();
+	}
+
 	@RequestMapping(method = RequestMethod.GET, value = "/all/getTat")
 	public
 	@ResponseBody

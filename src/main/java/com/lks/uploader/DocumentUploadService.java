@@ -252,6 +252,26 @@ public class DocumentUploadService implements IDocumentUploadService {
     }
 
     @Override
+    public List<DocumentDO> retrieveAllDocuments() {
+        logger.info("Entered the method in document upload service to retrieve all documents ");
+
+        List<DocumentDO> documentDOList = new ArrayList<DocumentDO>();
+        try{
+            List<Document> allRecords = documentUploadDao.getAllRecords();
+            DocumentDO documentDO = null;
+            for(Document document : allRecords){
+                documentDO = setDocumentDo(document);
+                documentDOList.add(documentDO);
+            }
+        }catch(Exception e){
+            logger.severe("Encountered exception in the method retrieve document: "+ e.getMessage());
+            System.out.println(e.getMessage());
+        }
+
+        return documentDOList;
+    }
+
+    @Override
     public String retrieveDocumentUrl(int documentId) {
         logger.info("Entered the method in document upload service to retrieve document url");
 
