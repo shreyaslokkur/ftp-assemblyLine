@@ -233,6 +233,24 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
     }
 
     @Override
+    public List<Document> getAllRecords() {
+        List<Document> documentList;
+        SessionFactory sessionFactory = getSessionFactory();
+        Session session = sessionFactory.openSession();
+        try{
+            String hql = "from Document d ";
+            documentList = session.createQuery(hql).list();
+
+        }catch (HibernateException e){
+            throw new FALException("Unable to retrieve records ", e);
+        }finally {
+            session.close();
+        }
+
+        return documentList;
+    }
+
+    @Override
     public String retrieveDocumentUrl(int documentId) {
         SessionFactory sessionFactory = getSessionFactory();
         Session session = sessionFactory.openSession();
