@@ -509,7 +509,7 @@
     reportService.getAllBranches= function(){
 
         var deferred = $q.defer();
-        $http.get('/all/getAllBranches', {
+        $http.get('/admin/getAllBranches', {
 
         })
             .success(function (data) {

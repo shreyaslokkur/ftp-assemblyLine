@@ -85,8 +85,8 @@
                         Branch Name : <span class="colorRed">*</span>
                     </div>
                     <div class="col-md-4">
-                        <select ng-model="user.branchCode" ng-init="user.branchCode = Branches[0]" class="form-control"
-                                ng-options="br.branchCode as br.branchName for br in Branches" required>
+                        <select  class="form-control" ng-model="user.branchCode" ng-init="user.branchCode=0"
+                                ng-options="br.branchCode as br.branchName for br in Branches " >
                         </select>
                     </div>
                 </div>
@@ -113,8 +113,11 @@
                     <div class="col-md-4">
                         <input type="password" class="form-control" ng-model="user.confirmPassword"  compare-to="user.password" placeholder="Enter  Confirm Password" required />
                     </div>
-                    <div class="col-md-6" ng-show="UserForm.confirmPassword.$error" ng-messages="UserForm.confirmPassword.$error">
-                         Passwords do not match</div>
+                    <div class="col-md-6" ng-messages="UserForm.confirmPassword.$error">
+                        <!--<div class="messages">
+                            <div ng-message="compareTo">Must match the password</div>
+                        </div>-->
+                    </div>
                 </div>
                 <div class="row" style="padding-top:5px">
                     <div class="col-md-2">

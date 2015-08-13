@@ -26,7 +26,7 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
                 promise.then(
                     function (payload) {
                         $scope.Roles = payload;
-                        $scope.user = {userRole : $scope.Roles[0].roleName};
+                       // $scope.user = {userRole : $scope.Roles[0].roleName};
                     },
                     function (errorPayload) {
                         $scope.OperationFailure = true;
