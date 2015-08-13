@@ -584,14 +584,14 @@ public class MainController {
 	@RequestMapping(method = RequestMethod.POST, value = "/admin/createnewuser")
 	public
 	@ResponseBody
-	String createNewUser(@ModelAttribute UserModelDO userModelDO){
+	String createNewUser(@RequestBody UserModelDO userModelDO){
 		return userService.createNewUser(userModelDO);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/admin/editPassword")
 	public
 	@ResponseBody
-	boolean editPasswordOfUser(@ModelAttribute UserModelDO userModelDO){
+	boolean editPasswordOfUser(@RequestBody UserModelDO userModelDO){
 		return userService.resetPassword(userModelDO);
 	}
 
@@ -604,7 +604,7 @@ public class MainController {
 		return userService.deleteUser(userModelDO);
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/admin/getCurrentUser")
+	@RequestMapping(method = RequestMethod.GET, value = "/all/getCurrentUser")
 	public
 	@ResponseBody
 	UserModelDO getUser(){
@@ -630,14 +630,14 @@ public class MainController {
 	@RequestMapping(method = RequestMethod.POST, value = "/admin/createnewbranch")
 	public
 	@ResponseBody
-	int createNewBranch(@ModelAttribute BranchDO branchDO){
+	int createNewBranch(@RequestBody BranchDO branchDO){
 		return branchService.createNewBranch(branchDO);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/admin/editBranch")
 	public
 	@ResponseBody
-	boolean editBranchAddress(@ModelAttribute BranchDO branchDO){
+	boolean editBranchAddress(@RequestBody BranchDO branchDO){
 		return branchService.editBranch(branchDO);
 	}
 
@@ -650,7 +650,7 @@ public class MainController {
 		return branchService.deleteBranch(branchDO);
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/admin/getAllBranches")
+	@RequestMapping(method = RequestMethod.GET, value = "/all/getAllBranches")
 	public
 	@ResponseBody
 	List<BranchDO> getAllBranches(){
