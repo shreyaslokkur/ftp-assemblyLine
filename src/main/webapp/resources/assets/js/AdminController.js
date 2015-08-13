@@ -185,6 +185,9 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
                     resolve: {
                         doc: function () {
                             return doc;
+                        },
+                        users: function () {
+                            return null;
                         }
                     }
                 });
