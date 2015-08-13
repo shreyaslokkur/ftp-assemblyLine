@@ -17,7 +17,7 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
                 });
 
 
-        }
+        },
 
         $scope.getAllBranches = function()
         {
@@ -34,7 +34,37 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
                 });
 
 
-        }
+        },
+
+            $scope.getAllDocumentsForAdmin = function()
+            {
+
+                var promise = ReportService.getAllDocumentsForAdmin();
+                promise.then(
+                    function (payload) {
+                        $scope.docRecords = payload;
+                    },
+                    function (errorPayload) {
+                        $scope.OperationFailure = true;
+                        $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                        $log.error('Error in GetAllUsers', errorPayload);
+                    });
+
+
+            },
+            $scope.ShowComments = function (doc) {
+                doc.ViewOnly = true;
+                var modalInstance = $modal.open({
+                    controller: "ModalInstanceCtrl",
+                    templateUrl: 'myModalContent.html',
+                    resolve: {
+                        doc: function () {
+                            return doc;
+                        }
+                    }
+                });
+
+            };
 
         var init = function () {
             $scope.OperationSuccess = false;
@@ -50,7 +80,8 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
 
             ]};
             $scope.getAllBranches();
-           //$scope.getAllUsers();
+            $scope.getAllUsers();
+            $scope.getAllDocumentsForAdmin();
         };
 
 

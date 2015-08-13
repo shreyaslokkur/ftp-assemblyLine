@@ -55,9 +55,14 @@
         </a>
     </li>
     <li>
-        <a href="#Branches" role="tab" ng-click="IsAllDocuments=false;getMydocuments()" data-toggle="tab">
+        <a href="#Branches" role="tab" data-toggle="tab">
         <i class="fa fa-home"></i> Branch
     </a>
+    </li>
+    <li>
+        <a href="#Documents" role="tab"  data-toggle="tab">
+            <i class="fa fa-file-text"></i> All Documents
+        </a>
     </li>
 </ul>
 
@@ -131,7 +136,7 @@
                         <th>User Role</th>
                         <th>Branch Code</th>
                         <th>Reset Password</th>
-                        <th>Edit</th>
+<!--                        <th>Edit</th>-->
                         <th>Delete</th>
 
 
@@ -146,7 +151,7 @@
                             <td>{{doc.userRole}}</td>
                             <td>{{doc.branchCode}}</td>
                             <td><button class="btn btn-primary" title="Reset Password" ng-click="ResetPassword(user);" /><i class="fa fa-cogs"></i></button></td>
-                            <td><button class="btn btn-primary" title="Edit" ng-click="Edit(user);" /><i class="fa fa-pencil-square-o"></i></button></td>
+                            <!--<td><button class="btn btn-primary" title="Edit" ng-click="Edit(user);" /><i class="fa fa-pencil-square-o"></i></button></td>-->
                             <td><button class="btn btn-danger" title="Delete"ng-really-message="Are you sure you want to delete the user?" ng-really-click="deleteUser(user);" /><i class="fa fa-trash-o"></i>&nbsp;</button></td>
 
                         </tr>
@@ -228,7 +233,7 @@
                         <th>Branch Name</th>
                         <th>Zone</th>
                         <th>Region</th>
-                        <th>Edit</th>
+                        <!--<th>Edit</th>-->
                         <th>Delete</th>
 
 
@@ -243,7 +248,7 @@
                             <td>{{br.branchName}}</td>
                             <td>{{br.zone}}</td>
                             <td>{{br.region}}</td>
-                            <td><button class="btn btn-primary" title="Edit" ng-click="editBranch(br);" /><i class="fa fa-pencil-square-o"></i></button></td>
+                            <!--<td><button class="btn btn-primary" title="Edit" ng-click="editBranch(br);" /><i class="fa fa-pencil-square-o"></i></button></td>-->
                             <td><button class="btn btn-danger" title="Delete"ng-really-message="Are you sure you want to delete the user?" ng-really-click="deletebranch(br);" /><i class="fa fa-trash-o"></i>&nbsp;</button></td>
 
                         </tr>
@@ -266,7 +271,143 @@
         </form>
 
     </div>
-</div>
+    <div class="tab-pane fade" id="Documents">
+        <div class="container" style="text-align: left;margin-left: 0px;">
+            <div class="row">
+                <div class="col-md-12">
+        <table id="dOTable"  class="table table-bordered table-striped">
+            
+            <thead align="center" style="font-size: 12px;">
 
+            <!-- <th>Doc Id</th>-->
+            <th>Booklet No</th>
+            <th>Application No</th>
+            <th>Branch Name</th>
+            <th>Place of Meeting</th>
+            <th>No of Customers</th>
+            <th>Status</th>
+            <th>Recieved Time</th>
+            <th>Completed Time</th>
+            <th>Locked By</th>
+
+            <th>Comments</th>
+
+            </thead>
+
+
+
+            <tr ng-repeat="doc in docRecords">
+                <!-- <td>{{doc.documentId}}</td>-->
+                <td>{{doc.bookletNo}}</td>
+                <td>{{doc.applicationNo}}</td>
+                <td>{{doc.branchName}}</td>
+                <td>{{doc.placeOfMeeting}}</td>
+                <td>{{doc.numOfCustomers}}</td>
+                <td>{{doc.status}}</td>
+                <td>{{doc.recCreatedOn}}</td>
+                <td>{{doc.recCompletedOn}}</td>
+                <td>{{doc.lockedBy}}</td>
+                <td><button class="btn btn-primary" title="View Comments" ng-click="ShowComments(doc);"><i class="fa fa-comments"></i></button></td>
+            </tr>
+
+
+
+
+
+        </table>
+                </div>
+            </div>
+            </div>
+    </div>
+</div>
+<script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Comments</h3>
+    </div>
+    <div class="modal-body">
+
+        <div class="container" >
+            <div class="row" style="padding-top:5px">
+                <div class="col-md-2" style="padding-left:0px!important">
+                    <b>Branch Name :</b>
+                </div>
+
+                <div class="col-md-10">
+                    {{doc.branchName}}
+                </div>
+            </div>
+            <div class="row" style="padding-top:5px;">
+                <div class="col-md-2" style="padding-left:0px!important">
+
+                    <b>Booklet No :</b>
+                </div>
+
+                <div class="col-md-10">
+                    {{doc.bookletNo}}
+                </div>
+
+            </div>
+            <div class="row" style="padding-top:5px">
+                <div class="col-md-2" style="padding-left:0px!important">
+
+                    <b>Application No :</b>
+                </div>
+
+                <div class="col-md-10">
+                    {{doc.applicationNo}}
+                </div>
+
+            </div>
+
+            <br/>
+
+            <div class="row" ng-if="doc.comments.length>0" ng-repeat="comment in doc.comments">
+
+                <div class="container" >
+                    <div class="row" style="border: 1px solid grey ;background-color:#e9eaed;width:505px;padding-top:5px;padding-left:2px" >
+
+                        <p>{{comment.comments}}   <span class="pull-right" style="font-size:6pt">- {{comment.commentedBy}}</span></p>
+                    </div>
+
+                </div>
+                <br/>
+
+
+            </div>
+
+            <div class="row colorRed" ng-if="doc.comments.length==0">
+                <div class="container" >
+                    <div class="row">
+                        No Comments to show
+                    </div>
+
+                </div>
+
+                <br>
+            </div>
+
+
+            <div class="row" ng-if="doc.ViewOnly!=true">
+
+                <b>Add Comments :</b>
+
+
+            </div>
+            <form name="commentForm">
+                <div class="row" ng-if="doc.ViewOnly!=true">
+
+                    <textarea rows="6" cols="75" ng-model="doc.newComment" placeholder="Enter Your Comments Here" required></textarea>
+
+
+                </div>
+            </form>
+
+
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="save()" ng-disabled="commentForm.$invalid" ng-if="doc.ViewOnly!=true" >Save</button>
+            <button class="btn btn-primary" ng-click="cancel()">Cancel</button>
+        </div>
+</script>
 
 </body>

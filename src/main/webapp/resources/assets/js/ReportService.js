@@ -240,6 +240,22 @@
 
 
     };
+    reportService.getAllDocumentsForAdmin = function () {
+
+
+        var deferred = $q.defer();
+        $http.get('/admin/TBD')
+            .success(function(data) {
+                deferred.resolve(data);
+            }).error(function(msg, code) {
+                deferred.reject(msg);
+                $log.error(msg, code);
+            });
+        return deferred.promise;
+
+
+    };
+
 
     reportService.lockRecord = function (record,ServiceType) {
 
