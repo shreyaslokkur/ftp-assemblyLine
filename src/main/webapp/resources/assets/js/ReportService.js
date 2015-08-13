@@ -459,7 +459,6 @@
         $http({
             method: 'POST',
             url: '/admin/createnewuser',
-            headers: {'Content-Type': application/json},
             data: user
 
         })
@@ -479,7 +478,6 @@
             $http({
                 method: 'POST',
                 url: '/admin/editPassword',
-                headers: {'Content-Type': application/json},
                 data: user
 
             })
@@ -494,15 +492,11 @@
         },
 
         reportService.deleteUser= function(user){
-
             var deferred = $q.defer();
-            $http({
-                method: 'POST',
-                url: '/admin/deleteUser',
-                data: user.username
-
+            $http.get('/admin/deleteUser', {
+                params: { username: user.username}
             })
-                .success(function(data, status) {
+                .success(function (data) {
                     deferred.resolve(data);
                 }).error(function (msg, code) {
                     deferred.reject(msg);
@@ -515,7 +509,7 @@
     reportService.getAllBranches= function(){
 
         var deferred = $q.defer();
-        $http.get('/admin/getAllBranches', {
+        $http.get('/all/getAllBranches', {
 
         })
             .success(function (data) {
@@ -527,6 +521,21 @@
         return deferred.promise;
 
     },
+        reportService.getAllRoles= function(){
+
+            var deferred = $q.defer();
+            $http.get('/admin/getAllRoles', {
+
+            })
+                .success(function (data) {
+                    deferred.resolve(data);
+                }).error(function (msg, code) {
+                    deferred.reject(msg);
+                    $log.error(msg, code);
+                });
+            return deferred.promise;
+
+        },
 
         reportService.createBranch= function(branch){
 
@@ -534,8 +543,8 @@
             $http({
                 method: 'POST',
                 url: '/admin/createnewbranch',
-                headers: {'Content-Type': application/json},
-                data: branch
+                data: JSON.stringify(branch),
+                headers: {'Content-Type': 'application/json'}
 
             })
                 .success(function(data, status) {
@@ -554,7 +563,6 @@
             $http({
                 method: 'POST',
                 url: '/admin/editBranch',
-                headers: {'Content-Type': application/json},
                 data: branch
 
             })
@@ -568,16 +576,13 @@
 
         },
 
-        reportService.deleteBranch= function(branch){
+        reportService.deleteBranch = function(branch){
 
             var deferred = $q.defer();
-            $http({
-                method: 'POST',
-                url: '/admin/deleteBranch',
-                data: branch.branchCode
-
+            $http.get('/admin/deleteBranch', {
+                params: { branchCode: branch.branchCode}
             })
-                .success(function(data, status) {
+                .success(function (data) {
                     deferred.resolve(data);
                 }).error(function (msg, code) {
                     deferred.reject(msg);

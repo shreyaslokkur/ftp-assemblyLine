@@ -75,8 +75,9 @@
                         Role : <span class="colorRed">*</span>
                     </div>
                     <div class="col-md-4">
-                        <select ng-model="user.userRole" ng-options="Role.Code as Role.RoleDesc for Role in Roles">
-                        </select>
+                        <select class="form-control"  ng-model="user.userRole"
+                                ng-options="option.roleName as option.roleDescription for option in Roles "
+                                required></select>
                     </div>
                 </div>
                 <div class="row" ng-show="user.userRole=='ROLE_SCANNER'" >
@@ -84,7 +85,8 @@
                         Branch Name : <span class="colorRed">*</span>
                     </div>
                     <div class="col-md-4">
-                        <select ng-model="user.branchCode" ng-options="Role.Code as Role.RoleDesc for Role in Roles">
+                        <select ng-model="user.branchCode" ng-init="user.branchCode = Branches[0]" class="form-control"
+                                ng-options="br.branchCode as br.branchName for br in Branches" required>
                         </select>
                     </div>
                 </div>
@@ -109,24 +111,31 @@
                         Confirm Password : <span class="colorRed">*</span>
                     </div>
                     <div class="col-md-4">
-                        <input type="password" class="form-control" ng-model="user.confirmPassword" compare-to="user.password" placeholder="Enter  Confirm Password" required />
+                        <input type="password" class="form-control" ng-model="user.confirmPassword"  compare-to="user.password" placeholder="Enter  Confirm Password" required />
                     </div>
-                    <div class="col-md-6" ng-messages="UserForm.confirmPassword.$error"
-                         ng-messages-include="messages.html"></div>
+                    <div class="col-md-6" ng-show="UserForm.confirmPassword.$error" ng-messages="UserForm.confirmPassword.$error">
+                         Passwords do not match</div>
                 </div>
                 <div class="row" style="padding-top:5px">
                     <div class="col-md-2">
                         &nbsp;
                     </div>
                     <div class="col-md-4">
-                        <button class="btn btn-primary" style="width: 100%" ng-click="createUser(doc)" ng-disabled="UserForm.$invalid">Create/Update User</button>
+                        <button class="btn btn-primary" style="width: 100%" ng-click="createUser(user)" ng-disabled="UserForm.$invalid">Create User</button>
 
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row" style="text-align: center">
                     <div class="col-md-6">
-
+                        <div ng-show="OperationSuccess==true" class="alert alert-success fade-in-out">
+                            <a href="#" class="close" ng-click="OperationSuccess=false">&times;</a>
+                            <strong>Success! </strong>{{successMsg}}
+                        </div>
+                        <div ng-show="OperationFailure==true" class="alert alert-danger fade-in-out">
+                            <a href="#" class="close" ng-click="OperationFailure=false">&times;</a>
+                            <strong>Error!</strong> {{FailureMsg}}
+                        </div>
                           <table id="dOTable"  class="table table-bordered table-striped" style="margin-left:10px;">
                         
                         <thead align="center" style="font-size: 12px;">
@@ -147,12 +156,12 @@
 
                         <tr ng-repeat="user in Users">
 
-                            <td>{{user.userName}}</td>
-                            <td>{{doc.userRole}}</td>
-                            <td>{{doc.branchCode}}</td>
-                            <td><button class="btn btn-primary" title="Reset Password" ng-click="ResetPassword(user);" /><i class="fa fa-cogs"></i></button></td>
+                            <td>{{user.username}}</td>
+                            <td>{{user.userRole}}</td>
+                            <td>{{user.branchCode}}</td>
+                            <td><button class="btn btn-primary" title="Reset Password" ng-click="ResetPassword(user);" /><i class="fa fa-cogs"></i> </button></td>
                             <!--<td><button class="btn btn-primary" title="Edit" ng-click="Edit(user);" /><i class="fa fa-pencil-square-o"></i></button></td>-->
-                            <td><button class="btn btn-danger" title="Delete"ng-really-message="Are you sure you want to delete the user?" ng-really-click="deleteUser(user);" /><i class="fa fa-trash-o"></i>&nbsp;</button></td>
+                            <td><button class="btn btn-danger" title="Delete"ng-really-message="Are you sure you want to delete the user?" ng-really-click="deleteUser(user);" /><i class="fa fa-trash-o"></i></button></td>
 
                         </tr>
 
@@ -187,7 +196,7 @@
                         <input type="text" class="form-control" ng-model="branch.branchCode" placeholder="Enter Branch Code" required />
                     </div>
                 </div>
-                <div class="row" ng-show="user.userRole=='ROLE_SCANNER'" >
+                <div class="row"  >
                     <div class="col-md-2">
                         Branch Name : <span class="colorRed">*</span>
                     </div>
@@ -216,14 +225,21 @@
                         &nbsp;
                     </div>
                     <div class="col-md-4">
-                        <button class="btn btn-primary" style="width: 100%" ng-click="createBranch(doc)" ng-disabled="BranchForm.$invalid">Create/Update Branch</button>
+                        <button class="btn btn-primary" style="width: 100%" ng-click="createBranch(branch)" ng-disabled="BranchForm.$invalid">Create Branch</button>
 
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row" style="text-align: center">
                     <div class="col-md-6">
-
+                        <div ng-show="OperationSuccess==true" class="alert alert-success fade-in-out">
+                            <a href="#" class="close" ng-click="OperationSuccess=false">&times;</a>
+                            <strong>Success! </strong>{{successMsg}}
+                        </div>
+                        <div ng-show="OperationFailure==true" class="alert alert-danger fade-in-out">
+                            <a href="#" class="close" ng-click="OperationFailure=false">&times;</a>
+                            <strong>Error!</strong> {{FailureMsg}}
+                        </div>
                           <table id="dOTable"  class="table table-bordered table-striped" style="margin-left:10px;">
                         
                         <thead align="center" style="font-size: 12px;">
@@ -249,7 +265,7 @@
                             <td>{{br.zone}}</td>
                             <td>{{br.region}}</td>
                             <!--<td><button class="btn btn-primary" title="Edit" ng-click="editBranch(br);" /><i class="fa fa-pencil-square-o"></i></button></td>-->
-                            <td><button class="btn btn-danger" title="Delete"ng-really-message="Are you sure you want to delete the user?" ng-really-click="deletebranch(br);" /><i class="fa fa-trash-o"></i>&nbsp;</button></td>
+                            <td><button class="btn btn-danger" title="Delete"ng-really-message="Are you sure you want to delete the user?" ng-really-click="deleteBranch(br);" /><i class="fa fa-trash-o"></i>&nbsp;</button></td>
 
                         </tr>
 

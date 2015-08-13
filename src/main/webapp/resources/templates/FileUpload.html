@@ -73,7 +73,9 @@
             Branch Name : <span class="colorRed">*</span>
         </div>
         <div class="col-md-4">
-            <input type="text"  class="form-control" ng-model="doc.branchName" placeholder="Enter Branch Name" required />
+            <select ng-model="doc.branchCode" ng-init="doc.branchCode = Branches[0]" class="form-control"
+                    ng-options="br.branchCode as br.branchName for br in Branches" required>
+            </select>
         </div>
     </div>
     <div class="row" style="padding-top:5px">

@@ -24,7 +24,24 @@
                                             $scope.OperationFailure = true;
                                             $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
                                         });
-                                }
+                                },
+                                    $scope.getAllBranches = function()
+                                    {
+
+                                        var promise = ReportService.getAllBranches();
+                                        promise.then(
+                                            function (payload) {
+                                                $scope.Branches = payload;
+                                                $scope.doc = {branchCode : $scope.Branches[0].branchCode};
+                                            },
+                                            function (errorPayload) {
+                                                $scope.OperationFailure = true;
+                                                $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                                                $log.error('Error in GetAllUsers', errorPayload);
+                                            });
+
+
+                                    },
 
 
                                 $scope.uploadFile = function (doc) {
@@ -82,7 +99,7 @@
                                 var init = function () {
                                     $scope.OperationSuccess = false;
                                     $scope.OperationFailure = false;
-
+                                    $scope.getAllBranches();
                                     var promise = ReportService.getAllRecordsforRescan();
                                     promise.then(
                                         function (payload) {

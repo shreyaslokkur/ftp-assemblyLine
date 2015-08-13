@@ -19,22 +19,127 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
 
         },
 
-        $scope.getAllBranches = function()
+            $scope.getAllRoles = function()
+            {
+
+                var promise = ReportService.getAllRoles();
+                promise.then(
+                    function (payload) {
+                        $scope.Roles = payload;
+                        $scope.user = {userRole : $scope.Roles[0].roleName};
+                    },
+                    function (errorPayload) {
+                        $scope.OperationFailure = true;
+                        $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                        $log.error('Error in getAllRoles', errorPayload);
+                    });
+
+
+            },
+
+            $scope.getAllBranches = function()
+            {
+
+                var promise = ReportService.getAllBranches();
+                promise.then(
+                    function (payload) {
+                        $scope.Branches = payload;
+                        //$scope.user = {branchCode : $scope.Branches[0].branchCode};
+                    },
+                    function (errorPayload) {
+                        $scope.OperationFailure = true;
+                        $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                        $log.error('Error in GetAllUsers', errorPayload);
+                    });
+
+
+            },
+
+
+            $scope.createBranch = function(branch)
         {
 
-            var promise = ReportService.getAllBranches();
+            var promise = ReportService.createBranch(branch);
             promise.then(
                 function (payload) {
-                    $scope.Branches = payload;
+                    if(parseInt(payload) > 0)
+                         $scope.Branches.push(branch);
                 },
                 function (errorPayload) {
                     $scope.OperationFailure = true;
                     $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
-                    $log.error('Error in GetAllUsers', errorPayload);
+                    $log.error('Error in createBranch', errorPayload);
                 });
 
 
         },
+            $scope.createUser = function(user)
+            {
+                //branchCode applicable only to Scanners
+                if(user.userRole!="ROLE_SCANNER")
+                    user.branchCode=0;
+
+                var promise = ReportService.createUser(user);
+                promise.then(
+                    function (payload) {
+                        if(parseInt(payload) > 0)
+                            $scope.Users.push(user);
+                    },
+                    function (errorPayload) {
+                        $scope.OperationFailure = true;
+                        $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                        $log.error('Error in createBranch', errorPayload);
+                    });
+
+
+            },
+
+
+            $scope.deleteUser = function(user)
+            {
+
+                var promise = ReportService.deleteUser(user);
+                promise.then(
+                    function (payload) {
+                        if(payload==true){
+                            var index = $scope.Users.indexOf(user);
+                            $scope.Users.splice(index, 1);
+                            $scope.OperationSuccess = true;
+                            $scope.successMsg = "User Deleted Successfully!"
+                        }
+                    },
+                    function (errorPayload) {
+                        $scope.OperationFailure = true;
+                        $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                        $log.error('Error in deleteUser', errorPayload);
+                    });
+
+
+            },
+
+            $scope.deleteBranch = function(branch)
+            {
+
+                var promise = ReportService.deleteBranch(branch);
+                promise.then(
+                    function (payload) {
+                        if(payload==true){
+                        var index = $scope.Branches.indexOf(branch);
+                        $scope.Branches.splice(index, 1);
+                        $scope.OperationSuccess = true;
+                        $scope.successMsg = "Branch Deleted Successfully!"
+                        }
+                    },
+                    function (errorPayload) {
+                        $scope.OperationFailure = true;
+                        $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                        $log.error('Error in deleteBranch', errorPayload);
+                    });
+
+
+            },
+
+
 
             $scope.getAllDocumentsForAdmin = function()
             {
@@ -70,18 +175,12 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
             $scope.OperationSuccess = false;
             $scope.OperationFailure = false;
 
-            $scope.Roles = {
 
-                data: [{Code: 'ROLE_DO', RoleDesc: 'Data Operator'},
-                {Code: 'ROLE_SCANNER', RoleDesc: 'Scanner'},
-                {Code: 'ROLE_RESOLVER', RoleDesc: 'Resolver'},
-                {Code: 'ROLE_APPROVER', RoleDesc: 'Approver'},
-                {Code: 'ROLE_ADMIN', RoleDesc: 'Admin'}
 
-            ]};
-            $scope.getAllBranches();
             $scope.getAllUsers();
-            $scope.getAllDocumentsForAdmin();
+            $scope.getAllRoles();
+            $scope.getAllBranches();
+            //$scope.getAllDocumentsForAdmin();
         };
 
 
