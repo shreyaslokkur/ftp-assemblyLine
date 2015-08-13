@@ -623,7 +623,7 @@ public class MainController {
 	@RequestMapping(method = RequestMethod.GET, value = "/admin/getAllUsers")
 	public
 	@ResponseBody
-	List<UserModelDO> getAllUsers(@RequestParam("role") String role){
+	List<UserModelDO> getAllUsers(){
 		return userService.findAllUsers();
 	}
 
