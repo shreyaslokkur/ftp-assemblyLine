@@ -1,7 +1,23 @@
 ﻿reportApp.controller('DataOpsController', ['$scope', '$modal','$log', 'ReportService',
                             function ($scope, $modal,$log, ReportService) {
 
+                                $scope.getCurrentUser = function()
+                                {
 
+                                    var promise = ReportService.getCurrentUser();
+                                    promise.then(
+                                        function (payload) {
+                                            $scope.userName = payload.username;
+                                            //$scope.user = {branchCode : $scope.Branches[0].branchCode};
+                                        },
+                                        function (errorPayload) {
+                                            $scope.OperationFailure = true;
+                                            $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                                            $log.error('Error in GetAllUsers', errorPayload);
+                                        });
+
+
+                                },
 
 
 
@@ -179,7 +195,7 @@
                 $scope.OperationSuccess = false;
                 $scope.OperationFailure = false;
                 $scope.IsAllDocuments=true;
-
+                $scope.getCurrentUser();
                 //Initial Load
                 var promise = ReportService.getAllRecords();
                 promise.then(

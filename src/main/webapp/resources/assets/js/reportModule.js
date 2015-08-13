@@ -12,3 +12,4 @@ reportApp.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'doc', 'R
         $modalInstance.dismiss('cancel');
     };
 }]);
+

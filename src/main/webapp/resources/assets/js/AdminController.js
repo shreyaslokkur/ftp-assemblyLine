@@ -55,6 +55,23 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
 
             },
 
+            $scope.getCurrentUser = function()
+            {
+
+                var promise = ReportService.getCurrentUser();
+                promise.then(
+                    function (payload) {
+                        $scope.userName = payload.username;
+                        //$scope.user = {branchCode : $scope.Branches[0].branchCode};
+                    },
+                    function (errorPayload) {
+                        $scope.OperationFailure = true;
+                        $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                        $log.error('Error in GetAllUsers', errorPayload);
+                    });
+
+
+            },
 
             $scope.createBranch = function(branch)
         {
@@ -177,10 +194,12 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
 
 
 
+            $scope.getCurrentUser();
             $scope.getAllUsers();
             $scope.getAllRoles();
             $scope.getAllBranches();
-            //$scope.getAllDocumentsForAdmin();
+
+            $scope.getAllDocumentsForAdmin();
         };
 
 

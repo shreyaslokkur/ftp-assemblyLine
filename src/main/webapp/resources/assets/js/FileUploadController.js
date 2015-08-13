@@ -1,9 +1,35 @@
 ﻿reportApp.controller('FileUploadController', ['$scope', '$modal', 'ReportService',
                             function ($scope, $modal, ReportService) {
 
+                                $scope.getCurrentUser = function () {
+
+                                    var promise = ReportService.getCurrentUser();
+                                    promise.then(
+                                        function (payload) {
+                                            $scope.userName = payload.username;
+                                            //$scope.user = {branchCode : $scope.Branches[0].branchCode};
+                                        },
+                                        function (errorPayload) {
+                                            $scope.OperationFailure = true;
+                                            $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                                            $log.error('Error in GetAllUsers', errorPayload);
+                                        });
 
 
-
+                                },
+                                $scope.getAllRecordsforRescan= function()
+                                {
+                                    var promise = ReportService.getAllRecordsforRescan();
+                                promise.then(
+                                    function (payload) {
+                                        $scope.docRecords = payload;
+                                    },
+                                    function (errorPayload) {
+                                        $scope.OperationFailure = true;
+                                        $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                                        $log.error('failure loading movie', errorPayload);
+                                    });
+                            },
                                 $scope.lockRecord = function (doc) {
                                     var promise = ReportService.lockRecord(doc,'scanner');
                                     promise.then(
@@ -100,16 +126,9 @@
                                     $scope.OperationSuccess = false;
                                     $scope.OperationFailure = false;
                                     $scope.getAllBranches();
-                                    var promise = ReportService.getAllRecordsforRescan();
-                                    promise.then(
-                                        function (payload) {
-                                            $scope.docRecords = payload;
-                                        },
-                                        function (errorPayload) {
-                                            $scope.OperationFailure = true;
-                                            $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
-                                            $log.error('failure loading movie', errorPayload);
-                                        });
+                                    $scope.getCurrentUser();
+                                    $scope.getAllRecordsforRescan();
+
                                 };
 
                                 init();

@@ -37,7 +37,7 @@
         <!-- I don't want it apart of the collapsible portion -->
         <div class="navbar-header pull-right">
             <ul class="nav navbar-nav">
-                <li class="active" style="color:#fff"> <a href="">Hi, Username</a> </li>
+                <li class="active" style="color:#fff"> <a href="">Hi, {{userName}}</a> </li>
             </ul>
             <ul class="nav navbar-nav">
 
@@ -95,7 +95,7 @@
                         User Name : <span class="colorRed">*</span>
                     </div>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" ng-model="user.userName" placeholder="Enter UserName" required />
+                        <input type="text" class="form-control" ng-model="user.username" placeholder="Enter UserName" required />
                     </div>
                 </div>
                 <div class="row" style="padding-top:5px">
@@ -294,6 +294,16 @@
         <div class="container" style="text-align: left;margin-left: 0px;">
             <div class="row">
                 <div class="col-md-12">
+                    <div id="custom-search-input">
+                        <div class="input-group col-md-12">
+                            <input type="text"  ng-model="searchText" class="search-query form-control" placeholder="Search" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-danger" type="button">
+                                        <span class=" glyphicon glyphicon-search"></span>
+                                    </button>
+                                </span>
+                        </div>
+                    </div>
         <table id="dOTable"  class="table table-bordered table-striped">
             
             <thead align="center" style="font-size: 12px;">
@@ -301,7 +311,7 @@
             <!-- <th>Doc Id</th>-->
             <th>Booklet No</th>
             <th>Application No</th>
-            <th>Branch Name</th>
+            <th>Branch Code</th>
             <th>Place of Meeting</th>
             <th>No of Customers</th>
             <th>Status</th>
@@ -315,11 +325,11 @@
 
 
 
-            <tr ng-repeat="doc in docRecords">
+            <tr ng-repeat="doc in docRecords | filter:searchText" >
                 <!-- <td>{{doc.documentId}}</td>-->
                 <td>{{doc.bookletNo}}</td>
                 <td>{{doc.applicationNo}}</td>
-                <td>{{doc.branchName}}</td>
+                <td>{{doc.branchCode}}</td>
                 <td>{{doc.placeOfMeeting}}</td>
                 <td>{{doc.numOfCustomers}}</td>
                 <td>{{doc.status}}</td>

@@ -244,7 +244,7 @@
 
 
         var deferred = $q.defer();
-        $http.get('/admin/TBD')
+        $http.get('/admin/getAllDocuments')
             .success(function(data) {
                 deferred.resolve(data);
             }).error(function(msg, code) {
@@ -509,7 +509,7 @@
     reportService.getAllBranches= function(){
 
         var deferred = $q.defer();
-        $http.get('/admin/getAllBranches', {
+        $http.get('/all/getAllBranches', {
 
         })
             .success(function (data) {
@@ -525,6 +525,22 @@
 
             var deferred = $q.defer();
             $http.get('/admin/getAllRoles', {
+
+            })
+                .success(function (data) {
+                    deferred.resolve(data);
+                }).error(function (msg, code) {
+                    deferred.reject(msg);
+                    $log.error(msg, code);
+                });
+            return deferred.promise;
+
+        },
+
+        reportService.getCurrentUser= function(){
+
+            var deferred = $q.defer();
+            $http.get('/all/getCurrentUser', {
 
             })
                 .success(function (data) {

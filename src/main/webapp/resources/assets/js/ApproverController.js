@@ -1,7 +1,23 @@
 ﻿reportApp.controller('ApproverController', ['$scope', '$modal', 'ReportService',
                             function ($scope, $modal, ReportService) {
 
+                                $scope.getCurrentUser = function()
+                                {
 
+                                    var promise = ReportService.getCurrentUser();
+                                    promise.then(
+                                        function (payload) {
+                                            $scope.userName = payload.username;
+                                            //$scope.user = {branchCode : $scope.Branches[0].branchCode};
+                                        },
+                                        function (errorPayload) {
+                                            $scope.OperationFailure = true;
+                                            $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                                            $log.error('Error in GetAllUsers', errorPayload);
+                                        });
+
+
+                                },
 
                                 $scope.approveRecord = function (doc) {
                                     var promise = ReportService.approveRecord(doc);
@@ -59,9 +75,20 @@
                                                 $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
                                                 $log.error('failure: Error while Re-Scanning loading document', errorPayload);
                                             });
-                                    }
+                                    },
 
-
+                                        $scope.getAllRecordsForApprover = function(){
+                                            var promise = ReportService.getAllRecordsForApprover();
+                                            promise.then(
+                                                function (payload) {
+                                                    $scope.docRecords = payload;
+                                                },
+                                                function (errorPayload) {
+                                                    $scope.OperationFailure = true;
+                                                    $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                                                    $log.error('Error in getAllRecordsForApprover', errorPayload);
+                                                });
+                                        },
 
 
                                 $scope.openCommentsPopupForReject = function (doc) {
@@ -99,19 +126,13 @@
 
                                 };
 
+
                                 var init = function () {
                                     $scope.OperationSuccess = false;
                                     $scope.OperationFailure = false;
-                                    var promise = ReportService.getAllRecordsForApprover();
-                                    promise.then(
-                                        function (payload) {
-                                            $scope.docRecords = payload;
-                                        },
-                                        function (errorPayload) {
-                                            $scope.OperationFailure = true;
-                                            $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
-                                            $log.error('Error in getAllRecordsForApprover', errorPayload);
-                                        });
+                                    $scope.getCurrentUser();
+                                    $scope.getAllRecordsForApprover();
+
                                 };
 
                                 init();

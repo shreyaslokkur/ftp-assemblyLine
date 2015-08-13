@@ -2,9 +2,35 @@ reportApp.controller('QueryController', ['$scope', '$modal', 'ReportService',
     function ($scope, $modal, ReportService) {
 
 
+            $scope.getAllRecordsForQueryResolver = function(){
+                    var promise = ReportService.getAllRecordsForQueryResolver();
+                    promise.then(
+                        function (payload) {
+                            $scope.docRecords = payload;
+                        },
+                        function (errorPayload) {
+                            $scope.OperationFailure = true;
+                            $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                            $log.error('Error in getAllRecordsForApprover', errorPayload);
+                        });
+            },
+
+                $scope.getCurrentUser = function () {
+
+                    var promise = ReportService.getCurrentUser();
+                    promise.then(
+                        function (payload) {
+                            $scope.userName = payload.username;
+                            //$scope.user = {branchCode : $scope.Branches[0].branchCode};
+                        },
+                        function (errorPayload) {
+                            $scope.OperationFailure = true;
+                            $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                            $log.error('Error in GetAllUsers', errorPayload);
+                        });
 
 
-
+                },
             $scope.lockRecord = function (doc) {
                 var promise = ReportService.lockRecord(doc,'resolver');
                 promise.then(
@@ -85,16 +111,8 @@ reportApp.controller('QueryController', ['$scope', '$modal', 'ReportService',
         var init = function () {
             $scope.OperationSuccess = false;
             $scope.OperationFailure = false;
-            var promise = ReportService.getAllRecordsForQueryResolver();
-            promise.then(
-                function (payload) {
-                    $scope.docRecords = payload;
-                },
-                function (errorPayload) {
-                    $scope.OperationFailure = true;
-                    $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
-                    $log.error('Error in getAllRecordsForApprover', errorPayload);
-                });
+           $scope.getCurrentUser();
+            $scope.getAllRecordsForQueryResolver();
         };
 
         init();
