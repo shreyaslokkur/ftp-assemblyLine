@@ -7,7 +7,8 @@
                                     promise.then(
                                         function (payload) {
                                             $scope.userName = payload.username;
-                                            $scope.branchCode = payload.username;
+                                            $scope.branchCode = payload.branchCode;
+                                            $scope.getAllRecordsforRescan();
                                             //$scope.user = {branchCode : $scope.Branches[0].branchCode};
                                         },
                                         function (errorPayload) {
@@ -131,7 +132,7 @@
                                     $scope.OperationFailure = false;
                                     $scope.getAllBranches();
                                     $scope.getCurrentUser();
-                                    $scope.getAllRecordsforRescan();
+
 
                                 };
 
