@@ -7,6 +7,7 @@
                                     promise.then(
                                         function (payload) {
                                             $scope.userName = payload.username;
+                                            $scope.branchCode = payload.username;
                                             //$scope.user = {branchCode : $scope.Branches[0].branchCode};
                                         },
                                         function (errorPayload) {
@@ -19,7 +20,7 @@
                                 },
                                 $scope.getAllRecordsforRescan= function()
                                 {
-                                    var promise = ReportService.getAllRecordsforRescan();
+                                    var promise = ReportService.getAllRecordsforRescan( $scope.branchCode);
                                 promise.then(
                                     function (payload) {
                                         $scope.docRecords = payload;

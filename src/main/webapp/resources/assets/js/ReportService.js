@@ -185,9 +185,11 @@
         return deferred.promise;
         },
 
-        reportService.getAllRecordsforRescan = function () {
+        reportService.getAllRecordsforRescan = function (branchCode) {
             var deferred = $q.defer();
-            $http.get('/scanner/getRecordsWhichNeedRescan')
+            $http.get('/scanner/getRecordsWhichNeedRescan', {
+                params: { branchCode: branchCode}
+            })
                 .success(function(data) {
                     deferred.resolve(data);
                 }).error(function(msg, code) {
