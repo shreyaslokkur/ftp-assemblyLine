@@ -23,7 +23,7 @@ public interface IDocumentUploadService {
     Document retrieveDocument(int documentId);
     List<DocumentDO> retrieveAllNewAndLockedDocuments();
     List<DocumentDO> retrieveAllDocumentsAssignedTo(String userId);
-    List<DocumentDO> retrieveAllDocumentsWhichNeedRescan(String branchName);
+    List<DocumentDO> retrieveBranchDocumentsWhichNeedRescan(int branchCode);
     List<DocumentDO> retrieveAllDocumentsWhichNeedApproval();
     List<DocumentDO> retrieveAllDocumentsWhichAreInHold();
     List<DocumentDO> retrieveAllRescanDocuments();

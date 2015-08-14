@@ -291,20 +291,20 @@ public class MainController {
 		return documentDO;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/scanner/getRescanDocuments")
+	@RequestMapping(method = RequestMethod.GET, value = "/scanner/getRescanDocumentsForBranch")
 	public
 	@ResponseBody
-	List<DocumentDO> getRescanDocuments(@RequestParam("branchName") String branchName){
+	List<DocumentDO> getRescanDocuments(@RequestParam("branchCode") int branchCode){
 
 
-		return documentUploadService.retrieveAllDocumentsWhichNeedRescan(branchName);
+		return documentUploadService.retrieveBranchDocumentsWhichNeedRescan(branchCode);
 
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/scanner/getRecordsWhichNeedRescan")
-	public
-	@ResponseBody
-	List<DocumentDO> getRecordsWhichNeedRescan(){
+	 public
+	 @ResponseBody
+	 List<DocumentDO> getRecordsWhichNeedRescan(){
 		return documentUploadService.retrieveAllRescanDocuments();
 
 	}

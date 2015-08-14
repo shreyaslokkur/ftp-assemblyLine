@@ -158,17 +158,17 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
     }
 
     @Override
-    public List<Document> getAllRecordsWhichNeedRescan(String branchName) {
+    public List<Document> getAllBranchRecordsWhichNeedRescan(int branchCode) {
         List<Document> documentList;
         SessionFactory sessionFactory = getSessionFactory();
         Session session = sessionFactory.openSession();
         try{
-            String hql = "from Document d where d.rescanNeeded = :rescanNeeded and d.branchName = :branchName";
+            String hql = "from Document d where d.rescanNeeded = :rescanNeeded and d.branchCode = :branchCode";
             documentList = session.createQuery(hql).setParameter("rescanNeeded", true).
-                    setParameter("branchName", branchName).list();
+                    setParameter("branchCode", branchCode).list();
 
         }catch (HibernateException e){
-            throw new FALException("Unable to retrieve records assigned to: "+ branchName, e);
+            throw new FALException("Unable to retrieve records assigned to: "+ branchCode, e);
         }finally {
             session.close();
         }
@@ -195,7 +195,7 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
     }
 
     @Override
-    public List<Document> getAllRecordsWhichNeedRescan() {
+    public List<Document> getAllBranchRecordsWhichNeedRescan() {
         List<Document> documentList;
         SessionFactory sessionFactory = getSessionFactory();
         Session session = sessionFactory.openSession();

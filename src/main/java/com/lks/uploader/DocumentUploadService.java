@@ -172,12 +172,12 @@ public class DocumentUploadService implements IDocumentUploadService {
     }
 
     @Override
-    public List<DocumentDO> retrieveAllDocumentsWhichNeedRescan(String branchName) {
-        logger.info("Entered the method in document upload service to retrieve all documents which need rescan for the branch: "+branchName);
+    public List<DocumentDO> retrieveBranchDocumentsWhichNeedRescan(int branchCode) {
+        logger.info("Entered the method in document upload service to retrieve all documents which need rescan for the branch: "+branchCode);
 
         List<DocumentDO> documentDOList = new ArrayList<DocumentDO>();
         try{
-            List<Document> allRecordsWhichNeedRescan = documentUploadDao.getAllRecordsWhichNeedRescan(branchName);
+            List<Document> allRecordsWhichNeedRescan = documentUploadDao.getAllBranchRecordsWhichNeedRescan(branchCode);
             DocumentDO documentDO = null;
             for(Document document : allRecordsWhichNeedRescan){
                 documentDO = setDocumentDo(document);
@@ -237,7 +237,7 @@ public class DocumentUploadService implements IDocumentUploadService {
 
         List<DocumentDO> documentDOList = new ArrayList<DocumentDO>();
         try{
-            List<Document> allRecordsWhichAreInHold = documentUploadDao.getAllRecordsWhichNeedRescan();
+            List<Document> allRecordsWhichAreInHold = documentUploadDao.getAllBranchRecordsWhichNeedRescan();
             DocumentDO documentDO = null;
             for(Document document : allRecordsWhichAreInHold){
                 documentDO = setDocumentDo(document);
