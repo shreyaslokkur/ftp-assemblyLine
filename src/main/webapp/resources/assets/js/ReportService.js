@@ -187,7 +187,7 @@
 
         reportService.getAllRecordsforRescan = function (branchCode) {
             var deferred = $q.defer();
-            $http.get('/scanner/getRecordsWhichNeedRescan', {
+            $http.get('/scanner/getRescanDocumentsForBranch', {
                 params: { branchCode: branchCode}
             })
                 .success(function(data) {
