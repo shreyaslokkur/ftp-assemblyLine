@@ -1,5 +1,5 @@
-﻿reportApp.controller('FileUploadController', ['$scope', '$modal', 'ReportService',
-                            function ($scope, $modal, ReportService) {
+﻿reportApp.controller('FileUploadController', ['$scope', '$modal','$filter' ,'ReportService',
+                            function ($scope, $modal, $filter, ReportService) {
 
                                 $scope.getCurrentUser = function () {
 
@@ -7,7 +7,7 @@
                                     promise.then(
                                         function (payload) {
                                             $scope.userName = payload.username;
-                                            $scope.branchCode = payload.branchCode;
+                                            $scope.doc.branchCode = payload.branchCode;
                                             $scope.getAllRecordsforRescan();
                                             //$scope.user = {branchCode : $scope.Branches[0].branchCode};
                                         },
@@ -21,7 +21,7 @@
                                 },
                                 $scope.getAllRecordsforRescan= function()
                                 {
-                                    var promise = ReportService.getAllRecordsforRescan( $scope.branchCode);
+                                    var promise = ReportService.getAllRecordsforRescan( $scope.doc.branchCode);
                                 promise.then(
                                     function (payload) {
                                         $scope.docRecords = payload;
@@ -88,6 +88,11 @@
                                             $scope.successMsg = "File Upload Successful";
                                             //remove scope data after upload file
                                             $scope.ClearScopeData(doc);
+
+                                            var foundItem = $filter('filter')($scope.docRecords, { documentId: payload  }, true)[0];
+                                            var index = $scope.docRecords.indexOf(foundItem );
+                                            if(index >= 0)
+                                                $scope.docRecords.splice(index, 1);
                                         },
                                         function (errorPayload) {
                                             $scope.OperationFailure = true;
