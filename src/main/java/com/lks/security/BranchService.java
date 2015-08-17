@@ -1,6 +1,7 @@
 package com.lks.security;
 
 import com.lks.core.FALException;
+import com.lks.core.enums.ExceptionCode;
 import com.lks.core.model.BranchDO;
 import com.lks.orm.dao.BranchDao;
 import com.lks.orm.entities.Branch;
@@ -25,7 +26,7 @@ public class BranchService implements IBranchService {
         if(branchDao.findByBranchCode(branchDO.getBranchCode()) == null)
             return branchDao.createBranch(branchDO.getBranchCode(),branchDO.getBranchName(), branchDO.getZone(), branchDO.getRegion());
         else
-            throw new FALException("Branch already Exists");
+            throw new FALException(ExceptionCode.BRANCH_EXISTS,"Branch already Exists");
     }
 
     @Override
@@ -40,7 +41,7 @@ public class BranchService implements IBranchService {
         if(branchDao.retrieveBranch(branchDO.getBranchCode()) != null){
             return branchDao.deleteExistingBranch(branchDO.getBranchCode());
         }else
-            throw new FALException("Branch does not exist: "+  branchDO.getBranchName());
+            throw new FALException(ExceptionCode.INVALID_BRANCH,"Branch does not exist: "+  branchDO.getBranchName());
 
     }
 

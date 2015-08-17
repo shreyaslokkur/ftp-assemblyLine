@@ -261,7 +261,7 @@ public class StateMachineTest extends AbstractTest {
         Document document = documentUploadDao.retrieveDocument(documentId);
 
         Assert.assertNotNull(document);
-        Assert.assertEquals(document.getState(), RecStatus.RJ);
+        Assert.assertEquals(document.getState(), RecStatus.NR);
         Assert.assertEquals(document.getApprovedBy(),"approver");
         Assert.assertEquals(document.getAssignedTo(), "locker");
 
@@ -281,7 +281,7 @@ public class StateMachineTest extends AbstractTest {
 
         Assert.assertNotNull(document);
         Assert.assertEquals(document.isLocked(), true);
-        Assert.assertEquals(document.getState(), RecStatus.RJ);
+        Assert.assertEquals(document.getState(), RecStatus.NR);
         Assert.assertEquals(document.getLockedBy(),"locker");
 
 

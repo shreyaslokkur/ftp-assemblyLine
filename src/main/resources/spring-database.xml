@@ -27,13 +27,24 @@
 	</bean>
 
 
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close">
 
-		<property name="driverClassName" value="${jdbc.driverClassName}" />
-		<property name="url" value="${jdbc.url}" />
-		<property name="username" value="${jdbc.username}" />
+		<property name="driverClass" value="${jdbc.driverClassName}" />
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<property name="user" value="${jdbc.username}" />
 		<property name="password" value="${jdbc.password}" />
+		<property name="maxPoolSize" value="${jdbc.maxPoolSize}"/>
+		<property name="minPoolSize" value="${jdbc.minPoolSize}"/>
+		<property name="maxStatements" value="${jdbc.maxStatements}"/>
+		<property name="testConnectionOnCheckout" value="${jdbc.testConnection}"/>
+		<property name="acquireRetryDelay" value="${jdbc.acquireRetryDelay}"/>
+		<property name="breakAfterAcquireFailure" value="${jdbc.breakAfterAcquireFailure}"/>
+		<property name="unreturnedConnectionTimeout" value="${jdbc.unreturnedConnectionTimeout}"/>
+		<property name="preferredTestQuery" value="${jdbc.preferedTestQuery}"/>
+		<property name="idleConnectionTestPeriod" value="${jdbc.idleConnectionTestPeriod}"/>
+		<property name="maxIdleTime" value="${jdbc.maxIdleTime}"/>
+		<property name="maxConnectionAge" value="${jdbc.maxConnectionAge}"/>
 	</bean>
 
 	<bean id="sessionFactory"
@@ -66,21 +77,6 @@
 
 	<bean id="stateMachineFactory" class="com.lks.stateMachine.StateMachineFactory"/>
 
-	<!--<tx:advice id="txAdvice" transaction-manager="transactionManager">
-		<tx:attributes>
-			<tx:method name="get*" read-only="true" />
-			<tx:method name="find*" read-only="true" />
-			<tx:method name="*" />
-		</tx:attributes>
-	</tx:advice>-->
-
-
-
-	<!--<aop:config>
-		<aop:pointcut id="userServicePointCut"
-			expression="execution(* com.lks.orm.*Service.*(..))" />
-		<aop:advisor advice-ref="txAdvice" pointcut-ref="userServicePointCut" />
-	</aop:config>-->
 
 	<bean id="userDao" class="com.lks.orm.dao.UserDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory" />

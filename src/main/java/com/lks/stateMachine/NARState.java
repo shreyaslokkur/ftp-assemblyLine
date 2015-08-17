@@ -56,7 +56,7 @@ public class NARState extends AbstractState {
         Comments comments = new Comments();
         comments.setComments(comment);
         comments.setCommentedBy(userId);
-        comments.setState(RecStatus.RJ);
+        comments.setState(RecStatus.NR);
         comments.setDocumentId(document.getDocumentId());
 
         logger.info("Add the comments into the docuemnt object");
@@ -69,7 +69,7 @@ public class NARState extends AbstractState {
         }
 
         logger.info("Update the assigned to field and recStatus. Save it into database");
-        document.setState(RecStatus.RJ);
+        document.setState(RecStatus.NR);
         if(assignedTo == null || assignedTo.length() == 0){
             assignedTo = document.getCompletedBy();
         }
