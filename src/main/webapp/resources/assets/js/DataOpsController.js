@@ -109,6 +109,7 @@
            
 
             $scope.openCommentsPopupForHold = function (doc) {
+                doc.ViewOnly = false;
                 var modalInstance = $modal.open({
                     templateUrl: 'myModalContent.html',
                     controller: 'ModalInstanceCtrl',
@@ -132,6 +133,7 @@
 
             },
             $scope.openCommentsPopupForRescan = function (doc) {
+                doc.ViewOnly = false;
                 var modalInstance = $modal.open({
                     templateUrl: 'myModalContent.html',
                     controller: 'ModalInstanceCtrl',
