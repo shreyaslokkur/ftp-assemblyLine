@@ -11,8 +11,8 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
                     $scope.Users = payload;
                 },
                 function (errorPayload) {
-                    $scope.OperationFailure = true;
-                    $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                    $scope.OperationFailureForUser = true;
+                    $scope.FailureMsgForUser = "We are facing technical difficulties , Please contact ur system Administrator";
                     $log.error('Error in GetAllUsers', errorPayload);
                 });
 
@@ -29,8 +29,8 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
                        // $scope.user = {userRole : $scope.Roles[0].roleName};
                     },
                     function (errorPayload) {
-                        $scope.OperationFailure = true;
-                        $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                        $scope.OperationFailureForUser = true;
+                        $scope.FailureMsgForUser = "We are facing technical difficulties , Please contact ur system Administrator";
                         $log.error('Error in getAllRoles', errorPayload);
                     });
 
@@ -47,8 +47,8 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
                         //$scope.user = {branchCode : $scope.Branches[0].branchCode};
                     },
                     function (errorPayload) {
-                        $scope.OperationFailure = true;
-                        $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                        $scope.OperationFailureForBranch = true;
+                        $scope.FailureMsgForBranch = "We are facing technical difficulties , Please contact ur system Administrator";
                         $log.error('Error in GetAllUsers', errorPayload);
                     });
 
@@ -65,8 +65,8 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
                         //$scope.user = {branchCode : $scope.Branches[0].branchCode};
                     },
                     function (errorPayload) {
-                        $scope.OperationFailure = true;
-                        $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                        $scope.OperationFailureForUser = true;
+                        $scope.FailureMsgForUser = "We are facing technical difficulties , Please contact ur system Administrator";
                         $log.error('Error in GetAllUsers', errorPayload);
                     });
 
@@ -81,15 +81,32 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
                 function (payload) {
                     if(parseInt(payload) > 0)
                          $scope.Branches.push(branch);
+                    $scope.OperationSuccessForBranch = true;
+                    $scope.successMsgForBranch = "Branch Created Succssfully!";
+                    $scope.ClearBranchForm();
+
                 },
                 function (errorPayload) {
-                    $scope.OperationFailure = true;
-                    $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                    $scope.OperationFailureForBranch = true;
+                    $scope.FailureMsgForBranch = "We are facing technical difficulties , Please contact ur system Administrator";
                     $log.error('Error in createBranch', errorPayload);
                 });
 
 
         },
+            $scope.ClearBranchForm = function(){
+                $scope.branch.branchCode  = '';
+                $scope.branch.branchName = '';
+                $scope.branch.zone = '';
+                $scope.branch.region = '';
+            },
+            $scope.ClearUserForm = function(){
+                $scope.user.userRole  = $scope.Roles[0].roleName;
+                $scope.user.username = '';
+                $scope.user.password = '';
+                $scope.confirmPassword = '';
+            },
+
             $scope.createUser = function(user)
             {
                 //branchCode applicable only to Scanners
@@ -101,13 +118,16 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
                     function (payload) {
                         if(parseInt(payload) > 0)
                             $scope.Users.push(user);
-                        $scope.OperationSuccess = true;
-                        $scope.successMsg = "User Created Succssfully!";
+
+                        $scope.ClearUserForm();
+
+                        $scope.OperationSuccessForUser = true;
+                        $scope.successMsgForUser = "User Created Succssfully!";
 
                     },
                     function (errorPayload) {
-                        $scope.OperationFailure = true;
-                        $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                        $scope.OperationFailureForUser = true;
+                        $scope.FailureMsgForUser = "We are facing technical difficulties , Please contact ur system Administrator";
                         $log.error('Error in createBranch', errorPayload);
                     });
 
@@ -124,13 +144,13 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
                         if(payload==true){
                             var index = $scope.Users.indexOf(user);
                             $scope.Users.splice(index, 1);
-                            $scope.OperationSuccess = true;
-                            $scope.successMsg = "User Deleted Successfully!"
+                            $scope.OperationSuccessForUser = true;
+                            $scope.OperationSuccessForUser = "User Deleted Successfully!"
                         }
                     },
                     function (errorPayload) {
-                        $scope.OperationFailure = true;
-                        $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                        $scope.OperationFailureForUser = true;
+                        $scope.FailureMsgForUser = "We are facing technical difficulties , Please contact ur system Administrator";
                         $log.error('Error in deleteUser', errorPayload);
                     });
 
@@ -146,13 +166,13 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
                         if(payload==true){
                         var index = $scope.Branches.indexOf(branch);
                         $scope.Branches.splice(index, 1);
-                        $scope.OperationSuccess = true;
-                        $scope.successMsg = "Branch Deleted Successfully!"
+                        $scope.OperationSuccessForBranch = true;
+                        $scope.successMsgForBranch = "Branch Deleted Successfully!"
                         }
                     },
                     function (errorPayload) {
-                        $scope.OperationFailure = true;
-                        $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                        $scope.OperationFailureForBranch = true;
+                        $scope.FailureMsgForBranch = "We are facing technical difficulties , Please contact ur system Administrator";
                         $log.error('Error in deleteBranch', errorPayload);
                     });
 
@@ -197,7 +217,10 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
         var init = function () {
             $scope.OperationSuccess = false;
             $scope.OperationFailure = false;
-
+            $scope.OperationSuccessForUser = false;
+            $scope.OperationFailureForUser = false;
+            $scope.OperationSuccessForBranch = false;
+            $scope.OperationFailureForBranch = false;
 
 
             $scope.getCurrentUser();

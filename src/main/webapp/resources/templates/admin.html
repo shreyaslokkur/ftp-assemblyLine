@@ -131,13 +131,13 @@
 
                 <div class="row" style="text-align: center">
                     <div class="col-md-6">
-                        <div ng-show="OperationSuccess==true" class="alert alert-success fade-in-out">
-                            <a href="#" class="close" ng-click="OperationSuccess=false">&times;</a>
-                            <strong>Success! </strong>{{successMsg}}
+                        <div ng-show="OperationSuccessForUser==true" class="alert alert-success fade-in-out">
+                            <a href="#" class="close" ng-click="OperationSuccessForUser=false">&times;</a>
+                            <strong>Success! </strong>{{successMsgForUser}}
                         </div>
-                        <div ng-show="OperationFailure==true" class="alert alert-danger fade-in-out">
-                            <a href="#" class="close" ng-click="OperationFailure=false">&times;</a>
-                            <strong>Error!</strong> {{FailureMsg}}
+                        <div ng-show="OperationSuccessForUser==true" class="alert alert-danger fade-in-out">
+                            <a href="#" class="close" ng-click="OperationSuccessForUser=false">&times;</a>
+                            <strong>Error!</strong> {{FailureMsgForUser}}
                         </div>
                           <table id="dOTable"  class="table table-bordered table-striped" style="margin-left:10px;">
                         
@@ -157,14 +157,14 @@
 
 
 
-                        <tr ng-repeat="user in Users">
+                        <tr ng-repeat="usr in Users">
 
-                            <td>{{user.username}}</td>
-                            <td>{{user.userRole}}</td>
-                            <td>{{user.branchCode}}</td>
-                            <td><button class="btn btn-primary" title="Reset Password" ng-click="ResetPassword(user);" /><i class="fa fa-cogs"></i> </button></td>
+                            <td>{{usr.username}}</td>
+                            <td>{{usr.userRole}}</td>
+                            <td>{{usr.branchCode}}</td>
+                            <td><button class="btn btn-primary" title="Reset Password" ng-click="ResetPassword(usr);" /><i class="fa fa-cogs"></i> </button></td>
                             <!--<td><button class="btn btn-primary" title="Edit" ng-click="Edit(user);" /><i class="fa fa-pencil-square-o"></i></button></td>-->
-                            <td><button class="btn btn-danger" title="Delete"ng-really-message="Are you sure you want to delete the user?" ng-really-click="deleteUser(user);" /><i class="fa fa-trash-o"></i></button></td>
+                            <td><button class="btn btn-danger" title="Delete"ng-really-message="Are you sure you want to delete the user?" ng-really-click="deleteUser(usr);" /><i class="fa fa-trash-o"></i></button></td>
 
                         </tr>
 
@@ -235,13 +235,13 @@
 
                 <div class="row" style="text-align: center">
                     <div class="col-md-6">
-                        <div ng-show="OperationSuccess==true" class="alert alert-success fade-in-out">
-                            <a href="#" class="close" ng-click="OperationSuccess=false">&times;</a>
-                            <strong>Success! </strong>{{successMsg}}
+                        <div ng-show="OperationSuccessForBranch==true" class="alert alert-success fade-in-out">
+                            <a href="#" class="close" ng-click="OperationSuccessForBranch=false">&times;</a>
+                            <strong>Success! </strong>{{successMsgForBranch}}
                         </div>
-                        <div ng-show="OperationFailure==true" class="alert alert-danger fade-in-out">
-                            <a href="#" class="close" ng-click="OperationFailure=false">&times;</a>
-                            <strong>Error!</strong> {{FailureMsg}}
+                        <div ng-show="OperationFailureForBranch==true" class="alert alert-danger fade-in-out">
+                            <a href="#" class="close" ng-click="OperationFailureForBranch=false">&times;</a>
+                            <strong>Error!</strong> {{FailureMsgForBranch}}
                         </div>
                           <table id="dOTable"  class="table table-bordered table-striped" style="margin-left:10px;">
                         
