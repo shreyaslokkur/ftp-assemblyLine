@@ -27,7 +27,7 @@
                                 promise.then(
                                     function (payload) {
                                         $scope.MydocRecords = payload;
-                                        $scope.recordCount = $scope.MydocRecords.length;
+                                       // $scope.recordCount = $scope.MydocRecords.length;
                                     },
                                     function (errorPayload) {
                                         $scope.OperationFailure = true;
