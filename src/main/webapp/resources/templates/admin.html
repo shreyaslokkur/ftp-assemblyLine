@@ -135,8 +135,8 @@
                             <a href="#" class="close" ng-click="OperationSuccessForUser=false">&times;</a>
                             <strong>Success! </strong>{{successMsgForUser}}
                         </div>
-                        <div ng-show="OperationSuccessForUser==true" class="alert alert-danger fade-in-out">
-                            <a href="#" class="close" ng-click="OperationSuccessForUser=false">&times;</a>
+                        <div ng-show="OperationFailureForUser==true" class="alert alert-danger fade-in-out">
+                            <a href="#" class="close" ng-click="OperationFailureForUser=false">&times;</a>
                             <strong>Error!</strong> {{FailureMsgForUser}}
                         </div>
                           <table id="dOTable"  class="table table-bordered table-striped" style="margin-left:10px;">

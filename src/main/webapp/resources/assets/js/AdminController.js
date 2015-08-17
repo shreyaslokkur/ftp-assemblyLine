@@ -79,11 +79,16 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
             var promise = ReportService.createBranch(branch);
             promise.then(
                 function (payload) {
-                    if(parseInt(payload) > 0)
-                         $scope.Branches.push(branch);
-                    $scope.OperationSuccessForBranch = true;
-                    $scope.successMsgForBranch = "Branch Created Succssfully!";
-                    $scope.ClearBranchForm();
+                    if (parseInt(payload) > 0) {
+
+                        var newbranch = angular.copy(branch)
+                        $scope.Branches.push(newbranch);
+                        $scope.OperationSuccessForBranch = true;
+                        $scope.successMsgForBranch = "Branch Created Succssfully!";
+                        $scope.ClearBranchForm();
+                    }
+
+
 
                 },
                 function (errorPayload) {
@@ -117,18 +122,24 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
                 promise.then(
                     function (payload) {
                         if(parseInt(payload) > 0)
-                            $scope.Users.push(user);
+                        {
+                            var NewUser = angular.copy(user);
+                            $scope.Users.push(NewUser);
+                            $scope.OperationSuccessForUser = true;
+                            $scope.successMsgForUser = "User Created Succssfully!";
+                            $scope.ClearUserForm();
 
-                        $scope.ClearUserForm();
+                        }
 
-                        $scope.OperationSuccessForUser = true;
-                        $scope.successMsgForUser = "User Created Succssfully!";
+
+
+
 
                     },
                     function (errorPayload) {
                         $scope.OperationFailureForUser = true;
                         $scope.FailureMsgForUser = "We are facing technical difficulties , Please contact ur system Administrator";
-                        $log.error('Error in createBranch', errorPayload);
+                        $log.error('Error in createUser', errorPayload);
                     });
 
 
