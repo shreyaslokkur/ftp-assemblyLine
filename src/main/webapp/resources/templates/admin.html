@@ -32,7 +32,7 @@
 <body ng-controller="AdminController">
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
-        <a class="navbar-brand pull-left active" style="color: #fff;margin-left: -110px !important;" >Vindhya eInfomedia</a>
+        <a class="navbar-brand pull-left active" style="color: #fff;margin-left: -110px !important;" ></a>
 
         <!-- I don't want it apart of the collapsible portion -->
         <div class="navbar-header pull-right">
@@ -318,7 +318,7 @@
             <th>Recieved Time</th>
             <th>Completed Time</th>
             <th>Locked By</th>
-
+            <th>View</th>
             <th>Comments</th>
 
             </thead>
@@ -336,6 +336,7 @@
                 <td>{{doc.recCreatedOn}}</td>
                 <td>{{doc.recCompletedOn}}</td>
                 <td>{{doc.lockedBy}}</td>
+                <td><a ng-href="{{doc.documentUrl}}" title="View file" target="_blank" class="btn btn-primary" ><i class="fa fa-search"></i></a></td>
                 <td><button class="btn btn-primary" title="View Comments" ng-click="ShowComments(doc);"><i class="fa fa-comments"></i></button></td>
             </tr>
 
