@@ -13,6 +13,7 @@ import com.lks.core.model.*;
 import com.lks.security.IBranchService;
 import com.lks.security.IUserService;
 import com.lks.uploader.IDocumentUploadService;
+import com.lks.uploader.IFTPService;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -32,10 +33,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Controller
 public class MainController {
@@ -51,6 +51,9 @@ public class MainController {
 
 	@Resource(name = "documentUtils")
 	DocumentUtils documentUtils;
+
+	@Resource(name = "ftpService")
+	IFTPService ftpService;
 
 	@RequestMapping(value = { "/welcome**" }, method = RequestMethod.GET)
 	public ModelAndView defaultPage() {
@@ -211,23 +214,35 @@ public class MainController {
 			File tmpFile = null;
 			tmpFile = File.createTempFile(FilenameUtils.getBaseName(fileName), "." + FilenameUtils.getExtension(fileName));
 			mFile.transferTo(tmpFile);
-
-			FileReceivedForUploadDO fileReceivedForUploadDO = new FileReceivedForUploadDO();
-			UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			fileReceivedForUploadDO.setCreatedBy(userDetails.getUsername());
-			fileReceivedForUploadDO.setFileLocation(tmpFile.getAbsolutePath());
-			fileReceivedForUploadDO.setFileName(fileName);
-			fileReceivedForUploadDO.setApplicationNo(Integer.parseInt(mRequest.getParameter("applicationNo")));
-			fileReceivedForUploadDO.setBookletNo(Integer.parseInt(mRequest.getParameter("bookletNo")));
-			fileReceivedForUploadDO.setBranchCode(Integer.parseInt(mRequest.getParameter("branchCode")));
-			fileReceivedForUploadDO.setNumOfCustomers(Integer.parseInt(mRequest.getParameter("numOfCustomers")));
-			fileReceivedForUploadDO.setPlaceOfMeeting(mRequest.getParameter("placeOfMeeting"));
-			if(mRequest.getParameter("documentId") != null){
-				fileReceivedForUploadDO.setDocumentId(Integer.parseInt(mRequest.getParameter("documentId")));
-				return documentUploadService.reuploadDocument(fileReceivedForUploadDO);
-			}else {
-				return documentUploadService.createNewDocument(fileReceivedForUploadDO);
+			String ftpFileLocation = uploadToFTPServer(fileName,tmpFile.getAbsolutePath(), mRequest.getParameter("branchCode"));
+			if(ftpFileLocation != null){
+				FileReceivedForUploadDO fileReceivedForUploadDO = new FileReceivedForUploadDO();
+				UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+				fileReceivedForUploadDO.setCreatedBy(userDetails.getUsername());
+				fileReceivedForUploadDO.setFileLocation(ftpFileLocation);
+				fileReceivedForUploadDO.setFileName(fileName);
+				fileReceivedForUploadDO.setApplicationNo(Integer.parseInt(mRequest.getParameter("applicationNo")));
+				fileReceivedForUploadDO.setBookletNo(Integer.parseInt(mRequest.getParameter("bookletNo")));
+				fileReceivedForUploadDO.setBranchCode(Integer.parseInt(mRequest.getParameter("branchCode")));
+				fileReceivedForUploadDO.setNumOfCustomers(Integer.parseInt(mRequest.getParameter("numOfCustomers")));
+				fileReceivedForUploadDO.setPlaceOfMeeting(mRequest.getParameter("placeOfMeeting"));
+				//delete file from tomcat server
+				tmpFile.delete();
+				if(mRequest.getParameter("documentId") != null){
+					fileReceivedForUploadDO.setDocumentId(Integer.parseInt(mRequest.getParameter("documentId")));
+					return documentUploadService.reuploadDocument(fileReceivedForUploadDO);
+				}else {
+					return documentUploadService.createNewDocument(fileReceivedForUploadDO);
+				}
 			}
+			else {
+				//delete file from tomcat server
+				tmpFile.delete();
+				return -1;
+			}
+
+
+
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -524,18 +539,34 @@ public class MainController {
 	@ResponseBody
 	void viewPdfFile(@RequestParam("documentId") int documentId, HttpServletResponse response) throws ServletException, IOException{
 
-		String documentUrl = documentUploadService.retrieveDocumentUrl(documentId);
-		File pdfFile = new File(documentUrl);
-		response.setContentType("application/pdf");
-		response.addHeader("Content-Disposition", "attachment; filename="+documentUrl+";");
-		response.setContentLength((int) pdfFile.length());
+		File pdfFile = null;
+		FileInputStream fileInputStream = null;
+		OutputStream outputStream = null;
+		try{
+			String documentUrl = documentUploadService.retrieveDocumentUrl(documentId);
+			pdfFile = ftpService.downloadFile(documentUrl);
+			response.setContentType("application/pdf");
+			response.addHeader("Content-Disposition", "attachment; filename="+documentUrl+";");
+			response.setContentLength((int) pdfFile.length());
 
-		FileInputStream fileInputStream = new FileInputStream(pdfFile);
-		OutputStream outputStream = response.getOutputStream();
-		int bytes;
-		while((bytes = fileInputStream.read()) != -1){
-			outputStream.write(bytes);
+			fileInputStream = new FileInputStream(pdfFile);
+			outputStream = response.getOutputStream();
+			int bytes;
+			while((bytes = fileInputStream.read()) != -1){
+				outputStream.write(bytes);
+			}
+		}finally {
+			fileInputStream.close();
+			fileInputStream = null;
+			outputStream.flush();
+			outputStream.flush();
+			outputStream = null;
+			System.gc();
+			pdfFile.delete();
 		}
+
+
+
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/resolver/lock")
@@ -687,6 +718,21 @@ public class MainController {
 
 	}
 
+
+	private String uploadToFTPServer(String fileName, String fileLocation, String branchCode){
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		Calendar cal = Calendar.getInstance();
+		String date = dateFormat.format(cal.getTime());
+		date = date.replaceAll("/","");
+		if(!ftpService.checkIfDirectoryWithBranchCodeExists(branchCode)){
+			ftpService.createBranchCodeDirectory(branchCode);
+		}
+		if(!ftpService.checkIfDirectoryWithDateExists(branchCode,date)){
+			ftpService.createDateDirectory(branchCode,date);
+		}
+		String dirPath = ftpService.getDirectoryForBranchAndDate(branchCode,date);
+		return ftpService.uploadFile(fileLocation, fileName, dirPath);
+	}
 
 
 

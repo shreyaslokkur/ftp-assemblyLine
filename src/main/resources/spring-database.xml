@@ -33,7 +33,7 @@
 		<property name="driverClass" value="${jdbc.driverClassName}" />
 		<property name="jdbcUrl" value="${jdbc.url}" />
 		<property name="user" value="${jdbc.username}" />
-		<property name="password" value="${jdbc.password}" />
+		<!--<property name="password" value="${jdbc.password}" />-->
 		<property name="maxPoolSize" value="${jdbc.maxPoolSize}"/>
 		<property name="minPoolSize" value="${jdbc.minPoolSize}"/>
 		<property name="maxStatements" value="${jdbc.maxStatements}"/>
@@ -113,6 +113,16 @@
 
 	<bean id="documentUtils" class="com.lks.core.DocumentUtils">
 		<property name="tatTime" value="${tat.time}"/>
+	</bean>
+
+	<bean id="ftpUploader" class="com.lks.core.FTPUploader">
+		<constructor-arg value="${ftp.server.url}"/>
+		<constructor-arg value="${ftp.server.username}"/>
+		<constructor-arg value="${ftp.server.password}"/>
+	</bean>
+
+	<bean id="ftpService" class="com.lks.uploader.FTPService">
+		<property name="rootDir" value="${ftp.server.rootDir}"/>
 	</bean>
 
 </beans>

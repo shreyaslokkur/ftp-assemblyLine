@@ -1,6 +1,8 @@
 package com.lks.uploader;
 
+import com.lks.core.FALException;
 import com.lks.core.enums.DocOperations;
+import com.lks.core.enums.ExceptionCode;
 import com.lks.core.model.DocumentDO;
 import com.lks.core.model.FileOperationDO;
 import com.lks.core.model.FileReceivedForUploadDO;
@@ -39,6 +41,9 @@ public class DocumentUploadService implements IDocumentUploadService {
     @Resource(name = "stateMachineFactory")
     StateMachineFactory stateMachineFactory;
 
+    @Resource(name = "ftpService")
+    IFTPService ftpService;
+
     @Transactional
     public int createNewDocument(FileReceivedForUploadDO fileReceivedForUploadDO){
 
@@ -72,17 +77,17 @@ public class DocumentUploadService implements IDocumentUploadService {
             document.setPlaceOfMeeting(fileReceivedForUploadDO.getPlaceOfMeeting());
             currentState.reupload(document);
 
-            //delete old fileLocation
-            File file = new File(oldFileLocation);
-            file.delete();
-            return document.getDocumentId();
+            if(ftpService.deleteFile(oldFileLocation)){
+                return document.getDocumentId();
+            }
+
+            return -1;
 
 
         }catch(Exception e){
-            logger.severe("Encountered exception in the method reupload document: "+ e.getMessage());
-            System.out.println(e.getMessage());
+            throw new FALException(ExceptionCode.SYSTEM_ERROR, "Unable to reupload document");
+
         }
-        return -1;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
