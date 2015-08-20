@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.lks.core.FALException;
+import com.lks.core.UserUtils;
 import com.lks.core.enums.UserRoles;
 import com.lks.core.model.RoleDO;
 import com.lks.core.model.UserModelDO;
@@ -95,7 +96,7 @@ public class AuthenticationService implements org.springframework.security.core.
 	public boolean resetPassword(UserModelDO userModelDO) {
 		userDao = UserDaoFactory.getUserDao();
 		com.lks.orm.entities.User user = userDao.findByUserName(userModelDO.getUsername());
-		user.setPassword(userModelDO.getPassword());
+		user.setPassword(UserUtils.createHashedPassword(userModelDO.getPassword()));
 		return userDao.editExisitingUser(user);
 
 	}

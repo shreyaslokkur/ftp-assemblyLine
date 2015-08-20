@@ -75,6 +75,7 @@ public class FTPUploader {
         }
         ftp.changeToParentDirectory();
         } catch (IOException e) {
+            System.out.println(e);
             throw new FALException(ExceptionCode.SYSTEM_ERROR, "Unable to check if directory exists in the ftp server");
         }
         return true;
