@@ -474,12 +474,12 @@
 
             <br/>
 
-            <div class="row" ng-if="doc.comments.length>0" ng-repeat="comment in doc.comments">
+            <div class="row" ng-if="doc.comments.length>0" ng-repeat="comment in doc.comments | orderBy: '-recCreatedOn'">
 
                 <div class="container" >
                     <div class="row" style="border: 1px solid grey ;background-color:#e9eaed;width:505px;padding-top:5px;padding-left:2px" >
 
-                        <p>{{comment.comments}}   <span class="pull-right" style="font-size:6pt">- {{comment.commentedBy}}</span></p>
+                        <p>{{comment.comments}}    <span class="pull-right" style="font-size:8pt;vertical-align: top">- {{comment.commentedBy}}</span><br/><span class="pull-right" style="font-size:6pt;"> {{comment.recCreatedOn}}</span></p>
                     </div>
 
                 </div>
@@ -487,6 +487,7 @@
 
 
             </div>
+
 
             <div class="row colorRed" ng-if="doc.comments.length==0">
                 <div class="container" >
