@@ -13,3 +13,15 @@ reportApp.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'doc', 'u
     };
 }]);
 
+
+reportApp.controller('ResetPasswordCtrl', ['$scope', '$modalInstance', 'user' , 'ReportService', function ($scope, $modalInstance,user, ReportService) {
+
+    $scope.user = user;
+
+    $scope.save = function () {
+        $modalInstance.close($scope.user);
+    };
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+}]);
