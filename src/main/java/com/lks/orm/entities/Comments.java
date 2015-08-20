@@ -12,6 +12,7 @@ public class Comments {
     private String commentedBy;
     private String comments;
     private RecStatus state;
+    private String recCreatedOn;
 
     public int getCommentId() {
         return commentId;
@@ -51,5 +52,13 @@ public class Comments {
 
     public void setState(RecStatus state) {
         this.state = state;
+    }
+
+    public String getRecCreatedOn() {
+        return recCreatedOn;
+    }
+
+    public void setRecCreatedOn(String recCreatedOn) {
+        this.recCreatedOn = recCreatedOn;
     }
 }

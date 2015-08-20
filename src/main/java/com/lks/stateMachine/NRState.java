@@ -1,5 +1,6 @@
 package com.lks.stateMachine;
 
+import com.lks.core.DateUtils;
 import com.lks.core.enums.RecStatus;
 import com.lks.orm.entities.Comments;
 import com.lks.orm.entities.Document;
@@ -57,7 +58,7 @@ public class NRState extends AbstractState {
         comments.setCommentedBy(userId);
         comments.setState(RecStatus.HR);
         comments.setDocumentId(document.getDocumentId());
-
+        comments.setRecCreatedOn(DateUtils.getCurrentDate());
         logger.info("Add the comments into the docuemnt object");
         if(document.getComments() == null){
             List<Comments> commentsList = new ArrayList<Comments>();
@@ -91,9 +92,7 @@ public class NRState extends AbstractState {
         document.setLocked(false);
         document.setLockedBy(null);
         document.setAssignedTo(null);
-        Date date = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        document.setRecCompletedOn(simpleDateFormat.format(date));
+        document.setRecCompletedOn(DateUtils.getCurrentDate());
         logger.info("Update the document into table");
         documentUploadDao.updateDocument(document);
         return document;
@@ -121,7 +120,7 @@ public class NRState extends AbstractState {
         comments.setCommentedBy(userId);
         comments.setState(RecStatus.RN);
         comments.setDocumentId(document.getDocumentId());
-
+        comments.setRecCreatedOn(DateUtils.getCurrentDate());
         logger.info("Add the comments into the docuemnt object");
         if(document.getComments() == null){
             List<Comments> commentsList = new ArrayList<Comments>();

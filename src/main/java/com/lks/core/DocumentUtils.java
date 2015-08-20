@@ -85,19 +85,5 @@ public class DocumentUtils {
         tatTimeInMinutes = totalTatTimeInMinutes;
     }
 
-    public static Date convertStringToDate(String dateInString){
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = null;
 
-        try {
-
-            date = formatter.parse(dateInString);
-            System.out.println(date);
-            System.out.println(formatter.format(date));
-
-        } catch (ParseException e) {
-            throw new FALException("Unable to covert string to date: "+ dateInString);
-        }
-        return date;
-    }
 }

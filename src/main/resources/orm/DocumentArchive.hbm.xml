@@ -115,6 +115,9 @@
                 <param name="useNamed">true</param>
             </type>
         </property>
+        <property name="recCreatedOn" type="string">
+            <column name="recCreatedOn" length="60" />
+        </property>
 
     </class>
 </hibernate-mapping>

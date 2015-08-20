@@ -5,6 +5,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.lks.core.DateUtils;
 import com.lks.core.DocumentUtils;
 import com.lks.core.FALException;
 import com.lks.core.enums.DocOperations;
@@ -335,7 +336,7 @@ public class MainController {
 
 		Date recCreatedOn = null;
 		for(DocumentDO documentDO : documentDOList){
-			recCreatedOn = DocumentUtils.convertStringToDate(documentDO.getRecCreatedOn());
+			recCreatedOn = DateUtils.convertStringToDate(documentDO.getRecCreatedOn());
 			if(hasCrossedTat(recCreatedOn,currentDate,tatTimeInMinutes))
 			{
 				documentDO.setHasCrossedTat(true);
@@ -361,7 +362,7 @@ public class MainController {
 
 		Date recCreatedOn = null;
 		for(DocumentDO documentDO : documentDOList){
-			recCreatedOn = DocumentUtils.convertStringToDate(documentDO.getRecCreatedOn());
+			recCreatedOn = DateUtils.convertStringToDate(documentDO.getRecCreatedOn());
 			if(hasCrossedTat(recCreatedOn,currentDate,tatTimeInMinutes))
 			{
 				documentDO.setHasCrossedTat(true);

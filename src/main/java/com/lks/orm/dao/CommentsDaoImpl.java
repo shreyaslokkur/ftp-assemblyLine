@@ -46,7 +46,7 @@ public class CommentsDaoImpl implements CommentsDao {
         Session session = sessionFactory.openSession();
         List<Comments> commentsList = new ArrayList<Comments>();
         try{
-            commentsList = session.createQuery("from Comments c where c.documentId=?")
+            commentsList = session.createQuery("from Comments c where c.documentId=? ORDER BY c.recCreatedOn DESC")
                     .setParameter(0, documentId).list();
 
         }catch (HibernateException e){

@@ -1,5 +1,6 @@
 package com.lks.stateMachine;
 
+import com.lks.core.DateUtils;
 import com.lks.core.enums.RecStatus;
 import com.lks.orm.entities.Comments;
 import com.lks.orm.entities.Document;
@@ -38,9 +39,7 @@ public class NARState extends AbstractState {
         document.setApproved(true);
         document.setLocked(false);
         document.setLockedBy(null);
-        Date date = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        document.setRecApprovedOn(simpleDateFormat.format(date));
+        document.setRecApprovedOn(DateUtils.getCurrentDate());
         documentUploadDao.updateDocument(document);
 
         logger.info("Archive the document");
@@ -58,7 +57,7 @@ public class NARState extends AbstractState {
         comments.setCommentedBy(userId);
         comments.setState(RecStatus.NR);
         comments.setDocumentId(document.getDocumentId());
-
+        comments.setRecCreatedOn(DateUtils.getCurrentDate());
         logger.info("Add the comments into the docuemnt object");
         if(document.getComments() == null){
             List<Comments> commentsList = new ArrayList<Comments>();

@@ -1,5 +1,6 @@
 package com.lks.orm.dao;
 
+import com.lks.core.DateUtils;
 import com.lks.core.FALException;
 import com.lks.core.enums.RecStatus;
 import com.lks.orm.entities.Comments;
@@ -37,9 +38,8 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
         Session session = sessionFactory.openSession();
         Integer documentId = null;
         try{
-            Date date = new Date();
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Document document = new Document(RecStatus.NR, fileName, fileLocation, createdBy, branchCode, placeOfMeeting, bookletNo, applicationNo, numOfCustomers, simpleDateFormat.format(date));
+            String currentDate = DateUtils.getCurrentDate();
+            Document document = new Document(RecStatus.NR, fileName, fileLocation, createdBy, branchCode, placeOfMeeting, bookletNo, applicationNo, numOfCustomers, currentDate);
             documentId = (Integer) session.save(document);
         }catch (HibernateException e) {
             throw new FALException("Unable to create new document with file name"+ fileName, e);
