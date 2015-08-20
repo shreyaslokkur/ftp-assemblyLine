@@ -62,4 +62,15 @@ public class HRState extends AbstractState {
         documentUploadDao.updateDocument(document);
         return document;
     }
+
+    @Override
+    public Document unlock(Document document) {
+        logger.info("Update the lock flag to false and set the locked by field to null");
+        document.setLocked(false);
+        document.setLockedBy(null);
+        logger.info("Update the document: "+document.getDocumentId()+ " into the table");
+        documentUploadDao.updateDocument(document);
+        return document;
+
+    }
 }

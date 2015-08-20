@@ -307,6 +307,22 @@ public class MainController {
 		return documentDO;
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value = "/scanner/unlock")
+	public
+	@ResponseBody
+	DocumentDO unlockRescanDocument(@RequestParam("documentId") int documentId){
+
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		FileOperationDO fileOperationDO = new FileOperationDO();
+		fileOperationDO.setDocOperations(DocOperations.LOCK);
+		fileOperationDO.setDocumentId(documentId);
+		fileOperationDO.setUserId(userDetails.getUsername());
+		DocumentDO documentDO = documentUploadService.performOperationOnDocument(fileOperationDO);
+
+
+		return documentDO;
+	}
+
 	@RequestMapping(method = RequestMethod.GET, value = "/scanner/getRescanDocumentsForBranch")
 	public
 	@ResponseBody
@@ -405,8 +421,6 @@ public class MainController {
 		return documentDO;
 	}
 
-
-
 	@RequestMapping(method = RequestMethod.GET, value = "/do/unlock")
 	public
 	@ResponseBody
@@ -422,6 +436,7 @@ public class MainController {
 
 		return documentDO;
 	}
+
 
 	@RequestMapping(method = RequestMethod.GET, value = "/do/complete")
 	public
@@ -483,6 +498,22 @@ public class MainController {
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		FileOperationDO fileOperationDO = new FileOperationDO();
 		fileOperationDO.setDocOperations(DocOperations.LOCK);
+		fileOperationDO.setDocumentId(documentId);
+		fileOperationDO.setUserId(userDetails.getUsername());
+		DocumentDO documentDO = documentUploadService.performOperationOnDocument(fileOperationDO);
+
+
+		return documentDO;
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/qa/unlock")
+	public
+	@ResponseBody
+	DocumentDO unlockNotApprovedDocument(@RequestParam("documentId") int documentId){
+
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		FileOperationDO fileOperationDO = new FileOperationDO();
+		fileOperationDO.setDocOperations(DocOperations.UNLOCK);
 		fileOperationDO.setDocumentId(documentId);
 		fileOperationDO.setUserId(userDetails.getUsername());
 		DocumentDO documentDO = documentUploadService.performOperationOnDocument(fileOperationDO);
@@ -578,6 +609,22 @@ public class MainController {
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		FileOperationDO fileOperationDO = new FileOperationDO();
 		fileOperationDO.setDocOperations(DocOperations.LOCK);
+		fileOperationDO.setDocumentId(documentId);
+		fileOperationDO.setUserId(userDetails.getUsername());
+		DocumentDO documentDO = documentUploadService.performOperationOnDocument(fileOperationDO);
+
+
+		return documentDO;
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/resolver/unlock")
+	public
+	@ResponseBody
+	DocumentDO unlockHoldDocument(@RequestParam("documentId") int documentId){
+
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		FileOperationDO fileOperationDO = new FileOperationDO();
+		fileOperationDO.setDocOperations(DocOperations.UNLOCK);
 		fileOperationDO.setDocumentId(documentId);
 		fileOperationDO.setUserId(userDetails.getUsername());
 		DocumentDO documentDO = documentUploadService.performOperationOnDocument(fileOperationDO);
