@@ -209,21 +209,59 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
 
             },
             $scope.ShowComments = function (doc) {
-                doc.ViewOnly = true;
-                var modalInstance = $modal.open({
-                    controller: "ModalInstanceCtrl",
-                    templateUrl: 'myModalContent.html',
-                    resolve: {
-                        doc: function () {
-                            return doc;
-                        },
-                        users: function () {
-                            return null;
-                        }
+            doc.ViewOnly = true;
+            var modalInstance = $modal.open({
+                controller: "ModalInstanceCtrl",
+                templateUrl: 'myModalContent.html',
+                resolve: {
+                    doc: function () {
+                        return doc;
+                    },
+                    users: function () {
+                        return null;
                     }
-                });
+                }
+            });
 
-            };
+        },
+
+        $scope.OpenResetPassword = function (user) {
+
+            var ResetmodalInstance = $modal.open({
+                controller: "ResetPasswordCtrl",
+                templateUrl: 'ResetPassword.html',
+                resolve: {
+                    user: function () {
+                        return user;
+                    }
+                }
+            });
+
+            ResetmodalInstance.result.then(function (usr) {
+                $scope.resetPassword(usr);
+            }, function () {
+                $log.info('Modal dismissed at: ' + new Date());
+            });
+        };
+
+        $scope.resetPassword = function (usr) {
+            var promise = ReportService.resetPassword(usr);
+            promise.then(
+                function (payload) {
+
+                    if(payload==true){
+                    $scope.OperationSuccessForUser = true;
+                    $scope.successMsgForUser = "Password Reset Successfully!"
+                    }
+
+
+                },
+                function (errorPayload) {
+                    $scope.OperationFailureForUser = true;
+                    $scope.FailureMsgForUser = "We are facing technical difficulties , Please contact ur system Administrator";
+                    $log.error('failure: Error while Password Reset', errorPayload);
+                });
+        };
 
         var init = function () {
             $scope.OperationSuccess = false;

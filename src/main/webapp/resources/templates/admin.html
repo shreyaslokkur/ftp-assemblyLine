@@ -139,42 +139,64 @@
                             <a href="#" class="close" ng-click="OperationFailureForUser=false">&times;</a>
                             <strong>Error!</strong> {{FailureMsgForUser}}
                         </div>
-                          <table id="dOTable"  class="table table-bordered table-striped" style="margin-left:10px;">
+
                         
-                        <thead align="center" style="font-size: 12px;">
-
-
-                        <th>User Name</th>
-                        <th>User Role</th>
-                        <th>Branch Code</th>
-                        <th>Reset Password</th>
-<!--                        <th>Edit</th>-->
-                        <th>Delete</th>
-
-
-
-                        </thead>
-
-
-
-                        <tr ng-repeat="usr in Users">
-
-                            <td>{{usr.username}}</td>
-                            <td>{{usr.userRole}}</td>
-                            <td>{{usr.branchCode}}</td>
-                            <td><button class="btn btn-primary" title="Reset Password" ng-click="ResetPassword(usr);" /><i class="fa fa-cogs"></i> </button></td>
-                            <!--<td><button class="btn btn-primary" title="Edit" ng-click="Edit(user);" /><i class="fa fa-pencil-square-o"></i></button></td>-->
-                            <td><button class="btn btn-danger" title="Delete"ng-really-message="Are you sure you want to delete the user?" ng-really-click="deleteUser(usr);" /><i class="fa fa-trash-o"></i></button></td>
-
-                        </tr>
-
-
-
-
-
-                    </table>
                         
 
+                    </div>
+                    <div class="col-md-6"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="custom-search-input">
+                            <div class="input-group col-md-12">
+                                <input type="text"  ng-model="searchUserText" class="search-query form-control" placeholder="Search" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-danger" type="button">
+                                        <span class=" glyphicon glyphicon-search"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <table id="dOTable"  class="table table-bordered table-striped">
+                            
+                            <thead align="center" style="font-size: 12px;">
+
+
+                            <th>User Name</th>
+                            <th>User Role</th>
+                            <th>Branch Code</th>
+                            <th>Reset Password</th>
+                            <!--                        <th>Edit</th>-->
+                            <th>Delete</th>
+
+
+
+                            </thead>
+
+
+
+                            <tr ng-repeat="usr in Users | filter:searchUserText">
+
+                                <td>{{usr.username}}</td>
+                                <td>{{usr.userRole}}</td>
+                                <td>{{usr.branchCode}}</td>
+                                <td style="text-align: center"><button class="btn btn-primary" title="Reset Password" ng-click="OpenResetPassword(usr);" /><i class="fa fa-cogs"></i> </button></td>
+                                <!--<td><button class="btn btn-primary" title="Edit" ng-click="Edit(user);" /><i class="fa fa-pencil-square-o"></i></button></td>-->
+                                <td><button class="btn btn-danger" title="Delete"ng-really-message="Are you sure you want to delete the user?" ng-really-click="deleteUser(usr);" /><i class="fa fa-trash-o"></i></button></td>
+
+                            </tr>
+
+
+
+
+
+                        </table>
                     </div>
                     <div class="col-md-6"></div>
                 </div>
@@ -183,6 +205,7 @@
                 <!--   <input type="file" id="btnBrowse" style="display:none" class="btn btn-primary" />-->
 
             </div>
+
         </form>
 
 
@@ -294,7 +317,7 @@
         <div class="container" style="text-align: left;margin-left: 0px;">
             <div class="row">
                 <div class="col-md-12">
-                    <div id="custom-search-input">
+                    <div class="custom-search-input">
                         <div class="input-group col-md-12">
                             <input type="text"  ng-model="searchText" class="search-query form-control" placeholder="Search" />
                                 <span class="input-group-btn">
@@ -350,6 +373,66 @@
             </div>
     </div>
 </div>
+
+<script type="text/ng-template" id="ResetPassword.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Reset Password</h3>
+    </div>
+    <div class="modal-body">
+
+        <div class="container" >
+            <div class="row" style="padding-top:5px">
+                <div class="col-md-2">
+                    User Name :
+                </div>
+
+                <div class="col-md-10">
+                    {{user.username}}
+                </div>
+            </div>
+            <div class="row" style="padding-top:5px;">
+                <div class="col-md-2">
+
+                    Role :
+                </div>
+
+                <div class="col-md-10">
+                    {{user.userRole}}
+                </div>
+
+            </div>
+            <form name="ResetForm">
+                <div class="row" style="padding-top:5px">
+                    <div class="col-md-2">
+                        Password : <span class="colorRed">*</span>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="password" class="form-control" ng-model="user.password"   placeholder="Enter Password" required />
+                    </div>
+                </div>
+                <div class="row" style="padding-top:5px">
+                    <div class="col-md-2">
+                        Confirm Password : <span class="colorRed">*</span>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="password" class="form-control" ng-model="confirmPassword"  compare-to="user.password" placeholder="Enter  Confirm Password" required />
+                    </div>
+                    <div class="col-md-6" ng-messages="ResetForm.confirmPassword.$error">
+                        <!--<div class="messages">
+                            <div ng-message="compareTo">Must match the password</div>
+                        </div>-->
+                    </div>
+                </div>
+            </form>
+            <br/>
+
+
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="save()" ng-disabled="ResetForm.$invalid"  >Save</button>
+            <button class="btn btn-primary" ng-click="cancel()">Cancel</button>
+        </div>
+</script>
 <script type="text/ng-template" id="myModalContent.html">
     <div class="modal-header">
         <h3 class="modal-title">Comments</h3>
