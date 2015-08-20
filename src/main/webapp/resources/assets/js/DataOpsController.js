@@ -234,7 +234,7 @@
                             $log.error('failure: Error while getAllRecords()', errorPayload);
                         });
 
-                }, 100000)
+                }, 180 * 1000)
             };
 
             init();
