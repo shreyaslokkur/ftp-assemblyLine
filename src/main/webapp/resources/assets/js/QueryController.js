@@ -131,6 +131,9 @@ reportApp.controller('QueryController', ['$scope', '$modal', 'ReportService',
             $scope.OperationFailure = false;
            $scope.getCurrentUser();
             $scope.getAllRecordsForQueryResolver();
+            setInterval(function () {
+                $scope.getAllRecordsForQueryResolver();
+            }, 180 * 1000);
             $scope.getAllUsersBasedOnRole();
 
         };
