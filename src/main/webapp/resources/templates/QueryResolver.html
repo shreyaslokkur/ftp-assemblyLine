@@ -69,7 +69,17 @@
         <strong>Error!</strong> {{FailureMsg}}
     </div>
            </div>
-             <table id="dOTable"  class="table table-bordered table-striped">
+           <div class="row colorRed" ng-show="docRecords.length==0">
+               <div class="container" >
+                   <div class="row">
+                       No records currently for Resolving
+                   </div>
+
+               </div>
+
+               <br>
+           </div>
+             <table id="dOTable" ng-show="docRecords.length>0" class="table table-bordered table-striped">
            
            <thead style="font-size: 11px">
 
