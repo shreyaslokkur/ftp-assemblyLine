@@ -276,6 +276,23 @@
                     return deferred.promise;
             };
 
+
+    reportService.unLockRecord = function (record,ServiceType) {
+
+        var deferred = $q.defer();
+        $http.get('/'+ServiceType+'/unlock', {
+            params: {
+                documentId: record.documentId
+            }
+        })
+            .success(function(data) {
+                deferred.resolve(data);
+            }).error(function(msg, code) {
+                deferred.reject(msg);
+                $log.error(msg, code);
+            });
+        return deferred.promise;
+    };
         //Rescan
         reportService.RescanRecord = function (record) {
 

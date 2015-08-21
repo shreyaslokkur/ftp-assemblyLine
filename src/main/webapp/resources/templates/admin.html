@@ -324,6 +324,18 @@
         <div class="container" style="text-align: left;margin-left: 0px;">
             <div class="row">
                 <div class="col-md-12">
+                    <div ng-show="OperationSuccess==true" class="alert alert-success fade-in-out">
+                        <a href="#" class="close" ng-click="OperationSuccess=false">&times;</a>
+                        <strong>Success! </strong>{{successMsg}}
+                    </div>
+                    <div ng-show="OperationFailure==true" class="alert alert-danger fade-in-out">
+                        <a href="#" class="close" ng-click="OperationFailure=false">&times;</a>
+                        <strong>Error!</strong> {{FailureMsg}}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
                     <div class="custom-search-input">
                         <div class="input-group col-md-12">
                             <input type="text"  ng-model="searchText" class="search-query form-control" placeholder="Search" />
@@ -348,6 +360,7 @@
             <th>Recieved Time</th>
             <th>Completed Time</th>
             <th>Locked By</th>
+            <th>Unlock</th>
             <th>View</th>
             <th>Comments</th>
 
@@ -366,6 +379,7 @@
                 <td>{{doc.recCreatedOn}}</td>
                 <td>{{doc.recCompletedOn}}</td>
                 <td>{{doc.lockedBy}}</td>
+                <td><button ng-show="doc.locked==true" class="btn btn-danger" ng-really-message="Do u want to UnLock the document for processing?" ng-really-click="unLockRecord(doc)"  title="Unlock Record" ><i class="fa fa-unlock"></i>&nbsp;Unlock</button></td>
                 <td><a ng-href="{{doc.documentUrl}}" title="View file" target="_blank" class="btn btn-primary" ><i class="fa fa-search"></i></a></td>
                 <td><button class="btn btn-primary" title="View Comments" ng-click="ShowComments(doc);"><i class="fa fa-comments"></i></button></td>
             </tr>

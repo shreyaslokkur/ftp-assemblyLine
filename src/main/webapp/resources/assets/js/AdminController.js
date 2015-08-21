@@ -190,7 +190,25 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
 
             },
 
+            $scope.unLockRecord = function (doc) {
 
+                var promise = ReportService.unLockRecord(doc,'admin');
+                promise.then(
+                    function (payload) {
+                        angular.extend(doc, payload);
+
+                            $scope.OperationSuccess = true;
+                            $scope.successMsg = "Unlock Successful";
+
+
+
+                    },
+                    function (errorPayload) {
+                        $log.error('failure: Error while UnLocking document', errorPayload);
+                        $scope.OperationFailure = true;
+                        $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                    });
+            }
 
             $scope.getAllDocumentsForAdmin = function()
             {
