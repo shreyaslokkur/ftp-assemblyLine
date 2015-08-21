@@ -694,7 +694,7 @@ public class MainController {
 	DocumentDO unlockDocument(@RequestParam("documentId") int documentId){
 
 		FileOperationDO fileOperationDO = new FileOperationDO();
-		fileOperationDO.setDocOperations(DocOperations.LOCK);
+		fileOperationDO.setDocOperations(DocOperations.UNLOCK);
 		fileOperationDO.setDocumentId(documentId);
 		DocumentDO documentDO = documentUploadService.performOperationOnDocument(fileOperationDO);
 		return documentDO;
