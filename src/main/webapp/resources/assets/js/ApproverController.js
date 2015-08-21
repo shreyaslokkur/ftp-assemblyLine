@@ -151,6 +151,9 @@
                                     $scope.OperationFailure = false;
                                     $scope.getCurrentUser();
                                     $scope.getAllRecordsForApprover();
+                                    setInterval(function () {
+                                        $scope.getAllRecordsForApprover();
+                                    }, 180 * 1000);
                                     $scope.getAllUsersBasedOnRole();
 
                                 };

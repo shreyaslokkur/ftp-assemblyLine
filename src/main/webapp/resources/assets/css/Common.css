@@ -103,3 +103,8 @@
     z-index: 3;
 }
 
+.HeaderPosition {
+    margin: 0px;
+    margin-top: -69px;
+    margin-bottom: 30px;
+}
