@@ -168,15 +168,13 @@ public class AuthenticationService implements org.springframework.security.core.
 
 	@Override
 	public List<RoleDO> getAllRoles() {
-		userDao = UserDaoFactory.getUserDao();
-		List<String> allRoles = userDao.getAllRoles();
+		UserRoles[] values = UserRoles.values();
 		List<RoleDO> roleDOList = new ArrayList<>();
 		RoleDO roleDO = null;
-		for(String role : allRoles){
+		for(UserRoles role : values){
 			roleDO = new RoleDO();
-			roleDO.setRoleName(role);
-			UserRoles userRoles = UserRoles.valueOf(role);
-			roleDO.setRoleDescription(userRoles.getRoleDescription());
+			roleDO.setRoleName(role.name());
+			roleDO.setRoleDescription(role.getRoleDescription());
 			roleDOList.add(roleDO);
 		}
 		return roleDOList;

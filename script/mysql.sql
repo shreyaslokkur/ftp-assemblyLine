@@ -109,4 +109,18 @@ CREATE TABLE branch (
   PRIMARY KEY (branchCode)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+INSERT INTO users
+(username,
+password,
+enabled)
+VALUES
+('vindhya',
+'$2a$10$YPTiApdzgmaga9aT83kyOu4Le8Zn3WsO7QTt.PmFeDcGSpTu.qYhi',
+1);
 
+INSERT INTO user_roles
+(user_role_id,
+username,
+role)
+VALUES
+(1,'vindhya','ROLE_ADMIN');
