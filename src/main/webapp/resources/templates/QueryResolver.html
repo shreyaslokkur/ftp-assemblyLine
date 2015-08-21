@@ -30,13 +30,19 @@
 
 </head>
 <body ng-controller="QueryController">
+<div class=" tab-content tab-pane fade active in" style="margin: 0px;margin-top: -69px;margin-bottom: 30px;">
+    <div class="row" style="border-color:black">
+        <div class="col-md-2"><img src="../../resources/assets/Images/Vindhya_Logo1.jpg" width="200px" height="60px" /></div>
+        <div class="col-md-10"> <span class="pull-right" style="color: grey !important;margin-top:38px"><span> Hi, {{userName}}</span> &nbsp;| &nbsp; <a  href="j_spring_security_logout">Logout</a> </span> </div>
+    </div>
 
+</div>
 <!-- Navigation -->
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<!--<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
         <a class="navbar-brand pull-left active" style="color: #fff;margin-left: -110px !important;" >Vindhya eInfomedia</a>
 
-        <!-- I don't want it apart of the collapsible portion -->
+        &lt;!&ndash; I don't want it apart of the collapsible portion &ndash;&gt;
         <div class="navbar-header pull-right">
             <ul class="nav navbar-nav">
                 <li class="active" style="color:#fff"> <a href="">Hi, {{userName}}</a> </li>
@@ -49,7 +55,7 @@
         </div>
 
     </div>
-</nav>
+</nav>-->
 
 
       
@@ -98,9 +104,9 @@
                <td ng-class="{'colorRed': doc.queryLevel > 3, '': doc.queryLevel < 3}">{{doc.queryLevel}}</td>
                <td>{{doc.lockedBy}}</td>
                <td><button class="btn" ng-really-message="Do u want to Lock the document for processing?" ng-really-click="lockRecord(doc)" ng-disabled="doc.locked==true" title="Select" ng-class="{'btn-danger': doc.locked==true, 'btn-success': doc.locked==false}"><i ng-class="{'fa fa-lock': doc.locked==true, 'fa fa-unlock': doc.locked==false}"></i>&nbsp;<span>{{doc.locked ? 'Locked' : 'Select'}}</span></button></td>
-               <td><a ng-href="{{doc.documentUrl}}" ng-disabled="doc.locked==false" title="View file" target="_blank" class="btn btn-primary" ><i class="fa fa-search"></i></a></td>
-               <td><button class="btn btn-success" ng-disabled="doc.locked==false" title="Resolve" ng-click="openCommentsPopupForResolve(doc)"><i class="fa fa-check"></i></button></td>
-               <td><button class="btn btn-primary" ng-disabled="doc.locked==false"  ng-click="ShowComments(doc);" title="View Comments"><i class="fa fa-comments"></i></button></td>
+               <td><a ng-href="{{doc.documentUrl}}" ng-disabled="doc.locked==false || (userName != doc.lockedBy)" title="View file" target="_blank" class="btn btn-primary" ><i class="fa fa-search"></i></a></td>
+               <td><button class="btn btn-success" ng-disabled="doc.locked==false || (userName != doc.lockedBy)" title="Resolve" ng-click="openCommentsPopupForResolve(doc)"><i class="fa fa-check"></i></button></td>
+               <td><button class="btn btn-primary" ng-disabled="doc.locked==false || (userName != doc.lockedBy)"  ng-click="ShowComments(doc);" title="View Comments"><i class="fa fa-comments"></i></button></td>
            </tr>
 
 

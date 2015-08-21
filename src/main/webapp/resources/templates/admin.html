@@ -30,11 +30,18 @@
 
 </head>
 <body ng-controller="AdminController">
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<div class=" tab-content tab-pane fade active in" style="margin: 0px;margin-top: -69px;margin-bottom: 30px;">
+    <div class="row" style="border-color:black">
+        <div class="col-md-2"><img src="../../resources/assets/Images/Vindhya_Logo1.jpg" width="200px" height="60px" /></div>
+        <div class="col-md-10"> <span class="pull-right" style="color: grey !important;margin-top:38px"><span> Hi, {{userName}}</span> &nbsp;| &nbsp; <a  href="j_spring_security_logout">Logout</a> </span> </div>
+    </div>
+
+</div>
+<!--<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
         <a class="navbar-brand pull-left active" style="color: #fff;margin-left: -110px !important;" ></a>
 
-        <!-- I don't want it apart of the collapsible portion -->
+        &lt;!&ndash; I don't want it apart of the collapsible portion &ndash;&gt;
         <div class="navbar-header pull-right">
             <ul class="nav navbar-nav">
                 <li class="active" style="color:#fff"> <a href="">Hi, {{userName}}</a> </li>
@@ -47,7 +54,7 @@
         </div>
 
     </div>
-</nav>
+</nav>-->
 <ul class="nav nav-tabs" role="tablist">
     <li class="active">
         <a href="#Users"  role="tab" data-toggle="tab">
