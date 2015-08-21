@@ -9,6 +9,9 @@
                                             $scope.userName = payload.username;
                                             $scope.doc.branchCode = payload.branchCode;
                                             $scope.getAllRecordsforRescan();
+                                            setInterval(function () {
+                                                $scope.getAllRecordsforRescan();
+                                            }, 180 * 1000);
                                             //$scope.user = {branchCode : $scope.Branches[0].branchCode};
                                         },
                                         function (errorPayload) {
