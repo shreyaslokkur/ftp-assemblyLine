@@ -156,10 +156,18 @@
     <div class="col-md-12">
         <b>Documents to be Re-Scanned :</b>
     </div>
+
 </div>
+<div class="row colorRed" style="text-align: center" ng-show="docRecords.length==0">
+
+            No records currently for Re-scan
+</div>
+
+
 <div class="row">
     <div class="col-md-12">
-                  <span style="text-align:center">
+
+                  <span style="text-align:center" ng-show="docRecords.length>0">
                        <table id="dOTable"  class="table table-bordered table-striped" style="width:98% !important;margin-left:10px;">
                       
                       <thead align="center" style="font-size: 12px;">

@@ -94,7 +94,19 @@
         <a href="#" class="close" ng-click="OperationFailure=false">&times;</a>
         <strong>Error!</strong>  {{FailureMsg}}
     </div>
-                       <table id="dOTable"  class="table table-bordered table-striped">
+
+             <div class="row colorRed" ng-show="docRecords.length==0">
+                 <div class="container" >
+                     <div class="row">
+                        No records currently for Processing
+                     </div>
+
+                 </div>
+
+                 <br>
+             </div>
+
+                       <table id="dOTable" ng-show="docRecords.length > 0"  class="table table-bordered table-striped">
            
            <thead align="center" style="font-size: 12px;">
 
@@ -152,7 +164,17 @@
         <a href="#" class="close" ng-click="OperationFailure=false">&times;</a>
         <strong>Error!</strong> {{FailureMsg}}
     </div>
-                       <table id="dOTable"  class="table table-bordered table-striped">
+            <div class="row colorRed" ng-show="MydocRecords.length==0">
+                <div class="container" >
+                    <div class="row">
+                        No records currently for Processing
+                    </div>
+
+                </div>
+
+                <br>
+            </div>
+                       <table id="dOTable" ng-show="MydocRecords.length>0" class="table table-bordered table-striped">
            
            <thead align="center" style="font-size: 12px;">
 
