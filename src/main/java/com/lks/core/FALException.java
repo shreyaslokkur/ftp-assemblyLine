@@ -43,7 +43,7 @@ public class FALException extends RuntimeException {
 
     @Override
     public String getMessage() {
-        return super.getMessage() ;
+        return errorMessage ;
     }
 
     public ExceptionCode getExceptionCode() {

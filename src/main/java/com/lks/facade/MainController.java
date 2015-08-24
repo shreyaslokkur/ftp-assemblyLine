@@ -201,54 +201,56 @@ public class MainController {
 	public int continueFileUpload(HttpServletRequest request,
 									 HttpServletResponse response){
 		MultipartHttpServletRequest mRequest;
-		try {
-			mRequest = (MultipartHttpServletRequest) request;
-			mRequest.getParameterMap();
-			String fileName = null;
-			Iterator<String> itr = mRequest.getFileNames();
-			MultipartFile mFile = null;
-			while (itr.hasNext()) {
-				mFile = mRequest.getFile(itr.next());
-				fileName = mFile.getOriginalFilename();
-				System.out.println(fileName);
-			}
-			File tmpFile = null;
+
+		mRequest = (MultipartHttpServletRequest) request;
+		mRequest.getParameterMap();
+		String fileName = null;
+		Iterator<String> itr = mRequest.getFileNames();
+		MultipartFile mFile = null;
+		while (itr.hasNext()) {
+			mFile = mRequest.getFile(itr.next());
+			fileName = mFile.getOriginalFilename();
+			System.out.println(fileName);
+		}
+		File tmpFile = null;
+		try{
 			tmpFile = File.createTempFile(FilenameUtils.getBaseName(fileName), "." + FilenameUtils.getExtension(fileName));
 			mFile.transferTo(tmpFile);
-			String ftpFileLocation = uploadToFTPServer(fileName,tmpFile.getAbsolutePath(), mRequest.getParameter("branchCode"));
-			if(ftpFileLocation != null){
-				FileReceivedForUploadDO fileReceivedForUploadDO = new FileReceivedForUploadDO();
-				UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-				fileReceivedForUploadDO.setCreatedBy(userDetails.getUsername());
-				fileReceivedForUploadDO.setFileLocation(ftpFileLocation);
-				fileReceivedForUploadDO.setFileName(fileName);
-				fileReceivedForUploadDO.setApplicationNo(Integer.parseInt(mRequest.getParameter("applicationNo")));
-				fileReceivedForUploadDO.setBookletNo(Integer.parseInt(mRequest.getParameter("bookletNo")));
-				fileReceivedForUploadDO.setBranchCode(Integer.parseInt(mRequest.getParameter("branchCode")));
-				fileReceivedForUploadDO.setNumOfCustomers(Integer.parseInt(mRequest.getParameter("numOfCustomers")));
-				fileReceivedForUploadDO.setPlaceOfMeeting(mRequest.getParameter("placeOfMeeting"));
-				//delete file from tomcat server
-				tmpFile.delete();
-				if(mRequest.getParameter("documentId") != null){
-					fileReceivedForUploadDO.setDocumentId(Integer.parseInt(mRequest.getParameter("documentId")));
-					return documentUploadService.reuploadDocument(fileReceivedForUploadDO);
-				}else {
-					return documentUploadService.createNewDocument(fileReceivedForUploadDO);
-				}
-			}
-			else {
-				//delete file from tomcat server
-				tmpFile.delete();
-				return -1;
-			}
-
-
-
-
-		} catch (Exception e) {
-			e.printStackTrace();
+		}catch (Exception e){
+			throw new FALException(ExceptionCode.SYSTEM_ERROR,"Unable to create a temp file for upload");
 		}
-		return -1;
+
+		String ftpFileLocation = uploadToFTPServer(fileName,tmpFile.getAbsolutePath(), mRequest.getParameter("branchCode"));
+		if(ftpFileLocation != null){
+			FileReceivedForUploadDO fileReceivedForUploadDO = new FileReceivedForUploadDO();
+			UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			fileReceivedForUploadDO.setCreatedBy(userDetails.getUsername());
+			fileReceivedForUploadDO.setFileLocation(ftpFileLocation);
+			fileReceivedForUploadDO.setFileName(fileName);
+			fileReceivedForUploadDO.setApplicationNo(Integer.parseInt(mRequest.getParameter("applicationNo")));
+			fileReceivedForUploadDO.setBookletNo(Integer.parseInt(mRequest.getParameter("bookletNo")));
+			fileReceivedForUploadDO.setBranchCode(Integer.parseInt(mRequest.getParameter("branchCode")));
+			fileReceivedForUploadDO.setNumOfCustomers(Integer.parseInt(mRequest.getParameter("numOfCustomers")));
+			fileReceivedForUploadDO.setPlaceOfMeeting(mRequest.getParameter("placeOfMeeting"));
+			//delete file from tomcat server
+			tmpFile.delete();
+			if(mRequest.getParameter("documentId") != null){
+				fileReceivedForUploadDO.setDocumentId(Integer.parseInt(mRequest.getParameter("documentId")));
+				return documentUploadService.reuploadDocument(fileReceivedForUploadDO);
+			}else {
+				return documentUploadService.createNewDocument(fileReceivedForUploadDO);
+			}
+		}
+		else {
+			//delete file from tomcat server
+			tmpFile.delete();
+			throw new FALException(ExceptionCode.SYSTEM_ERROR, "Unable to create a file in the ftp folder");
+		}
+
+
+
+
+
 	}
 
 
