@@ -1,5 +1,6 @@
 package com.lks.stateMachine;
 
+import com.lks.core.DateUtils;
 import com.lks.core.enums.RecStatus;
 import com.lks.orm.entities.Comments;
 import com.lks.orm.entities.Document;
@@ -28,7 +29,7 @@ public class HRState extends AbstractState {
         comments.setCommentedBy(userId);
         comments.setState(RecStatus.NR);
         comments.setDocumentId(document.getDocumentId());
-
+        comments.setRecCreatedOn(DateUtils.getCurrentDate());
         logger.info("Add the comments into the docuemnt object");
         if(document.getComments() == null){
             List<Comments> commentsList = new ArrayList<Comments>();
