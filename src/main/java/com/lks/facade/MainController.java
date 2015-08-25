@@ -721,6 +721,17 @@ public class MainController {
 
 	}
 
+	@ExceptionHandler(Exception.class)
+	public @ResponseBody
+	ErrorDO handleException(Exception ex, HttpServletResponse response) {
+
+		response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+		ErrorDO errorDO = new ErrorDO();
+		errorDO.setStatusText(ex.getMessage());
+		return errorDO;
+
+	}
+
 
 	private String uploadToFTPServer(String fileName, String fileLocation, String branchCode){
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
