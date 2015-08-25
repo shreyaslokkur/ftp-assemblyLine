@@ -711,10 +711,13 @@ public class MainController {
 
 	@ExceptionHandler(FALException.class)
 	public @ResponseBody
-	String handleCustomException(FALException ex, HttpServletResponse response) {
+	ErrorDO handleCustomException(FALException ex, HttpServletResponse response) {
 
 		response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-		return ex.getMessage();
+		ErrorDO errorDO = new ErrorDO();
+		errorDO.setExceptionCode(ex.getExceptionCode().name());
+		errorDO.setStatusText(ex.getErrorMessage());
+		return errorDO;
 
 	}
 

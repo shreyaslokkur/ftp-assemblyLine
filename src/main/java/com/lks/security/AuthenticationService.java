@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.lks.core.FALException;
 import com.lks.core.UserUtils;
+import com.lks.core.enums.ExceptionCode;
 import com.lks.core.enums.UserRoles;
 import com.lks.core.model.RoleDO;
 import com.lks.core.model.UserModelDO;
@@ -89,7 +90,7 @@ public class AuthenticationService implements org.springframework.security.core.
 		if(userDao.findByUserName(userModelDO.getUsername()) == null)
 			return userDao.createNewUser(userModelDO.getUsername(), userModelDO.getPassword(), userModelDO.getBranchCode(), userModelDO.getUserRole());
 		else
-			throw new FALException("User already Exists");
+			throw new FALException(ExceptionCode.USER_EXISTS,"User already Exists");
 	}
 
 	@Override
