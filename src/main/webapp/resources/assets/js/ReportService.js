@@ -178,9 +178,9 @@
         $http.get('/qa/getRecordsWhichNeedApproval')
             .success(function(data) {
                 deferred.resolve(data);
-            }).error(function(msg, code) {
-                deferred.reject(msg);
-                $log.error(msg, code);
+            }).error(function (data) {
+                deferred.reject(data.statusText);
+                //$log.error(data.statusText, data.exceptionCode);
             });
         return deferred.promise;
         },
@@ -192,9 +192,9 @@
             })
                 .success(function(data) {
                     deferred.resolve(data);
-                }).error(function(msg, code) {
-                    deferred.reject(msg);
-                    $log.error(msg, code);
+                }).error(function (data) {
+                    deferred.reject(data.statusText);
+                    //$log.error(data.statusText, data.exceptionCode);
                 });
             return deferred.promise;
         },
@@ -204,9 +204,9 @@
             $http.get('/resolver/getRecordsWhichAreInHold')
                 .success(function(data) {
                     deferred.resolve(data);
-                }).error(function(msg, code) {
-                    deferred.reject(msg);
-                    $log.error(msg, code);
+                }).error(function (data) {
+                    deferred.reject(data.statusText);
+                    //$log.error(data.statusText, data.exceptionCode);
                 });
             return deferred.promise;
         },
@@ -218,10 +218,10 @@
             $http.get('/do/getNewRecords')
               .success(function(data) { 
                   deferred.resolve(data);
-              }).error(function(msg, code) {
-                  deferred.reject(msg);
-                  $log.error(msg, code);
-              });
+                }).error(function (data) {
+                    deferred.reject(data.statusText);
+                    //$log.error(data.statusText, data.exceptionCode);
+                });
             return deferred.promise;
 
           
@@ -234,9 +234,9 @@
         $http.get('/do/getAssignedRecords')
             .success(function(data) {
                 deferred.resolve(data);
-            }).error(function(msg, code) {
-                deferred.reject(msg);
-                $log.error(msg, code);
+            }).error(function (data) {
+                deferred.reject(data.statusText);
+                //$log.error(data.statusText, data.exceptionCode);
             });
         return deferred.promise;
 
@@ -249,9 +249,9 @@
         $http.get('/admin/getAllDocuments')
             .success(function(data) {
                 deferred.resolve(data);
-            }).error(function(msg, code) {
-                deferred.reject(msg);
-                $log.error(msg, code);
+            }).error(function (data) {
+                deferred.reject(data.statusText);
+                //$log.error(data.statusText, data.exceptionCode);
             });
         return deferred.promise;
 
@@ -269,10 +269,10 @@
                     })
                    .success(function(data) { 
                         deferred.resolve(data);
-                    }).error(function(msg, code) {
-                        deferred.reject(msg);
-                        $log.error(msg, code);
-                    });
+                        }).error(function (data) {
+                            deferred.reject(data.statusText);
+                            //$log.error(data.statusText, data.exceptionCode);
+                        });
                     return deferred.promise;
             };
 
@@ -287,9 +287,9 @@
         })
             .success(function(data) {
                 deferred.resolve(data);
-            }).error(function(msg, code) {
-                deferred.reject(msg);
-                $log.error(msg, code);
+            }).error(function (data) {
+                deferred.reject(data.statusText);
+                //$log.error(data.statusText, data.exceptionCode);
             });
         return deferred.promise;
     };
@@ -306,10 +306,10 @@
             })
            .success(function (data) {
                deferred.resolve(data);
-           }).error(function (msg, code) {
-               deferred.reject(msg);
-               $log.error(msg, code);
-           });
+                }).error(function (data) {
+                    deferred.reject(data.statusText);
+                    //$log.error(data.statusText, data.exceptionCode);
+                });
             return deferred.promise;
         };
 
@@ -324,10 +324,10 @@
             })
            .success(function (data) {
                deferred.resolve(data);
-           }).error(function (msg, code) {
-               deferred.reject(msg);
-               $log.error(msg, code);
-           });
+                }).error(function (data) {
+                    deferred.reject(data.statusText);
+                    //$log.error(data.statusText, data.exceptionCode);
+                });
             return deferred.promise;
         };
 
@@ -342,10 +342,10 @@
             })
            .success(function (data) {
                deferred.resolve(data);
-           }).error(function (msg, code) {
-               deferred.reject(msg);
-               $log.error(msg, code);
-           });
+                }).error(function (data) {
+                    deferred.reject(data.statusText);
+                    //$log.error(data.statusText, data.exceptionCode);
+                });
             return deferred.promise;
         };
 
@@ -361,9 +361,9 @@
         })
             .success(function (data) {
                 deferred.resolve(data);
-            }).error(function (msg, code) {
-                deferred.reject(msg);
-                $log.error(msg, code);
+            }).error(function (data) {
+                deferred.reject(data.statusText);
+                //$log.error(data.statusText, data.exceptionCode);
             });
         return deferred.promise;
     };
@@ -378,10 +378,10 @@
         })
             .success(function (data) {
                 deferred.resolve(data);
-            }).error(function (msg, code) {
-        deferred.reject(msg);
-        $log.error(msg, code);
-    });
+            }).error(function (data) {
+                deferred.reject(data.statusText);
+                //$log.error(data.statusText, data.exceptionCode);
+            });
         return deferred.promise;
     };
         reportService.uploadFileToUrl = function (file,doc, uploadUrl) {
@@ -408,9 +408,9 @@
             })
                 .success(function(data, status) {
                     deferred.resolve(data);
-                }).error(function (msg, code) {
-                    deferred.reject(msg);
-                    $log.error(msg, code);
+                }).error(function (data) {
+                    deferred.reject(data.statusText);
+                    //$log.error(data.statusText, data.exceptionCode);
                 });
             return deferred.promise;
 
@@ -428,9 +428,9 @@
         })
             .success(function (data) {
                 deferred.resolve(data);
-            }).error(function (msg, code) {
-                deferred.reject(msg);
-                $log.error(msg, code);
+            }).error(function (data) {
+                deferred.reject(data.statusText);
+                //$log.error(data.statusText, data.exceptionCode);
             });
         return deferred.promise;
     },
@@ -446,9 +446,9 @@
         })
             .success(function (data) {
                 deferred.resolve(data);
-            }).error(function (msg, code) {
-                deferred.reject(msg);
-                $log.error(msg, code);
+            }).error(function (data) {
+                deferred.reject(data.statusText);
+                //$log.error(data.statusText, data.exceptionCode);
             });
         return deferred.promise;
 
@@ -464,9 +464,9 @@
         })
             .success(function (data) {
                 deferred.resolve(data);
-            }).error(function (msg, code) {
-                deferred.reject(msg);
-                $log.error(msg, code);
+            }).error(function (data) {
+                deferred.reject(data.statusText);
+                //$log.error(data.statusText, data.exceptionCode);
             });
         return deferred.promise;
 
@@ -485,9 +485,9 @@
         })
             .success(function(data, status) {
                 deferred.resolve(data);
-            }).error(function (msg, code) {
-                deferred.reject(msg);
-                $log.error(msg, code);
+            }).error(function (data) {
+                deferred.reject(data.statusText);
+                //$log.error(data.statusText, data.exceptionCode);
             });
         return deferred.promise;
 
@@ -504,9 +504,9 @@
             })
                 .success(function(data, status) {
                     deferred.resolve(data);
-                }).error(function (msg, code) {
-                    deferred.reject(msg);
-                    $log.error(msg, code);
+                }).error(function (data) {
+                    deferred.reject(data.statusText);
+                    //$log.error(data.statusText, data.exceptionCode);
                 });
             return deferred.promise;
 
@@ -519,9 +519,9 @@
             })
                 .success(function (data) {
                     deferred.resolve(data);
-                }).error(function (msg, code) {
-                    deferred.reject(msg);
-                    $log.error(msg, code);
+                }).error(function (data) {
+                    deferred.reject(data.statusText);
+                    //$log.error(data.statusText, data.exceptionCode);
                 });
             return deferred.promise;
 
@@ -535,9 +535,9 @@
             })
                 .success(function (data) {
                     deferred.resolve(data);
-                }).error(function (msg, code) {
-                    deferred.reject(msg);
-                    $log.error(msg, code);
+                }).error(function (data) {
+                    deferred.reject(data.statusText);
+                    //$log.error(data.statusText, data.exceptionCode);
                 });
             return deferred.promise;
 
@@ -551,9 +551,9 @@
         })
             .success(function (data) {
                 deferred.resolve(data);
-            }).error(function (msg, code) {
-                deferred.reject(msg);
-                $log.error(msg, code);
+            }).error(function (data) {
+                deferred.reject(data.statusText);
+                //$log.error(data.statusText, data.exceptionCode);
             });
         return deferred.promise;
 
@@ -566,9 +566,9 @@
             })
                 .success(function (data) {
                     deferred.resolve(data);
-                }).error(function (msg, code) {
-                    deferred.reject(msg);
-                    $log.error(msg, code);
+                }).error(function (data) {
+                    deferred.reject(data.statusText);
+                    //$log.error(data.statusText, data.exceptionCode);
                 });
             return deferred.promise;
 
@@ -582,9 +582,9 @@
             })
                 .success(function (data) {
                     deferred.resolve(data);
-                }).error(function (msg, code) {
-                    deferred.reject(msg);
-                    $log.error(msg, code);
+                }).error(function (data) {
+                    deferred.reject(data.statusText);
+                    //$log.error(data.statusText, data.exceptionCode);
                 });
             return deferred.promise;
 
@@ -602,9 +602,9 @@
             })
                 .success(function(data, status) {
                     deferred.resolve(data);
-                }).error(function (msg, code) {
-                    deferred.reject(msg);
-                    $log.error(msg, code);
+                }).error(function (data) {
+                    deferred.reject(data.statusText);
+                    //$log.error(data.statusText, data.exceptionCode);
                 });
             return deferred.promise;
 
@@ -621,9 +621,9 @@
             })
                 .success(function(data, status) {
                     deferred.resolve(data);
-                }).error(function (msg, code) {
-                    deferred.reject(msg);
-                    $log.error(msg, code);
+                }).error(function (data) {
+                    deferred.reject(data.statusText);
+                    //$log.error(data.statusText, data.exceptionCode);
                 });
             return deferred.promise;
 
@@ -637,9 +637,9 @@
             })
                 .success(function (data) {
                     deferred.resolve(data);
-                }).error(function (msg, code) {
-                    deferred.reject(msg);
-                    $log.error(msg, code);
+                }).error(function (data) {
+                    deferred.reject(data.statusText);
+                    //$log.error(data.statusText, data.exceptionCode);
                 });
             return deferred.promise;
 
