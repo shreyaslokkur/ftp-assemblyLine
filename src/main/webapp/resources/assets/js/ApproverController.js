@@ -56,11 +56,10 @@
                                         promise.then(
                                             function (payload) {
                                                 angular.extend(doc, payload);
-                                                if (doc.locked != true) {
+                                                if (doc.locked == true && $scope.userName != doc.lockedBy) {
                                                     //alert("Unable to Lock Record , this record has been locked by " + doc.userName)
-                                                    $scope.OperationFailure = true;
-                                                    $scope.FailureMsg = "This record is being processing by another person";
-
+                                                    $scope.OpereationFailure = true;
+                                                    $scope.FailureMsg = "This record is already locked by " + doc.lockedBy;
                                                 }
 
                                             },
