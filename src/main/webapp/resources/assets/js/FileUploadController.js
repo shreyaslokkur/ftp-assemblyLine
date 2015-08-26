@@ -16,8 +16,8 @@
                                         },
                                         function (errorPayload) {
                                             $scope.OperationFailure = true;
-                                            $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
-                                            $log.error('Error in GetAllUsers', errorPayload);
+                                            $scope.FailureMsg = errorPayload;
+                                            //////$log.error('Error in GetAllUsers', errorPayload);
                                         });
 
 
@@ -31,8 +31,8 @@
                                     },
                                     function (errorPayload) {
                                         $scope.OperationFailure = true;
-                                        $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
-                                        $log.error('failure loading movie', errorPayload);
+                                        $scope.FailureMsg = errorPayload;
+                                       // //$log.error('failure loading movie', errorPayload);
                                     });
                             },
                                 $scope.lockRecord = function (doc) {
@@ -51,9 +51,9 @@
 
                                         },
                                         function (errorPayload) {
-                                            $log.error('failure: Error while Locking document', errorPayload);
+                                           // //$log.error('failure: Error while Locking document', errorPayload);
                                             $scope.OperationFailure = true;
-                                            $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                                            $scope.FailureMsg = errorPayload;
                                         });
                                 },
                                     $scope.getAllBranches = function()
@@ -67,8 +67,8 @@
                                             },
                                             function (errorPayload) {
                                                 $scope.OperationFailure = true;
-                                                $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
-                                                $log.error('Error in GetAllUsers', errorPayload);
+                                                $scope.FailureMsg = errorPayload;
+                                                //$log.error('Error in GetAllUsers', errorPayload);
                                             });
 
 
@@ -99,8 +99,8 @@
                                         },
                                         function (errorPayload) {
                                             $scope.OperationFailure = true;
-                                            $scope.FailureMsg = "Error while Re-Scanning loading document";
-                                            $log.error('failure: Error whileScanning loading document', errorPayload);
+                                            $scope.FailureMsg =errorPayload;
+                                            //$log.error('failure: Error whileScanning loading document', errorPayload);
                                         });
                                 };
 

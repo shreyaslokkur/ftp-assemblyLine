@@ -10,8 +10,8 @@ reportApp.controller('QueryController', ['$scope', '$modal', 'ReportService',
                         },
                         function (errorPayload) {
                             $scope.OperationFailure = true;
-                            $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
-                            $log.error('Error in getAllRecordsForApprover', errorPayload);
+                             $scope.FailureMsg = errorPayload;
+                            //$log.error('Error in getAllRecordsForApprover', errorPayload);
                         });
             },
 
@@ -25,8 +25,8 @@ reportApp.controller('QueryController', ['$scope', '$modal', 'ReportService',
                         },
                         function (errorPayload) {
                             $scope.OperationFailure = true;
-                            $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
-                            $log.error('Error in GetAllUsers', errorPayload);
+                             $scope.FailureMsg = errorPayload;
+                            //$log.error('Error in GetAllUsers', errorPayload);
                         });
 
 
@@ -45,9 +45,9 @@ reportApp.controller('QueryController', ['$scope', '$modal', 'ReportService',
 
                     },
                     function (errorPayload) {
-                        $log.error('failure: Error while Locking document', errorPayload);
+                        //$log.error('failure: Error while Locking document', errorPayload);
                         $scope.OperationFailure = true;
-                        $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                        $scope.FailureMsg = errorPayload;
                     });
             }
 
@@ -59,9 +59,9 @@ reportApp.controller('QueryController', ['$scope', '$modal', 'ReportService',
 
                 },
                 function (errorPayload) {
-                    $log.error('failure: Error while Locking document', errorPayload);
+                    //$log.error('failure: Error while Locking document', errorPayload);
                     $scope.OperationFailure = true;
-                    $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                    $scope.FailureMsg = errorPayload;
                 });
         },
 
@@ -79,8 +79,8 @@ reportApp.controller('QueryController', ['$scope', '$modal', 'ReportService',
                 },
                 function (errorPayload) {
                     $scope.OperationFailure = true;
-                    $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
-                    $log.error('failure: Error while Re-Scanning loading document', errorPayload);
+                     $scope.FailureMsg = errorPayload;
+                    //$log.error('failure: Error while Re-Scanning loading document', errorPayload);
                 });
         },
 
@@ -103,7 +103,7 @@ reportApp.controller('QueryController', ['$scope', '$modal', 'ReportService',
             modalInstance.result.then(function (doc) {
                 $scope.resolveAndAssignRecord(doc);
             }, function () {
-                $log.info('Modal dismissed at: ' + new Date());
+                //$log.info('Modal dismissed at: ' + new Date());
             });
 
         };

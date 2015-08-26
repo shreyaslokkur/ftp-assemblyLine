@@ -12,8 +12,8 @@
                                         },
                                         function (errorPayload) {
                                             $scope.OperationFailure = true;
-                                            $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
-                                            $log.error('Error in GetAllUsers', errorPayload);
+                                            $scope.FailureMsg = errorPayload;
+                                            //$log.error('Error in GetAllUsers', errorPayload);
                                         });
 
 
@@ -31,10 +31,10 @@
                                     },
                                     function (errorPayload) {
                                         $scope.OperationFailure = true;
-                                        $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
-                                        $log.error('failure: Error while getMydocuments()', errorPayload);
+                                        $scope.FailureMsg = errorPayload;
+                                        //$log.error('failure: Error while getMydocuments()', errorPayload);
                                     });
-                            }
+                            },
 
 
             $scope.lockRecord = function (doc) {
@@ -51,10 +51,10 @@
                    },
                    function (errorPayload) {
                        $scope.OperationFailure = true;
-                       $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
-                       $log.error('failure: Error while Locking document', errorPayload);
+                       $scope.FailureMsg = errorPayload;
+                       //$log.error('failure: Error while Locking document', errorPayload);
                    }); 
-            }
+            },
 
 
             $scope.ReScanRecord = function (doc) {
@@ -76,10 +76,10 @@
                    },
                    function (errorPayload) {
                        $scope.OperationFailure = true;
-                       $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
-                       $log.error('failure: Error while Re-Scanning loading document', errorPayload);
+                       $scope.FailureMsg = errorPayload;
+                       //$log.error('failure: Error while Re-Scanning loading document', errorPayload);
                    });
-            }
+            },
             
             $scope.CompleteRecord = function (doc) {
                 var promise = ReportService.CompleteRecord(doc);
@@ -101,8 +101,8 @@
                    },
                    function (errorPayload) {
                        $scope.OperationFailure = true;
-                       $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
-                       $log.error('failure: Error while Complete document', errorPayload);
+                       $scope.FailureMsg = errorPayload;
+                       //$log.error('failure: Error while Complete document', errorPayload);
                    });
             }
             
@@ -126,7 +126,7 @@
                 modalInstance.result.then(function (doc) {
                     $scope.HoldRecord(doc);
                 }, function () {
-                    $log.info('Modal dismissed at: ' + new Date());
+                    //$log.info('Modal dismissed at: ' + new Date());
                 });
 
 
@@ -150,7 +150,7 @@
                 modalInstance.result.then(function (doc) {
                     $scope.ReScanRecord(doc);
                 }, function () {
-                    $log.info('Modal dismissed at: ' + new Date());
+                    //$log.info('Modal dismissed at: ' + new Date());
                 });
 
 
@@ -178,11 +178,11 @@
                     },
                     function (errorPayload) {
                         $scope.OperationFailure = true;
-                        $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                        $scope.FailureMsg = errorPayload;
 
-                        $log.error('failure: Error while Complete document', errorPayload);
+                        //$log.error('failure: Error while Complete document', errorPayload);
                     });
-            }
+            },
 
 
             $scope.ShowComments = function (doc) {
@@ -216,8 +216,8 @@
                     },
                     function (errorPayload) {
                         $scope.OperationFailure = true;
-                        $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
-                        $log.error('failure: Error at getAllRecords', errorPayload);
+                        $scope.FailureMsg = errorPayload;
+                        //$log.error('failure: Error at getAllRecords', errorPayload);
                     });
 
 
@@ -230,8 +230,8 @@
                         },
                         function (errorPayload) {
                             $scope.OperationFailure = true;
-                            $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
-                            $log.error('failure: Error while getAllRecords()', errorPayload);
+                            $scope.FailureMsg = errorPayload;
+                            //$log.error('failure: Error while getAllRecords()', errorPayload);
                         });
 
                 }, 180 * 1000)

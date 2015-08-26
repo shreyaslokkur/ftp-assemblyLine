@@ -12,8 +12,8 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
                 },
                 function (errorPayload) {
                     $scope.OperationFailureForUser = true;
-                    $scope.FailureMsgForUser = "We are facing technical difficulties , Please contact ur system Administrator";
-                    $log.error('Error in GetAllUsers', errorPayload);
+                    $scope.FailureMsgForUser = errorPayload;
+                    //$log.error('Error in GetAllUsers', errorPayload);
                 });
 
 
@@ -30,8 +30,8 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
                     },
                     function (errorPayload) {
                         $scope.OperationFailureForUser = true;
-                        $scope.FailureMsgForUser = "We are facing technical difficulties , Please contact ur system Administrator";
-                        $log.error('Error in getAllRoles', errorPayload);
+                        $scope.FailureMsgForUser = errorPayload;
+                        //$log.error('Error in getAllRoles', errorPayload);
                     });
 
 
@@ -48,8 +48,8 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
                     },
                     function (errorPayload) {
                         $scope.OperationFailureForBranch = true;
-                        $scope.FailureMsgForBranch = "We are facing technical difficulties , Please contact ur system Administrator";
-                        $log.error('Error in GetAllUsers', errorPayload);
+                        $scope.FailureMsgForBranch = errorPayload;
+                        //$log.error('Error in GetAllUsers', errorPayload);
                     });
 
 
@@ -66,8 +66,8 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
                     },
                     function (errorPayload) {
                         $scope.OperationFailureForUser = true;
-                        $scope.FailureMsgForUser = "We are facing technical difficulties , Please contact ur system Administrator";
-                        $log.error('Error in GetAllUsers', errorPayload);
+                        $scope.FailureMsgForUser = errorPayload;
+                        //$log.error('Error in GetAllUsers', errorPayload);
                     });
 
 
@@ -93,8 +93,8 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
                 },
                 function (errorPayload) {
                     $scope.OperationFailureForBranch = true;
-                    $scope.FailureMsgForBranch = "We are facing technical difficulties , Please contact ur system Administrator";
-                    $log.error('Error in createBranch', errorPayload);
+                    $scope.FailureMsgForBranch = errorPayload;
+                    //$log.error('Error in createBranch', errorPayload);
                 });
 
 
@@ -138,8 +138,8 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
                     },
                     function (errorPayload) {
                         $scope.OperationFailureForUser = true;
-                        $scope.FailureMsgForUser = "We are facing technical difficulties , Please contact ur system Administrator";
-                        $log.error('Error in createUser', errorPayload);
+                        $scope.FailureMsgForUser = errorPayload;
+                        //$log.error('Error in createUser', errorPayload);
                     });
 
 
@@ -161,8 +161,8 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
                     },
                     function (errorPayload) {
                         $scope.OperationFailureForUser = true;
-                        $scope.FailureMsgForUser = "We are facing technical difficulties , Please contact ur system Administrator";
-                        $log.error('Error in deleteUser', errorPayload);
+                        $scope.FailureMsgForUser = errorPayload;
+                        //$log.error('Error in deleteUser', errorPayload);
                     });
 
 
@@ -183,8 +183,8 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
                     },
                     function (errorPayload) {
                         $scope.OperationFailureForBranch = true;
-                        $scope.FailureMsgForBranch = "We are facing technical difficulties , Please contact ur system Administrator";
-                        $log.error('Error in deleteBranch', errorPayload);
+                        $scope.FailureMsgForBranch = errorPayload;
+                        //$log.error('Error in deleteBranch', errorPayload);
                     });
 
 
@@ -204,9 +204,9 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
 
                     },
                     function (errorPayload) {
-                        $log.error('failure: Error while UnLocking document', errorPayload);
+                        //$log.error('failure: Error while UnLocking document', errorPayload);
                         $scope.OperationFailure = true;
-                        $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
+                        $scope.FailureMsg = errorPayload;
                     });
             }
 
@@ -220,8 +220,8 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
                     },
                     function (errorPayload) {
                         $scope.OperationFailure = true;
-                        $scope.FailureMsg = "We are facing technical difficulties , Please contact ur system Administrator";
-                        $log.error('Error in GetAllUsers', errorPayload);
+                        $scope.FailureMsg = errorPayload;
+                        //$log.error('Error in GetAllUsers', errorPayload);
                     });
 
 
@@ -258,7 +258,7 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
             ResetmodalInstance.result.then(function (usr) {
                 $scope.resetPassword(usr);
             }, function () {
-                $log.info('Modal dismissed at: ' + new Date());
+                //$log.info('Modal dismissed at: ' + new Date());
             });
         };
 
@@ -276,8 +276,8 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
                 },
                 function (errorPayload) {
                     $scope.OperationFailureForUser = true;
-                    $scope.FailureMsgForUser = "We are facing technical difficulties , Please contact ur system Administrator";
-                    $log.error('failure: Error while Password Reset', errorPayload);
+                    $scope.FailureMsgForUser = errorPayload;
+                    //$log.error('failure: Error while Password Reset', errorPayload);
                 });
         };
 

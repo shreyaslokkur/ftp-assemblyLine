@@ -26,6 +26,9 @@
     <link href="../../resources/assets/css/1-col-portfolio.css" rel="stylesheet" />
     <link href="../../resources/assets/css/Common.css" rel="stylesheet" />
 
+    <link href="../../resources/assets/css/loading-bar.css" rel="stylesheet" />
+    <script src="../../resources/assets/lib/loading-bar.js"></script>
+
     <script>
 
         $(document).on('change', '.btn-file', function() {
@@ -146,7 +149,7 @@
     </div>
     <div ng-show="OperationFailure==true" class="alert alert-danger fade-in-out">
         <a href="#" class="close" ng-click="OperationFailure=false">&times;</a>
-        <strong>Error!</strong> {{FailureMsg}
+        <strong>Error!</strong> {{FailureMsg}}
     </div>
         </div>
         </div>
