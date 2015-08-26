@@ -95,6 +95,9 @@ public class DocumentUploadService implements IDocumentUploadService {
 
         DocOperations docOperations = fileOperationDO.getDocOperations();
         Document document = documentUploadDao.retrieveDocument(fileOperationDO.getDocumentId());
+        if(DocOperations.LOCK.equals(docOperations) && document.isLocked()){
+            return setDocumentDo(document);
+        }
         IState currentState = stateMachineFactory.getCurrentState(document.getState());
         Document updatedDocument = null;
         if(DocOperations.HOLD.equals(docOperations)){
@@ -127,14 +130,9 @@ public class DocumentUploadService implements IDocumentUploadService {
     @Override
     public Document retrieveDocument(int documentId) {
         logger.info("Entered the method in document upload service to retrieve the document with id: "+ documentId);
-        try{
-            return documentUploadDao.retrieveDocument(documentId);
-        }catch(Exception e){
-            logger.severe("Encountered exception in the method retrieve document: "+ e.getMessage());
-            System.out.println(e.getMessage());
-        }
 
-        return null;
+            return documentUploadDao.retrieveDocument(documentId);
+
     }
 
     @Override

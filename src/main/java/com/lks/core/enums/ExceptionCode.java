@@ -9,6 +9,7 @@ public enum ExceptionCode {
     USER_EXISTS("User already exists"),
     BRANCH_EXISTS("Branch already exists"),
     INVALID_BRANCH("Invalid branch name or code"),
+    DOCUMENT_LOCKED("Document you are trying to process is already locked"),
     SYSTEM_ERROR("System encountered an unfortunate exception");
 
     private String message;
