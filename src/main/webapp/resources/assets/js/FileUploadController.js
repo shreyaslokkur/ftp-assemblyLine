@@ -99,7 +99,7 @@
                                         },
                                         function (errorPayload) {
                                             $scope.OperationFailure = true;
-                                            $scope.FailureMsg = "Error while Re-Scanning loading document";
+                                            $scope.FailureMsg =errorPayload;
                                             //$log.error('failure: Error whileScanning loading document', errorPayload);
                                         });
                                 };

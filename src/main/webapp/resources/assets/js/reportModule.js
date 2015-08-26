@@ -1,4 +1,4 @@
-﻿var reportApp = angular.module('reportApp', ['ui.bootstrap','ngReallyClickModule']);
+﻿var reportApp = angular.module('reportApp', ['ui.bootstrap','ngReallyClickModule','angular-loading-bar']);
 // Your function
 
 reportApp.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'doc', 'users' , 'ReportService', function ($scope, $modalInstance, doc,users, ReportService) {
