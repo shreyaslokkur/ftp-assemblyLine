@@ -101,7 +101,7 @@
             Application Number : <span class="colorRed">*</span>
         </div>
         <div class="col-md-4">
-            <input type="number" class="form-control" ng-model="doc.applicationNo" placeholder="Enter Application Number" required />
+            <input type="text" class="form-control" ng-model="doc.applicationNo" placeholder="Enter Application Number" required pattern="[a-zA-Z0-9]+" />
         </div>
     </div>
     <div class="row" style="padding-top:5px">
