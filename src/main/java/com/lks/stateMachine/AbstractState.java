@@ -25,7 +25,7 @@ public class AbstractState implements IState {
 
 
     @Override
-    public int create(String fileName, String fileLocation, String createdBy, int branchCode, String placeOfMeeting, int bookletNo, int applicationNo, int numOfCustomers) {
+    public int create(String fileName, String fileLocation, String createdBy, int branchCode, String placeOfMeeting, String bookletNo, int applicationNo, int numOfCustomers) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 

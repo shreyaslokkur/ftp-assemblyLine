@@ -10,7 +10,7 @@ DROP TABLE IF EXISTS branch;
   username varchar(45) NOT NULL,
   password varchar(60) NOT NULL,
   enabled tinyint(4) NOT NULL DEFAULT 1,
-  branchCode int(11) DEFAULT NULL,
+  branchCode int(11) DEFAULT 0,
   PRIMARY KEY (username)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -31,7 +31,7 @@ CREATE TABLE document_archive (
   branchCode int(11) DEFAULT NULL,
   createdBy varchar(60) DEFAULT NULL,
   placeOfMeeting varchar(100) DEFAULT NULL,
-  bookletNo int(11) DEFAULT NULL,
+  bookletNo varchar(60) DEFAULT NULL,
   applicationNo int(11) DEFAULT NULL,
   numOfCustomers int(11) DEFAULT NULL,
   lockedBy varchar(60) DEFAULT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE document (
   branchCode int(11) DEFAULT NULL,
   createdBy varchar(60) DEFAULT NULL,
   placeOfMeeting varchar(100) DEFAULT NULL,
-  bookletNo int(11) DEFAULT NULL,
+  bookletNo varchar(60) DEFAULT NULL,
   applicationNo int(11) DEFAULT NULL,
   numOfCustomers int(11) DEFAULT NULL,
   lockedBy varchar(60) DEFAULT NULL,

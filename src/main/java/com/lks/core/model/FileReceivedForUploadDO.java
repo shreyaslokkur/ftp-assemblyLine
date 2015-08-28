@@ -9,7 +9,7 @@ public class FileReceivedForUploadDO extends AbstractDO {
     private String createdBy;
     private int branchCode;
     private String placeOfMeeting;
-    private int bookletNo;
+    private String bookletNo;
     private int applicationNo;
     private int numOfCustomers;
     private int documentId;
@@ -55,11 +55,11 @@ public class FileReceivedForUploadDO extends AbstractDO {
         this.placeOfMeeting = placeOfMeeting;
     }
 
-    public int getBookletNo() {
+    public String getBookletNo() {
         return bookletNo;
     }
 
-    public void setBookletNo(int bookletNo) {
+    public void setBookletNo(String bookletNo) {
         this.bookletNo = bookletNo;
     }
 

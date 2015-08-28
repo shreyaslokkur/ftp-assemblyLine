@@ -25,7 +25,7 @@ public class NRState extends AbstractState {
     public static final Logger logger = Logger.getLogger(NRState.class.getName());
 
     @Override
-    public int create(String fileName, String fileLocation, String createdBy, int branchCode, String placeOfMeeting, int bookletNo, int applicationNo, int numOfCustomers) {
+    public int create(String fileName, String fileLocation, String createdBy, int branchCode, String placeOfMeeting, String bookletNo, int applicationNo, int numOfCustomers) {
         return documentUploadDao.fileUploaded(fileName, fileLocation, createdBy, branchCode, placeOfMeeting, bookletNo, applicationNo, numOfCustomers);
     }
 
