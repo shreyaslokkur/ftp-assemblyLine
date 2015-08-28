@@ -91,6 +91,7 @@
            <th>Branch Code</th>
            <th>Place of Meeting</th>
            <th>No of Customers</th>
+           <th>Processed By</th>
            <th>Recieved Time</th>
            <th>Query Level</th>
            <th>Locked By</th>
@@ -111,6 +112,7 @@
                <td>{{doc.branchCode}}</td>
                <td>{{doc.placeOfMeeting}}</td>
                <td>{{doc.numOfCustomers}}</td>
+               <td>{{doc.putOnHoldBy}}</td>
                 <td>{{doc.recCreatedOn}}</td>
 
                <td ng-class="{'colorRed': doc.queryLevel > 3, '': doc.queryLevel < 3}">{{doc.queryLevel}}</td>
