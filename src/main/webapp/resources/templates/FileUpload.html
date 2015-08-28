@@ -93,7 +93,7 @@
             Booklet Number : <span class="colorRed">*</span>
         </div>
         <div class="col-md-4">
-            <input type="number" class="form-control" ng-model="doc.bookletNo" placeholder="Enter Booklet Number" required />
+            <input type="text" pattern="[a-zA-Z0-9]+" class="form-control" ng-model="doc.bookletNo" placeholder="Enter Booklet Number" required />
         </div>
     </div>
     <div class="row" style="padding-top:5px">
@@ -101,7 +101,7 @@
             Application Number : <span class="colorRed">*</span>
         </div>
         <div class="col-md-4">
-            <input type="text" class="form-control" ng-model="doc.applicationNo" placeholder="Enter Application Number" required pattern="[a-zA-Z0-9]+" />
+            <input type="number" class="form-control" ng-model="doc.applicationNo" placeholder="Enter Application Number" required  />
         </div>
     </div>
     <div class="row" style="padding-top:5px">
