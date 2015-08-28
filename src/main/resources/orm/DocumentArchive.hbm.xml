@@ -26,8 +26,8 @@
         <property name="placeOfMeeting" type="string">
             <column name="placeOfMeeting" length="100" not-null="true"  />
         </property>
-        <property name="bookletNo" type="int">
-            <column name="bookletNo" not-null="true" />
+        <property name="bookletNo" type="string">
+            <column name="bookletNo" length="60" not-null="true" />
         </property>
         <property name="applicationNo" type="int">
             <column name="applicationNo"  not-null="true"/>

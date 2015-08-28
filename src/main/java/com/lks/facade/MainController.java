@@ -228,7 +228,7 @@ public class MainController {
 			fileReceivedForUploadDO.setFileLocation(ftpFileLocation);
 			fileReceivedForUploadDO.setFileName(fileName);
 			fileReceivedForUploadDO.setApplicationNo(Integer.parseInt(mRequest.getParameter("applicationNo")));
-			fileReceivedForUploadDO.setBookletNo(Integer.parseInt(mRequest.getParameter("bookletNo")));
+			fileReceivedForUploadDO.setBookletNo(mRequest.getParameter("bookletNo"));
 			fileReceivedForUploadDO.setBranchCode(Integer.parseInt(mRequest.getParameter("branchCode")));
 			fileReceivedForUploadDO.setNumOfCustomers(Integer.parseInt(mRequest.getParameter("numOfCustomers")));
 			fileReceivedForUploadDO.setPlaceOfMeeting(mRequest.getParameter("placeOfMeeting"));
@@ -280,7 +280,7 @@ public class MainController {
 			fileReceivedForUploadDO.setFileLocation(tmpFile.getAbsolutePath());
 			fileReceivedForUploadDO.setFileName(fileName);
 			fileReceivedForUploadDO.setApplicationNo(Integer.parseInt(mRequest.getParameter("applicationNo")));
-			fileReceivedForUploadDO.setBookletNo(Integer.parseInt(mRequest.getParameter("bookletNo")));
+			fileReceivedForUploadDO.setBookletNo(mRequest.getParameter("bookletNo"));
 			fileReceivedForUploadDO.setBranchCode(Integer.parseInt(mRequest.getParameter("branchCode")));
 			fileReceivedForUploadDO.setNumOfCustomers(Integer.parseInt(mRequest.getParameter("numOfCustomers")));
 			fileReceivedForUploadDO.setPlaceOfMeeting(mRequest.getParameter("placeOfMeeting"));

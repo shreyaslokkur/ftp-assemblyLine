@@ -33,7 +33,7 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
 
 
     @Override
-    public int fileUploaded(String fileName, String fileLocation, String createdBy, int branchCode, String placeOfMeeting, int bookletNo, int applicationNo, int numOfCustomers) {
+    public int fileUploaded(String fileName, String fileLocation, String createdBy, int branchCode, String placeOfMeeting, String bookletNo, int applicationNo, int numOfCustomers) {
         SessionFactory sessionFactory = getSessionFactory();
         Session session = sessionFactory.openSession();
         Integer documentId = null;

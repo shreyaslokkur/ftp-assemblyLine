@@ -24,7 +24,7 @@ public class StateMachineTest extends AbstractTest {
         fileReceivedForUploadDO.setCreatedBy("scanner");
         fileReceivedForUploadDO.setPlaceOfMeeting("bangalore");
         fileReceivedForUploadDO.setApplicationNo(123);
-        fileReceivedForUploadDO.setBookletNo(12);
+        fileReceivedForUploadDO.setBookletNo("12ABC");
         fileReceivedForUploadDO.setNumOfCustomers(1);
 
         documentId = documentUploadService.createNewDocument(fileReceivedForUploadDO);
@@ -100,7 +100,7 @@ public class StateMachineTest extends AbstractTest {
         fileReceivedForUploadDO.setCreatedBy("scanner");
         fileReceivedForUploadDO.setPlaceOfMeeting("bangalore");
         fileReceivedForUploadDO.setApplicationNo(123);
-        fileReceivedForUploadDO.setBookletNo(12);
+        fileReceivedForUploadDO.setBookletNo("12ABC");
         fileReceivedForUploadDO.setNumOfCustomers(1);
         fileReceivedForUploadDO.setDocumentId(documentId);
 

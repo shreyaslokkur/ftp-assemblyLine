@@ -21,7 +21,7 @@ public class DocumentArchive implements IEntity {
     private String createdBy;
     private int branchCode;
     private String placeOfMeeting;
-    private int bookletNo;
+    private String bookletNo;
     private int applicationNo;
     private int numOfCustomers;
     private String lockedBy;
@@ -102,11 +102,11 @@ public class DocumentArchive implements IEntity {
         this.placeOfMeeting = placeOfMeeting;
     }
 
-    public int getBookletNo() {
+    public String getBookletNo() {
         return bookletNo;
     }
 
-    public void setBookletNo(int bookletNo) {
+    public void setBookletNo(String bookletNo) {
         this.bookletNo = bookletNo;
     }
 

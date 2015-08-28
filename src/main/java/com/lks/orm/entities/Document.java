@@ -21,7 +21,7 @@ public class Document implements IEntity {
     private String createdBy;
     private int branchCode;
     private String placeOfMeeting;
-    private int bookletNo;
+    private String bookletNo;
     private int applicationNo;
     private int numOfCustomers;
     private String lockedBy;
@@ -43,7 +43,7 @@ public class Document implements IEntity {
 
     }
 
-    public Document(RecStatus recStatus, String fileName, String fileLocation, String createdBy, int branchCode, String placeOfMeeting, int bookletNo, int applicationNo, int numOfCustomers, String recCreatedOn) {
+    public Document(RecStatus recStatus, String fileName, String fileLocation, String createdBy, int branchCode, String placeOfMeeting, String bookletNo, int applicationNo, int numOfCustomers, String recCreatedOn) {
 
         this.state = recStatus;
         this.fileName = fileName;
@@ -114,11 +114,11 @@ public class Document implements IEntity {
         this.placeOfMeeting = placeOfMeeting;
     }
 
-    public int getBookletNo() {
+    public String getBookletNo() {
         return bookletNo;
     }
 
-    public void setBookletNo(int bookletNo) {
+    public void setBookletNo(String bookletNo) {
         this.bookletNo = bookletNo;
     }
 
