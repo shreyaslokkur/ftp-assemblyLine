@@ -13,14 +13,12 @@
 	<context:annotation-config />
 	<!--<context:component-scan base-package="com.lks.uploader"/>-->
 
-
 	<bean
-			class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+			class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" >
 
 		<property name="locations">
 			<list>
-				<value>classpath:/database.properties</value>
-				<value>classpath:/config.properties</value>
+				<value>classpath:/app.properties</value>
 			</list>
 
 		</property>
@@ -108,7 +106,7 @@
 
 	<bean id="multipartResolver"
 		  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<property name="maxUploadSize" value="2097152" />
+		<property name="maxUploadSize" value="${ftp.max.file.size}" />
 	</bean>
 
 	<bean id="documentUtils" class="com.lks.core.DocumentUtils">
