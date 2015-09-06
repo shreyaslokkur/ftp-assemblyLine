@@ -33,7 +33,7 @@ TOMCAT_HOME=/cygdrive/e/apache-tomcat-7.0.63-windows-x64/apache-tomcat-7.0.63/
 
 wget -O - http://localhost:8080/ >& /dev/null
 if( test $? -eq 0 ) then
- return 0
+ exit 0
 else
- return 1
+ exit 1
 fi
