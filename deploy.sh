@@ -30,10 +30,3 @@ fi
 /cygdrive/e/apache-tomcat-7.0.63-windows-x64/apache-tomcat-7.0.63/bin/startup.bat
 
 TOMCAT_HOME=/cygdrive/e/apache-tomcat-7.0.63-windows-x64/apache-tomcat-7.0.63/
-
-wget -O - http://localhost:8080/ >& /dev/null
-if( test $? -eq 0 ) then
- exit 0
-else
- exit 1
-fi
