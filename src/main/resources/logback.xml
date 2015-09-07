@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
+	<property name="DEV_HOME" value="e:/logs" />
+
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<layout class="ch.qos.logback.classic.PatternLayout">
 
@@ -11,25 +13,33 @@
 		</layout>
 	</appender>
 
-	<logger name="com.lks" level="debug">
-		<appender-ref ref="STDOUT" />
+	<logger name="com.lks" level="debug" additivity="false">
+		<appender-ref ref="FILE_AUDIT" />
 	</logger>
 
-	<!-- <logger name="org.hibernate.type" level="ALL" /> <logger name="org.hibernate" 
-		level="debug"> <appender-ref ref="STDOUT" /> </logger> -->
+	<appender name="FILE-AUDIT"
+			  class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${DEV_HOME}/debug.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss} - %msg%n
+			</Pattern>
+		</encoder>
 
-	<!-- 
-	<logger name="org.springframework" level="debug">
-		<appender-ref ref="STDOUT" />
-	</logger>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${DEV_HOME}/archived/debug.%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+					class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
 
-	<logger name="org.hibernate" level="debug">
-		<appender-ref ref="STDOUT" />
-	</logger>
- 	-->
- 
+	</appender>
+
 	<root level="debug">
-		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE-AUDIT" />
 	</root>
 
 </configuration>
