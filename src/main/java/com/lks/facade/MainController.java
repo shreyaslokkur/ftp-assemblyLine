@@ -715,7 +715,8 @@ public class MainController {
 
 		response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		ErrorDO errorDO = new ErrorDO();
-		errorDO.setExceptionCode(ex.getExceptionCode().name());
+		if(ex.getExceptionCode() != null)
+			errorDO.setExceptionCode(ex.getExceptionCode().name());
 		errorDO.setStatusText(ex.getErrorMessage());
 		return errorDO;
 

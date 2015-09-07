@@ -8,6 +8,7 @@ import com.lks.core.FALException;
 import com.lks.core.UserUtils;
 import com.lks.orm.entities.UserRole;
 import org.hibernate.HibernateException;
+import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -98,7 +99,7 @@ public class UserDaoImpl implements UserDao {
 					.list();
 
 		}catch (HibernateException e){
-			throw new FALException("Unable to retrieve all branches", e);
+			throw new FALException("Unable to retrieve all users", e);
 		}finally {
 			session.close();
 		}
@@ -117,7 +118,10 @@ public class UserDaoImpl implements UserDao {
 					.list();
 
 		}catch (HibernateException e){
-			throw new FALException("Unable to retrieve all branches", e);
+			if(e instanceof ObjectNotFoundException){
+				throw new FALException("No row with username: "+ ((ObjectNotFoundException) e).getIdentifier() +" exists in the table Users, but exists in the table User_Role. Please delete this row in User_Role as well" );
+			}
+			throw new FALException("Unable to retrieve all users for role: "+ role, e);
 		}finally {
 			session.close();
 		}
@@ -135,7 +139,7 @@ public class UserDaoImpl implements UserDao {
 					.list();
 
 		}catch (HibernateException e){
-			throw new FALException("Unable to retrieve all branches", e);
+			throw new FALException("Unable to retrieve all roles", e);
 		}finally {
 			session.close();
 		}
