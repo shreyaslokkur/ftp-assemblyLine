@@ -17,7 +17,7 @@
         <property name="branchCode" >
             <column name="branchCode"  not-null="true" />
         </property>
-        <set name="userRole" table="user_roles" inverse="true" lazy="false" fetch="select">
+        <set name="userRole" table="user_roles" inverse="true" lazy="false" fetch="select" cascade="all-delete-orphan">
             <key>
                 <column name="username" length="45" not-null="true" />
             </key>
