@@ -24,13 +24,13 @@ public class FTPService implements IFTPService{
     FTPUploader ftpUploader;
 
     @Override
-    public String uploadFile(String localFileFullName, String fileName, String hostDir) {
+    public synchronized String uploadFile(String localFileFullName, String fileName, String hostDir) {
         return ftpUploader.uploadFile(localFileFullName, fileName, hostDir);
 
     }
 
     @Override
-    public boolean checkIfDirectoryWithBranchCodeExists(String dirName) {
+    public synchronized boolean checkIfDirectoryWithBranchCodeExists(String dirName) {
         String dirPath = rootDir.concat("/").concat(dirName);
         if(ftpUploader.checkDirectoryExists(dirPath))
             return true;
@@ -38,7 +38,7 @@ public class FTPService implements IFTPService{
     }
 
     @Override
-    public boolean checkIfDirectoryWithDateExists(String branchCode,String date) {
+    public synchronized boolean checkIfDirectoryWithDateExists(String branchCode,String date) {
         String dirPath = rootDir.concat("/").concat(branchCode).concat("/").concat(date);
         if(ftpUploader.checkDirectoryExists(dirPath))
             return true;
@@ -46,7 +46,7 @@ public class FTPService implements IFTPService{
     }
 
     @Override
-    public String createBranchCodeDirectory(String dirName) {
+    public synchronized String createBranchCodeDirectory(String dirName) {
         String dirPath = rootDir.concat("/").concat(dirName);
         if(ftpUploader.createDirectory(dirPath))
             return dirPath;
@@ -54,7 +54,7 @@ public class FTPService implements IFTPService{
     }
 
     @Override
-    public String createDateDirectory(String branchCode,String date) {
+    public synchronized String createDateDirectory(String branchCode,String date) {
         String dirPath = rootDir.concat("/").concat(branchCode).concat("/").concat(date);
         if(ftpUploader.createDirectory(dirPath))
             return dirPath;
@@ -62,23 +62,23 @@ public class FTPService implements IFTPService{
     }
 
     @Override
-    public String getDirectoryForBranchAndDate(String branchCode, String date) {
+    public synchronized String getDirectoryForBranchAndDate(String branchCode, String date) {
         String dirPath = rootDir.concat("/").concat(branchCode).concat("/").concat(date);
         return dirPath;
     }
 
     @Override
-    public void disconnect() {
+    public synchronized void disconnect() {
         ftpUploader.disconnect();
     }
 
-    public boolean deleteFile(String fileLocation){
+    public synchronized boolean deleteFile(String fileLocation){
         return ftpUploader.deleteFile(fileLocation);
 
     }
 
     @Override
-    public File downloadFile(String fileLocation) {
+    public synchronized File downloadFile(String fileLocation) {
         return ftpUploader.downloadFile(fileLocation);
     }
 }
