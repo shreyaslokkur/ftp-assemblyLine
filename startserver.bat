@@ -10,6 +10,8 @@ if %errorlevel%==1 (
 	rm -rf E:\apache-tomcat-7.0.63-windows-x64\apache-tomcat-7.0.63\webapps\FTPAssemblyLine.war
 	echo "copy target\FTPAssemblyLine.war E:\apache-tomcat-7.0.63-windows-x64\apache-tomcat-7.0.63\webapps\"
 	cp target\FTPAssemblyLine.war E:\apache-tomcat-7.0.63-windows-x64\apache-tomcat-7.0.63\webapps\
+	echo "Renaming FTPAssemblyLine.war to ROOT.war" 
+	rename E:\apache-tomcat-7.0.63-windows-x64\apache-tomcat-7.0.63\webapps\FTPAssemblyLine.war ROOT.war
 	echo "STARTING TOMCAT"
 	E:\apache-tomcat-7.0.63-windows-x64\apache-tomcat-7.0.63\bin\startup.bat )
 
@@ -25,6 +27,8 @@ if %errorlevel%==0 (
 	rm -rf E:\apache-tomcat-7.0.63-windows-x64\apache-tomcat-7.0.63\webapps\FTPAssemblyLine.war
 	echo "copy target\FTPAssemblyLine.war E:\apache-tomcat-7.0.63-windows-x64\apache-tomcat-7.0.63\webapps\"
 	cp target\FTPAssemblyLine.war E:\apache-tomcat-7.0.63-windows-x64\apache-tomcat-7.0.63\webapps\
+	echo "Renaming FTPAssemblyLine.war to ROOT.war" 
+	rename E:\apache-tomcat-7.0.63-windows-x64\apache-tomcat-7.0.63\webapps\FTPAssemblyLine.war ROOT.war
 	sleep 10
 	echo "STARTING TOMCAT"
 	E:\apache-tomcat-7.0.63-windows-x64\apache-tomcat-7.0.63\bin\startup.bat )
