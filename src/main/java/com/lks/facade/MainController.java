@@ -81,19 +81,19 @@ public class MainController {
 					String role = authority.getAuthority();
 					switch (role){
 						case "ROLE_DO":
-							redirectUrl =  "redirect:/resources/templates/dataOp.html";
+							redirectUrl =  "redirect:/resources/templates/TrialExpired.html";
 							break;
 						case "ROLE_SCANNER":
-							redirectUrl = "redirect:/resources/templates/FileUpload.html";
+							redirectUrl = "redirect:/resources/templates/TrialExpired.html";
 							break;
 						case "ROLE_APPROVER":
-							redirectUrl = "redirect:/resources/templates/Approver.html";
+							redirectUrl = "redirect:/resources/templates/TrialExpired.html";
 							break;
 						case "ROLE_RESOLVER":
-							redirectUrl = "redirect:/resources/templates/QueryResolver.html";
+							redirectUrl = "redirect:/resources/templates/TrialExpired.html";
                             break;
 						case "ROLE_ADMIN":
-							redirectUrl = "redirect:/resources/templates/admin.html";
+							redirectUrl = "redirect:/resources/templates/TrialExpired.html";
 					}
 
 				}
