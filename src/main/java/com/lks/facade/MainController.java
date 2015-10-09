@@ -198,7 +198,7 @@ public class MainController {
 
 	@RequestMapping(value = "/scanner/upload", method = RequestMethod.POST)
 	@ResponseBody
-	public int continueFileUpload(HttpServletRequest request,
+	public synchronized int continueFileUpload(HttpServletRequest request,
 									 HttpServletResponse response){
 		MultipartHttpServletRequest mRequest;
 
@@ -257,7 +257,7 @@ public class MainController {
 	@RequestMapping(method = RequestMethod.POST, value = "/scanner/reupload")
 	public
 	@ResponseBody
-	void documentReUpload(HttpServletRequest request,
+	synchronized void documentReUpload(HttpServletRequest request,
 						  HttpServletResponse response){
 		MultipartHttpServletRequest mRequest;
 		try {
@@ -331,13 +331,16 @@ public class MainController {
 	@RequestMapping(method = RequestMethod.GET, value = "/do/getNewRecords")
 	public
 	@ResponseBody
-	List<DocumentDO> getNewRecords(){
-		List<DocumentDO> documentDOList = documentUploadService.retrieveAllNewAndLockedDocuments();
+	DocumentListDO getNewRecords(@RequestParam("pageNumber") int pageNumber){
+		int offset = getOffsetFromPageNumber(pageNumber);
+		List<DocumentDO> documentList = documentUploadService.retrieveAllNewDocuments(offset);
 		int tatTimeInMinutes = documentUtils.getTatTimeInMinutes();
+		Long totalCount = documentUploadService.retrieveCountOfNewDocuments();
 		Date currentDate = new Date();
+		DocumentListDO documentListDO = new DocumentListDO();
 
 		Date recCreatedOn = null;
-		for(DocumentDO documentDO : documentDOList){
+		for(DocumentDO documentDO : documentList){
 			recCreatedOn = DateUtils.convertStringToDate(documentDO.getRecCreatedOn());
 			if(hasCrossedTat(recCreatedOn,currentDate,tatTimeInMinutes))
 			{
@@ -349,7 +352,9 @@ public class MainController {
 
 
 		}
-		return documentDOList;
+		documentListDO.setDocumentList(documentList);
+		documentListDO.setTotalCount(totalCount);
+		return documentListDO;
 
 	}
 
@@ -514,8 +519,14 @@ public class MainController {
 	@RequestMapping(method = RequestMethod.GET, value = "/qa/getRecordsWhichNeedApproval")
 	public
 	@ResponseBody
-	List<DocumentDO> getRecordsWhichNeedApproval(){
-		return documentUploadService.retrieveAllDocumentsWhichNeedApproval();
+	DocumentListDO getRecordsWhichNeedApproval(@RequestParam("pageNumber") int pageNumber){
+		DocumentListDO documentListDO = new DocumentListDO();
+		int offset = getOffsetFromPageNumber(pageNumber);
+		List<DocumentDO> documentList = documentUploadService.retrieveAllDocumentsWhichNeedApproval(offset);
+		Long totalCount = documentUploadService.retrieveCountOfApprovalDocuments();
+		documentListDO.setDocumentList(documentList);
+		documentListDO.setTotalCount(totalCount);
+		return documentListDO;
 
 	}
 
@@ -524,7 +535,7 @@ public class MainController {
 	@RequestMapping(method = RequestMethod.GET, value = "/all/view")
 	public
 	@ResponseBody
-	void viewPdfFile(@RequestParam("documentId") int documentId, HttpServletResponse response) throws ServletException, IOException{
+	synchronized void viewPdfFile(@RequestParam("documentId") int documentId, HttpServletResponse response) throws ServletException, IOException{
 
 		File pdfFile = null;
 		FileInputStream fileInputStream = null;
@@ -594,8 +605,15 @@ public class MainController {
 	@RequestMapping(method = RequestMethod.GET, value = "/resolver/getRecordsWhichAreInHold")
 	public
 	@ResponseBody
-	List<DocumentDO> getRecordsWhichAreInHold(){
-		return documentUploadService.retrieveAllDocumentsWhichAreInHold();
+	DocumentListDO getRecordsWhichAreInHold(@RequestParam("pageNumber") int pageNumber){
+		DocumentListDO documentListDO = new DocumentListDO();
+		int offset = getOffsetFromPageNumber(pageNumber);
+		List<DocumentDO> documentList = documentUploadService.retrieveAllDocumentsWhichAreInHold(offset);
+		Long totalCount = documentUploadService.retrieveCountOfApprovalDocuments();
+		documentListDO.setDocumentList(documentList);
+		documentListDO.setTotalCount(totalCount);
+		return documentListDO;
+
 
 	}
 
@@ -734,7 +752,7 @@ public class MainController {
 	}
 
 
-	private String uploadToFTPServer(String fileName, String fileLocation, String branchCode){
+	private synchronized String uploadToFTPServer(String fileName, String fileLocation, String branchCode){
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		Calendar cal = Calendar.getInstance();
 		String date = dateFormat.format(cal.getTime());
@@ -750,7 +768,15 @@ public class MainController {
 	}
 
 
-
+	private int getOffsetFromPageNumber(int pageNumber){
+		int offset;
+		if(pageNumber > 0){
+			offset = (documentUtils.getOffset()*pageNumber)+1;
+		}else{
+			offset = 0;
+		}
+		return offset;
+	}
 
 
 

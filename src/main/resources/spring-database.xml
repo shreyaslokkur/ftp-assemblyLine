@@ -111,6 +111,7 @@
 
 	<bean id="documentUtils" class="com.lks.core.DocumentUtils">
 		<property name="tatTime" value="${tat.time}"/>
+		<property name="offset" value="${app.pagination.offset}"/>
 	</bean>
 
 	<bean id="ftpUploader" class="com.lks.core.FTPUploader">

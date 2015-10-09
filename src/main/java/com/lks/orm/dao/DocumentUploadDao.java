@@ -13,12 +13,15 @@ public interface DocumentUploadDao {
     void updateDocument(Document document);
     int archiveDocument(DocumentArchive documentArchive);
     void deleteDocument(Document document);
-    List<Document> getAllNewAndLockedRecords();
+    List<Document> getAllNewRecords(int offset);
     List<Document> getAllRecordsAssignedToUser(String userId);
     List<Document> getAllBranchRecordsWhichNeedRescan(int branchCode);
-    List<Document> getAllRecordsWhichNeedApproval();
+    List<Document> getAllRecordsWhichNeedApproval(int offset);
     List<Document> getAllBranchRecordsWhichNeedRescan();
-    List<Document> getAllRecordsWhichAreInHold();
+    List<Document> getAllRecordsWhichAreInHold(int offset);
     List<Document> getAllRecords();
     String retrieveDocumentUrl(int documentId);
+    Long retrieveCountOfNewDocuments();
+    Long retrieveCountOfHoldDocuments();
+    Long retrieveCountOfApprovalDocuments();
 }

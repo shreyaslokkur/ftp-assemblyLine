@@ -21,12 +21,15 @@ public interface IDocumentUploadService {
     int reuploadDocument(FileReceivedForUploadDO fileReceivedForUploadDO);
     DocumentDO performOperationOnDocument(FileOperationDO fileOperationDO);
     Document retrieveDocument(int documentId);
-    List<DocumentDO> retrieveAllNewAndLockedDocuments();
+    List<DocumentDO> retrieveAllNewDocuments(int offset);
     List<DocumentDO> retrieveAllDocumentsAssignedTo(String userId);
     List<DocumentDO> retrieveBranchDocumentsWhichNeedRescan(int branchCode);
-    List<DocumentDO> retrieveAllDocumentsWhichNeedApproval();
-    List<DocumentDO> retrieveAllDocumentsWhichAreInHold();
+    List<DocumentDO> retrieveAllDocumentsWhichNeedApproval(int offset);
+    List<DocumentDO> retrieveAllDocumentsWhichAreInHold(int offset);
     List<DocumentDO> retrieveAllRescanDocuments();
     List<DocumentDO> retrieveAllDocuments();
     String retrieveDocumentUrl(int documentId);
+    Long retrieveCountOfNewDocuments();
+    Long retrieveCountOfHoldDocuments();
+    Long retrieveCountOfApprovalDocuments();
 }

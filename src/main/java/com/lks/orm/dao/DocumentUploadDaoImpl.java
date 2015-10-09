@@ -1,6 +1,7 @@
 package com.lks.orm.dao;
 
 import com.lks.core.DateUtils;
+import com.lks.core.DocumentUtils;
 import com.lks.core.FALException;
 import com.lks.core.enums.RecStatus;
 import com.lks.orm.entities.Comments;
@@ -11,6 +12,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,7 +23,8 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
 
 	private SessionFactory sessionFactory;
 
-
+    @Resource(name = "documentUtils")
+    DocumentUtils documentUtils;
 
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
@@ -119,13 +122,13 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
     }
 
     @Override
-    public List<Document> getAllNewAndLockedRecords() {
+    public List<Document> getAllNewRecords(int offset) {
         List<Document> documentList;
         SessionFactory sessionFactory = getSessionFactory();
         Session session = sessionFactory.openSession();
         try{
             String hql = "from Document d where d.state in ('NR') and d.assignedTo is null ORDER BY d.recCreatedOn DESC ";
-            documentList = session.createQuery(hql).list();
+            documentList = session.createQuery(hql).setFirstResult(offset).setMaxResults(documentUtils.getOffset()).list();
 
         }catch (HibernateException e){
             throw new FALException("Unable to retrieve new and locked records", e);
@@ -177,13 +180,13 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
     }
 
     @Override
-    public List<Document> getAllRecordsWhichNeedApproval() {
+    public List<Document> getAllRecordsWhichNeedApproval(int offset) {
         List<Document> documentList;
         SessionFactory sessionFactory = getSessionFactory();
         Session session = sessionFactory.openSession();
         try{
             String hql = "from Document d where d.state in ('NAR') and d.assignedTo is null";
-            documentList = session.createQuery(hql).list();
+            documentList = session.createQuery(hql).setFirstResult(offset).setMaxResults(documentUtils.getOffset()).list();
 
         }catch (HibernateException e){
             throw new FALException("Unable to retrieve records which need approval", e);
@@ -215,13 +218,13 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
     }
 
     @Override
-    public List<Document> getAllRecordsWhichAreInHold() {
+    public List<Document> getAllRecordsWhichAreInHold(int offset) {
         List<Document> documentList;
         SessionFactory sessionFactory = getSessionFactory();
         Session session = sessionFactory.openSession();
         try{
             String hql = "from Document d where d.state in ('HR')";
-            documentList = session.createQuery(hql).list();
+            documentList = session.createQuery(hql).setFirstResult(offset).setMaxResults(documentUtils.getOffset()).list();
 
         }catch (HibernateException e){
             throw new FALException("Unable to retrieve records which are in hold", e);
@@ -268,6 +271,63 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
 
         return documentUrl;
 
+    }
+
+    @Override
+    public Long retrieveCountOfNewDocuments() {
+        SessionFactory sessionFactory = getSessionFactory();
+        Session session = sessionFactory.openSession();
+        Long count = null;
+        try{
+            String hql = "Select count(*) from Document d where d.state in ('NR') and d.assignedTo is null";
+            count = (Long) session.createQuery(hql)
+                    .uniqueResult();
+
+        }catch (HibernateException e){
+            throw new FALException("Unable to retrieve count of new documents", e);
+        }finally {
+            session.close();
+        }
+
+        return count;
+    }
+
+    @Override
+    public Long retrieveCountOfHoldDocuments() {
+        SessionFactory sessionFactory = getSessionFactory();
+        Session session = sessionFactory.openSession();
+        Long count =null;
+        try{
+            String hql = "Select count(*) from Document d where d.state in ('HR')";
+            count = (Long) session.createQuery(hql)
+                    .uniqueResult();
+
+        }catch (HibernateException e){
+            throw new FALException("Unable to retrieve count of new documents", e);
+        }finally {
+            session.close();
+        }
+
+        return count;
+    }
+
+    @Override
+    public Long retrieveCountOfApprovalDocuments() {
+        SessionFactory sessionFactory = getSessionFactory();
+        Session session = sessionFactory.openSession();
+        Long count = null ;
+        try{
+            String hql = "Select count(*) from Document d where d.state in ('NAR') and d.assignedTo is null";
+            count = (Long) session.createQuery(hql)
+                    .uniqueResult();
+
+        }catch (HibernateException e){
+            throw new FALException("Unable to retrieve count of new documents", e);
+        }finally {
+            session.close();
+        }
+
+        return count;
     }
 
     private boolean deleteById(Class<?> type, Serializable id, Session session) {

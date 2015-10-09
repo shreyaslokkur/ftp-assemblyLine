@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -136,11 +135,11 @@ public class DocumentUploadService implements IDocumentUploadService {
     }
 
     @Override
-    public List<DocumentDO> retrieveAllNewAndLockedDocuments() {
+    public List<DocumentDO> retrieveAllNewDocuments(int offset) {
         logger.info("Entered the method in document upload service to retrieve all new and locked records ");
         List<DocumentDO> documentDOList = new ArrayList<DocumentDO>();
         try{
-            List<Document> allNewAndLockedRecords = documentUploadDao.getAllNewAndLockedRecords();
+            List<Document> allNewAndLockedRecords = documentUploadDao.getAllNewRecords(offset);
             DocumentDO documentDO = null;
             for(Document document : allNewAndLockedRecords){
                 documentDO = setDocumentDo(document);
@@ -195,12 +194,12 @@ public class DocumentUploadService implements IDocumentUploadService {
     }
 
     @Override
-    public List<DocumentDO> retrieveAllDocumentsWhichNeedApproval() {
+    public List<DocumentDO> retrieveAllDocumentsWhichNeedApproval(int offset) {
         logger.info("Entered the method in document upload service to retrieve all documents which need approval");
 
         List<DocumentDO> documentDOList = new ArrayList<DocumentDO>();
         try{
-            List<Document> allRecordsWhichNeedApproval = documentUploadDao.getAllRecordsWhichNeedApproval();
+            List<Document> allRecordsWhichNeedApproval = documentUploadDao.getAllRecordsWhichNeedApproval(offset);
             DocumentDO documentDO = null;
             for(Document document : allRecordsWhichNeedApproval){
                 documentDO = setDocumentDo(document);
@@ -215,12 +214,12 @@ public class DocumentUploadService implements IDocumentUploadService {
     }
 
     @Override
-    public List<DocumentDO> retrieveAllDocumentsWhichAreInHold() {
+    public List<DocumentDO> retrieveAllDocumentsWhichAreInHold(int offset) {
         logger.info("Entered the method in document upload service to retrieve all documents which are in hold");
 
         List<DocumentDO> documentDOList = new ArrayList<DocumentDO>();
         try{
-            List<Document> allRecordsWhichAreInHold = documentUploadDao.getAllRecordsWhichAreInHold();
+            List<Document> allRecordsWhichAreInHold = documentUploadDao.getAllRecordsWhichAreInHold(offset);
             DocumentDO documentDO = null;
             for(Document document : allRecordsWhichAreInHold){
                 documentDO = setDocumentDo(document);
@@ -289,6 +288,54 @@ public class DocumentUploadService implements IDocumentUploadService {
 
         return documentUrl;
 
+    }
+
+    @Override
+    public Long retrieveCountOfNewDocuments() {
+        logger.info("Entered the method in document upload service to retrieve count of new documents");
+
+        Long count = null;
+        try{
+            count = documentUploadDao.retrieveCountOfNewDocuments();
+
+        }catch(Exception e){
+            logger.severe("Encountered exception in the method retrieve document: "+ e.getMessage());
+            System.out.println(e.getMessage());
+        }
+
+        return count;
+    }
+
+    @Override
+    public Long retrieveCountOfHoldDocuments() {
+        logger.info("Entered the method in document upload service to retrieve count of hold documents");
+
+        Long count = null;
+        try{
+            count = documentUploadDao.retrieveCountOfHoldDocuments();
+
+        }catch(Exception e){
+            logger.severe("Encountered exception in the method retrieve count of hold documents: "+ e.getMessage());
+            System.out.println(e.getMessage());
+        }
+
+        return count;
+    }
+
+    @Override
+    public Long retrieveCountOfApprovalDocuments() {
+        logger.info("Entered the method in document upload service to retrieve count of approval documents");
+
+        Long count = null;
+        try{
+            count = documentUploadDao.retrieveCountOfApprovalDocuments();
+
+        }catch(Exception e){
+            logger.severe("Encountered exception in the method retrieve count of approval documents:"+ e.getMessage());
+            System.out.println(e.getMessage());
+        }
+
+        return count;
     }
 
     private DocumentDO setDocumentDo(Document document) {

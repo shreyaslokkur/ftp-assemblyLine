@@ -20,6 +20,8 @@ public class DocumentUtils {
 
     private int tatTimeInMinutes;
 
+    private int offset;
+
     public static DocumentArchive archiveDocument(Document document){
         DocumentArchive documentArchive = new DocumentArchive();
         documentArchive.setApproved(document.isApproved());
@@ -85,5 +87,11 @@ public class DocumentUtils {
         tatTimeInMinutes = totalTatTimeInMinutes;
     }
 
+    public int getOffset() {
+        return offset;
+    }
 
+    public void setOffset(int offset) {
+        this.offset = offset;
+    }
 }
