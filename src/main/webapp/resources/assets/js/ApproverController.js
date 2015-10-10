@@ -31,8 +31,23 @@
                                                 $scope.FailureMsg = errorPayload;
                                             });
                                     },
+                                    $scope.pageChanged = function(){
+                                        var promise = ReportService.getAllRecordsForApprover($scope.currentPage);
+                                        promise.then(
+                                            function (payload) {
+                                                $scope.totalItems = payload.totalCount;
+                                                $scope.currentPage = $scope.currentPage;
+                                                $scope.docRecords = payload.documentList;
+                                                // $scope.getMydocuments();
+                                            },
+                                            function (errorPayload) {
+                                                $scope.OperationFailure = true;
+                                                $scope.FailureMsg = errorPayload;
+                                                //$log.error('failure: Error at getAllRecords', errorPayload);
+                                            });
+                                    },
 
-                                $scope.approveRecord = function (doc) {
+                                    $scope.approveRecord = function (doc) {
                                     var promise = ReportService.approveRecord(doc);
                                     promise.then(
                                         function (payload) {
@@ -89,11 +104,13 @@
                                             });
                                     },
 
-                                        $scope.getAllRecordsForApprover = function(){
-                                            var promise = ReportService.getAllRecordsForApprover();
+                                        $scope.getAllRecordsForApprover = function(pageNumber){
+                                            var promise = ReportService.getAllRecordsForApprover(pageNumber);
                                             promise.then(
                                                 function (payload) {
-                                                    $scope.docRecords = payload;
+                                                    $scope.totalItems = payload.totalCount;
+                                                    $scope.currentPage = $scope.currenPage;
+                                                    $scope.docRecords = payload.documentList;
                                                 },
                                                 function (errorPayload) {
                                                     $scope.OperationFailure = true;
@@ -149,10 +166,12 @@
                                     $scope.OperationSuccess = false;
                                     $scope.OperationFailure = false;
                                     $scope.getCurrentUser();
-                                    $scope.getAllRecordsForApprover();
+                                    $scope.getAllRecordsForApprover(1);
                                     setInterval(function () {
-                                        $scope.getAllRecordsForApprover();
-                                    }, 180 * 1000);
+                                        if($scope.currentPage==1){
+                                            $scope.getAllRecordsForApprover(1);
+                                        }
+                                    }, 30 * 60 * 1000);
                                     $scope.getAllUsersBasedOnRole();
 
                                 };

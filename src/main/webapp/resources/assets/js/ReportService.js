@@ -173,9 +173,11 @@
 
         ];
 
-    reportService.getAllRecordsForApprover = function () {
+    reportService.getAllRecordsForApprover = function (pageNumber) {
         var deferred = $q.defer();
-        $http.get('/qa/getRecordsWhichNeedApproval')
+        $http.get('/qa/getRecordsWhichNeedApproval', {
+            params: { pageNumber: pageNumber}
+        })
             .success(function(data) {
                 deferred.resolve(data);
             }).error(function (data) {
