@@ -2,11 +2,13 @@ reportApp.controller('QueryController', ['$scope', '$modal', 'ReportService',
     function ($scope, $modal, ReportService) {
 
 
-            $scope.getAllRecordsForQueryResolver = function(){
-                    var promise = ReportService.getAllRecordsForQueryResolver();
+            $scope.getAllRecordsForQueryResolver = function(pageNumber){
+                    var promise = ReportService.getAllRecordsForQueryResolver(pageNumber);
                     promise.then(
                         function (payload) {
-                            $scope.docRecords = payload;
+                            $scope.totalItems = payload.totalCount;
+                            $scope.currentPage = $scope.currenPage;
+                            $scope.docRecords = payload.documentList;
                         },
                         function (errorPayload) {
                             $scope.OperationFailure = true;
@@ -14,6 +16,22 @@ reportApp.controller('QueryController', ['$scope', '$modal', 'ReportService',
                             //$log.error('Error in getAllRecordsForApprover', errorPayload);
                         });
             },
+
+                $scope.pageChanged = function(){
+                    var promise = ReportService.getAllRecordsForQueryResolver($scope.currentPage);
+                    promise.then(
+                        function (payload) {
+                            $scope.totalItems = payload.totalCount;
+                            $scope.currentPage = $scope.currentPage;
+                            $scope.docRecords = payload.documentList;
+                            // $scope.getMydocuments();
+                        },
+                        function (errorPayload) {
+                            $scope.OperationFailure = true;
+                            $scope.FailureMsg = errorPayload;
+                            //$log.error('failure: Error at getAllRecords', errorPayload);
+                        });
+                },
 
                 $scope.getCurrentUser = function () {
 
@@ -129,10 +147,12 @@ reportApp.controller('QueryController', ['$scope', '$modal', 'ReportService',
             $scope.OperationSuccess = false;
             $scope.OperationFailure = false;
            $scope.getCurrentUser();
-            $scope.getAllRecordsForQueryResolver();
+            $scope.getAllRecordsForQueryResolver(1);
             setInterval(function () {
-                $scope.getAllRecordsForQueryResolver();
-            }, 180 * 1000);
+                if($scope.currentPage==1){
+                    $scope.getAllRecordsForQueryResolver(1);
+                }
+            }, 30 * 60 * 1000);
             $scope.getAllUsersBasedOnRole();
 
         };

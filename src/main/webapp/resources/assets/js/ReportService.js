@@ -198,10 +198,12 @@
                 });
             return deferred.promise;
         },
-        reportService.getAllRecordsForQueryResolver = function () {
+        reportService.getAllRecordsForQueryResolver = function (pageNumber) {
 
             var deferred = $q.defer();
-            $http.get('/resolver/getRecordsWhichAreInHold')
+            $http.get('/resolver/getRecordsWhichAreInHold', {
+                    params: { pageNumber: pageNumber}
+                })
                 .success(function(data) {
                     deferred.resolve(data);
                 }).error(function (data) {
