@@ -184,6 +184,22 @@
                     });
             },
 
+            $scope.pageChanged = function(){
+                var promise = ReportService.getAllRecords($scope.currentPage);
+                promise.then(
+                    function (payload) {
+                        $scope.totalItems = payload.totalCount;
+                        $scope.currentPage = $scope.currentPage;
+                        $scope.docRecords = payload.documentList;
+                       // $scope.getMydocuments();
+                    },
+                    function (errorPayload) {
+                        $scope.OperationFailure = true;
+                        $scope.FailureMsg = errorPayload;
+                        //$log.error('failure: Error at getAllRecords', errorPayload);
+                    });
+            },
+
 
             $scope.ShowComments = function (doc) {
                 doc.ViewOnly = true;
@@ -208,10 +224,12 @@
                 $scope.IsAllDocuments=true;
                 $scope.getCurrentUser();
                 //Initial Load
-                var promise = ReportService.getAllRecords();
+                var promise = ReportService.getAllRecords(1);
                 promise.then(
                     function (payload) {
-                        $scope.docRecords = payload;
+                        $scope.totalItems = payload.totalCount;
+                        $scope.currentPage = 1;
+                        $scope.docRecords = payload.documentList;
                         $scope.getMydocuments();
                     },
                     function (errorPayload) {
@@ -223,18 +241,22 @@
 
                 //Refresh every Minute
                 setInterval(function () {
-                    var promise = ReportService.getAllRecords();
+                    if($scope.currenPage ==1 ){
+                    var promise = ReportService.getAllRecords($scope.currenPage);
                     promise.then(
                         function (payload) {
-                            $scope.docRecords = payload;
+                            $scope.totalItems = payload.totalCount;
+                            $scope.currentPage = $scope.currenPage;
+                            $scope.docRecords = payload.documentList;
                         },
                         function (errorPayload) {
                             $scope.OperationFailure = true;
                             $scope.FailureMsg = errorPayload;
                             //$log.error('failure: Error while getAllRecords()', errorPayload);
                         });
+                    }
 
-                }, 180 * 1000)
+                }, 30 * 60 * 1000)
             };
 
             init();

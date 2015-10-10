@@ -211,11 +211,13 @@
             return deferred.promise;
         },
     
-        reportService.getAllRecords = function () {
+        reportService.getAllRecords = function (pageNumber) {
 
             
             var deferred = $q.defer();
-            $http.get('/do/getNewRecords')
+            $http.get('/do/getNewRecords', {
+                params: { pageNumber: pageNumber}
+            })
               .success(function(data) { 
                   deferred.resolve(data);
                 }).error(function (data) {

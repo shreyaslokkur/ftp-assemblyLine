@@ -96,7 +96,9 @@
         <a href="#" class="close" ng-click="OperationFailure=false">&times;</a>
         <strong>Error!</strong>  {{FailureMsg}}
     </div>
-
+               <div class="row" ng-show="docRecords.length!=0" style="text-align: left;margin-left:0px;margin-bottom: -27px;">
+                   <pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"  items-per-page="10"></pagination>
+               </div>
              <div class="row colorRed" ng-show="docRecords.length==0">
                  <div class="container" >
                      <div class="row">
@@ -107,6 +109,9 @@
 
                  <br>
              </div>
+
+
+
 
                        <table id="dOTable" ng-show="docRecords.length > 0"  class="table table-bordered table-striped">
            
