@@ -38,6 +38,7 @@
                                                 $scope.totalItems = payload.totalCount;
                                                 $scope.currentPage = $scope.currentPage;
                                                 $scope.docRecords = payload.documentList;
+                                                $scope.itemsPerPage = payload.documentList.length;
                                                 // $scope.getMydocuments();
                                             },
                                             function (errorPayload) {
@@ -111,6 +112,7 @@
                                                     $scope.totalItems = payload.totalCount;
                                                     $scope.currentPage = $scope.currenPage;
                                                     $scope.docRecords = payload.documentList;
+                                                    $scope.itemsPerPage = payload.documentList.length;
                                                 },
                                                 function (errorPayload) {
                                                     $scope.OperationFailure = true;
