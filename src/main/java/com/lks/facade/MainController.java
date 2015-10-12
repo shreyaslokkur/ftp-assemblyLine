@@ -609,7 +609,7 @@ public class MainController {
 		DocumentListDO documentListDO = new DocumentListDO();
 		int offset = getOffsetFromPageNumber(pageNumber);
 		List<DocumentDO> documentList = documentUploadService.retrieveAllDocumentsWhichAreInHold(offset);
-		Long totalCount = documentUploadService.retrieveCountOfApprovalDocuments();
+		Long totalCount = documentUploadService.retrieveCountOfHoldDocuments();
 		documentListDO.setDocumentList(documentList);
 		documentListDO.setTotalCount(totalCount);
 		return documentListDO;
@@ -770,8 +770,8 @@ public class MainController {
 
 	private int getOffsetFromPageNumber(int pageNumber){
 		int offset;
-		if(pageNumber > 0){
-			offset = (documentUtils.getOffset()*pageNumber)+1;
+		if(pageNumber > 1){
+			offset = (documentUtils.getOffset()*(pageNumber-1))+1;
 		}else{
 			offset = 0;
 		}
