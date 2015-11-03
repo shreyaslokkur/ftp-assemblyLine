@@ -76,27 +76,34 @@ public class MainController {
 				Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
 				//retrieve the role of the user
 				Iterator iterator = authorities.iterator();
-				while(iterator.hasNext()){
-					SimpleGrantedAuthority authority = (SimpleGrantedAuthority) iterator.next();
-					String role = authority.getAuthority();
-					switch (role){
-						case "ROLE_DO":
-							redirectUrl =  "redirect:/resources/templates/dataOp.html";
-							break;
-						case "ROLE_SCANNER":
-							redirectUrl = "redirect:/resources/templates/FileUpload.html";
-							break;
-						case "ROLE_APPROVER":
-							redirectUrl = "redirect:/resources/templates/Approver.html";
-							break;
-						case "ROLE_RESOLVER":
-							redirectUrl = "redirect:/resources/templates/QueryResolver.html";
-							break;
-						case "ROLE_ADMIN":
-							redirectUrl = "redirect:/resources/templates/admin.html";
+				if(dateNotOver()){
+					while(iterator.hasNext()){
+						SimpleGrantedAuthority authority = (SimpleGrantedAuthority) iterator.next();
+						String role = authority.getAuthority();
+						switch (role){
+							case "ROLE_DO":
+								redirectUrl =  "redirect:/resources/templates/dataOp.html";
+								break;
+							case "ROLE_SCANNER":
+								redirectUrl = "redirect:/resources/templates/FileUpload.html";
+								break;
+							case "ROLE_APPROVER":
+								redirectUrl = "redirect:/resources/templates/Approver.html";
+								break;
+							case "ROLE_RESOLVER":
+								redirectUrl = "redirect:/resources/templates/QueryResolver.html";
+								break;
+							case "ROLE_ADMIN":
+								redirectUrl = "redirect:/resources/templates/admin.html";
+						}
+
 					}
 
+				}else {
+					redirectUrl = "redirect:/resources/templates/TrialExpired.html";
 				}
+
+
 
 			}
 			else {
@@ -109,6 +116,31 @@ public class MainController {
 		return redirectUrl;
 	}
 
+	private boolean dateNotOver() {
+		Calendar c = Calendar.getInstance();
+
+		c.set(Calendar.HOUR_OF_DAY, 0);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
+
+		Date today = c.getTime();
+
+		int year = 2015;
+		int month =10;
+		int dayOfMonth =7;
+
+		c.set(Calendar.YEAR, year);
+		c.set(Calendar.MONTH, month);
+		c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+		Date dateSpecified = c.getTime();
+
+		if (today.before(dateSpecified)) {
+			return true;
+		}
+		return false;
+	}
 
 
 	@RequestMapping(value = "/admin/hello", method = RequestMethod.GET)
