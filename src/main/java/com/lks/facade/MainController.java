@@ -127,10 +127,10 @@ public class MainController {
 		Date today = c.getTime();
 
 		int year = 2015;
-		int dayOfMonth =8;
+		int dayOfMonth = 1;
 
 		c.set(Calendar.YEAR, year);
-		c.set(Calendar.MONTH, Calendar.NOVEMBER);
+		c.set(Calendar.MONTH, Calendar.DECEMBER);
 		c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
 		Date dateSpecified = c.getTime();
