@@ -27,7 +27,7 @@ if %errorlevel%==0 (
 	rm -rf E:\apache-tomcat-7.0.63-windows-x64\apache-tomcat-7.0.63\webapps\FTPAssemblyLine.war
 	
 	echo "Temp Code"
-	rename E:\apache-tomcat-7.0.63-windows-x64\apache-tomcat-7.0.63\webapps\ROOT.war ROOT_old.war
+	rename E:\apache-tomcat-7.0.63-windows-x64\apache-tomcat-7.0.63\webapps\ROOT.war ROOT_1.war
 	
 	
 	echo "copy target\FTPAssemblyLine.war E:\apache-tomcat-7.0.63-windows-x64\apache-tomcat-7.0.63\webapps\"
