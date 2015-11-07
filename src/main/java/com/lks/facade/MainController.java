@@ -127,7 +127,7 @@ public class MainController {
 		Date today = c.getTime();
 
 		int year = 2015;
-		int dayOfMonth = 1;
+		int dayOfMonth = 6;
 
 		c.set(Calendar.YEAR, year);
 		c.set(Calendar.MONTH, Calendar.DECEMBER);
