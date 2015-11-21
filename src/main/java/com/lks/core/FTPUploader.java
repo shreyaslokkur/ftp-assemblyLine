@@ -10,23 +10,23 @@ import org.apache.commons.net.ftp.FTPReply;
 
 import java.io.*;
 import java.net.SocketException;
+import java.util.logging.Logger;
 
 /**
  * Created by lokkur on 8/18/2015.
  */
 public class FTPUploader {
-    FTPClient ftp = null;
+    private static final Logger logger = Logger.getLogger(FTPUploader.class.getName());
+
 
     private String host;
     private String user;
     private String pwd;
 
     public FTPUploader(String host, String user, String pwd) throws Exception{
-        ftp = new FTPClient();
         this.host = host;
         this.user = user;
         this.pwd = pwd;
-        connect();
     }
 
     public String getHost() {
@@ -53,15 +53,15 @@ public class FTPUploader {
         this.pwd = pwd;
     }
 
-    public synchronized String uploadFile(String localFileFullName, String fileName, String hostDir){
+    public String uploadFile(FTPClient ftp,String localFileFullName, String fileName, String hostDir){
         if(ftp.isConnected()){
-            if(!checkIfConnectionExists()){
+            if(!checkIfConnectionExists(ftp)){
                 throw new FALException(ExceptionCode.SYSTEM_ERROR, "Unable to connect to FTP server");
 
             }
             try(InputStream input = new FileInputStream(new File(localFileFullName))){
                 String fileLocation = hostDir + "/" + fileName;
-                boolean b = this.ftp.storeFile(fileLocation, input);
+                boolean b = ftp.storeFile(fileLocation, input);
                 if(b){
                     return fileLocation;
                 }
@@ -69,33 +69,36 @@ public class FTPUploader {
                     return null;
                 }
             } catch (IOException e) {
-                new FALException(ExceptionCode.SYSTEM_ERROR, "Unable to add file: "+ fileName+" to directory: "+ hostDir);
+                throw new FALException(ExceptionCode.SYSTEM_ERROR, "Unable to add file: "+ fileName+" to directory: "+ hostDir, e);
+            }finally {
+                disconnect(ftp);
             }
 
         }else {
+            disconnect(ftp);
             throw new FALException(ExceptionCode.SYSTEM_ERROR, "Not connected to FTP server");
         }
 
-        return null;
+
 
     }
 
 
-    public synchronized void disconnect(){
-        if (this.ftp.isConnected()) {
+    private void disconnect(FTPClient ftpClient){
+        if (ftpClient.isConnected()) {
             try {
-                this.ftp.logout();
-                this.ftp.disconnect();
+                ftpClient.logout();
+                ftpClient.disconnect();
             } catch (IOException f) {
                 // do nothing as file is already saved to server
             }
         }
     }
 
-    public synchronized boolean checkDirectoryExists(String dirPath) {
+    public boolean checkDirectoryExists(FTPClient ftp, String dirPath) {
         int returnCode;
         try {
-            if(!checkIfConnectionExists()){
+            if(!checkIfConnectionExists(ftp)){
                 throw new FALException(ExceptionCode.SYSTEM_ERROR, "Unable to connect to FTP server");
 
             }
@@ -108,41 +111,43 @@ public class FTPUploader {
         ftp.changeToParentDirectory();
         } catch (IOException e) {
             System.out.println(e);
-            throw new FALException(ExceptionCode.SYSTEM_ERROR, "Unable to check if directory exists in the ftp server");
+            throw new FALException(ExceptionCode.SYSTEM_ERROR, "Unable to check if directory exists in the ftp server",e);
         }
         return true;
     }
 
-    public synchronized boolean createDirectory(String dirPath){
+    public boolean createDirectory(FTPClient ftp,String dirPath){
         try {
-            if(!checkIfConnectionExists()){
+            if(!checkIfConnectionExists(ftp)){
                 throw new FALException(ExceptionCode.SYSTEM_ERROR, "Unable to connect to FTP server");
 
             }
             return ftp.makeDirectory(dirPath);
         } catch (IOException e) {
-            throw new FALException(ExceptionCode.SYSTEM_ERROR, "Unable to create new directory "+ dirPath);
+            throw new FALException(ExceptionCode.SYSTEM_ERROR, "Unable to create new directory "+ dirPath, e);
         }
     }
 
 
-    public synchronized boolean deleteFile(String fileLocation) {
+    public boolean deleteFile(FTPClient ftp,String fileLocation) {
         try {
-            if(!checkIfConnectionExists()){
+            if(!checkIfConnectionExists(ftp)){
                 throw new FALException(ExceptionCode.SYSTEM_ERROR, "Unable to connect to FTP server");
 
             }
             return ftp.deleteFile(fileLocation);
         } catch (IOException e) {
-            throw new FALException(ExceptionCode.SYSTEM_ERROR, "Unable to delete the file: "+ fileLocation);
+            throw new FALException(ExceptionCode.SYSTEM_ERROR, "Unable to delete the file: "+ fileLocation, e);
+        }finally {
+            disconnect(ftp);
         }
     }
 
-    public synchronized File downloadFile(String fileLocation){
+    public File downloadFile(FTPClient ftp,String fileLocation){
         File tmpFile = null;
         String[] split = fileLocation.split("/");
         String fileName = split[split.length - 1];
-        if(!checkIfConnectionExists()){
+        if(!checkIfConnectionExists(ftp)){
             throw new FALException(ExceptionCode.SYSTEM_ERROR, "Unable to connect to FTP server");
 
         }
@@ -159,14 +164,17 @@ public class FTPUploader {
                 throw new FALException(ExceptionCode.SYSTEM_ERROR, "Unable to download file: "+ fileLocation+" from server");
             }
         }catch (IOException e){
-            throw new FALException(ExceptionCode.SYSTEM_ERROR, "Encountered exception when tryin to download file: "+ fileLocation);
+            throw new FALException(ExceptionCode.SYSTEM_ERROR, "Encountered exception when tryin to download file: "+ fileLocation, e);
+        }finally {
+            disconnect(ftp);
         }
 
     }
 
 
 
-    private synchronized boolean connect(){
+    public FTPClient connect(){
+        FTPClient ftp = new FTPClient();
         try{
             ftp.addProtocolCommandListener(new PrintCommandListener(new PrintWriter(System.out)));
             int reply;
@@ -182,16 +190,18 @@ public class FTPUploader {
             ftp.setConnectTimeout(3000);
             ftp.setSoTimeout(3000);
             ftp.enterLocalPassiveMode();
-            return true;
+            return ftp;
         } catch (SocketException e) {
-            throw new FALException("Unable to connect to FTP server");
+            disconnect(ftp);
+            throw new FALException("Unable to connect to FTP server: "+ e, e);
         } catch (IOException e) {
-            throw new FALException("Unable to connect to FTP server");
+            disconnect(ftp);
+            throw new FALException("Unable to connect to FTP server: "+ e, e);
         }
 
     }
 
-    private boolean checkIfConnectionExists(){
+    private boolean checkIfConnectionExists(FTPClient ftp){
 
         try
         {
@@ -201,69 +211,99 @@ public class FTPUploader {
                 return true;
             else
             {
-                System.out.println("Server connection failed!");
+                return false;
+            }
+        }
+        catch (FTPConnectionClosedException e)
+        {
+            return false;
+
+        }
+        catch (IOException e)
+        {
+            return false;
+        }
+        catch (NullPointerException e)
+        {
+            return false;
+        }
+    }
+
+    /*private boolean checkIfConnectionExists(FTPClient ftp){
+
+        try
+        {
+            // Sends a NOOP command to the FTP server.
+            boolean answer = ftp.sendNoOp();
+            if(answer)
+                return true;
+            else
+            {
+                logger.info("Server connection failed!");
                 boolean success = connect();
                 if(success)
                 {
-                    System.out.println("Reconnect attampt have succeeded!");
+                    logger.info("Reconnect attempt have succeeded!");
                     return true;
                 }
                 else
                 {
-                    System.out.println("Reconnect attampt failed!");
-                    disconnect();
+                    logger.info("Reconnect attempt failed!");
+                    disconnect(ftp);
                     return false;
                 }
             }
         }
         catch (FTPConnectionClosedException e)
         {
-            System.out.println("Server connection is closed!");
+            logger.info("Server connection is closed!");
             boolean recon = connect();
             if(recon)
             {
-                System.out.println("Reconnect attampt have succeeded!");
+                logger.info("Reconnect attempt have succeeded!");
                 return true;
             }
             else
             {
-                System.out.println("Reconnect attampt have failed!");
-                disconnect();
+                logger.info("Reconnect attempt have failed!");
+                disconnect(ftp);
                 return false;
             }
 
         }
         catch (IOException e)
         {
-            System.out.println("Server connection failed!");
+            logger.info("Server connection failed!");
             boolean recon = connect();
             if(recon)
             {
-                System.out.println("Reconnect attampt have succeeded!");
+                logger.info("Reconnect attempt have succeeded!");
                 return true;
             }
             else
             {
-                System.out.println("Reconnect attampt have failed!");
-                disconnect();
+                logger.info("Reconnect attempt have failed!");
+                disconnect(ftp);
                 return false;
             }
         }
         catch (NullPointerException e)
         {
-            System.out.println("Server connection is closed!");
+            logger.info("Server connection is closed!");
             boolean recon = connect();
             if(recon)
             {
-                System.out.println("Reconnect attampt have succeeded!");
+                logger.info("Reconnect attempt have succeeded!");
                 return true;
             }
             else
             {
-                System.out.println("Reconnect attampt have failed!");
-                disconnect();
+                logger.info("Reconnect attempt have failed!");
+                disconnect(ftp);
                 return false;
             }
         }
-    }
+    }*/
+
+
 }

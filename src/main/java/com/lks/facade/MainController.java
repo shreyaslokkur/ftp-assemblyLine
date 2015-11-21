@@ -117,7 +117,7 @@ public class MainController {
 	}
 
 	private boolean dateNotOver() {
-		Calendar c = Calendar.getInstance();
+		/*Calendar c = Calendar.getInstance();
 
 		c.set(Calendar.HOUR_OF_DAY, 0);
 		c.set(Calendar.MINUTE, 0);
@@ -137,8 +137,8 @@ public class MainController {
 
 		if (today.before(dateSpecified)) {
 			return true;
-		}
-		return false;
+		}*/
+		return true;
 	}
 
 
@@ -788,14 +788,7 @@ public class MainController {
 		Calendar cal = Calendar.getInstance();
 		String date = dateFormat.format(cal.getTime());
 		date = date.replaceAll("/","");
-		if(!ftpService.checkIfDirectoryWithBranchCodeExists(branchCode)){
-			ftpService.createBranchCodeDirectory(branchCode);
-		}
-		if(!ftpService.checkIfDirectoryWithDateExists(branchCode,date)){
-			ftpService.createDateDirectory(branchCode,date);
-		}
-		String dirPath = ftpService.getDirectoryForBranchAndDate(branchCode,date);
-		return ftpService.uploadFile(fileLocation, fileName, dirPath);
+		return ftpService.uploadFile(fileLocation, fileName, branchCode, date);
 	}
 
 
