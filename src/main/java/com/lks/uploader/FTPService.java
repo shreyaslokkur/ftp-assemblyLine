@@ -5,11 +5,14 @@ import org.apache.commons.net.ftp.FTPClient;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.util.logging.Logger;
 
 /**
  * Created by lokkur on 8/18/2015.
  */
 public class FTPService implements IFTPService{
+
+    private static final Logger logger = Logger.getLogger(FTPService.class.getName());
 
     private String rootDir;
 
@@ -26,6 +29,7 @@ public class FTPService implements IFTPService{
 
     @Override
     public synchronized String uploadFile(String localFileFullName, String fileName, String branchCode, String date) {
+        logger.info("Server got a request to upload the file: "+ fileName+ " in branch: "+ branchCode+" with date: "+ date);
         FTPClient ftp = ftpUploader.connect();
         if(!checkIfDirectoryWithBranchCodeExists(ftp,branchCode)){
             createBranchCodeDirectory(ftp,branchCode);
@@ -86,6 +90,7 @@ public class FTPService implements IFTPService{
 
     @Override
     public synchronized File downloadFile(String fileLocation) {
+        logger.info("Server is requested to download the file: "+ fileLocation);
         FTPClient ftp = ftpUploader.connect();
         return ftpUploader.downloadFile(ftp,fileLocation);
     }

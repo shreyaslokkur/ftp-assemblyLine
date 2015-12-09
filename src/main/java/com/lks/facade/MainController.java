@@ -37,9 +37,12 @@ import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.Logger;
 
 @Controller
 public class MainController {
+
+    private static final Logger logger = Logger.getLogger(MainController.class.getName());
 
     @Resource(name = "documentUploadService")
 	IDocumentUploadService documentUploadService;
@@ -82,18 +85,23 @@ public class MainController {
 						String role = authority.getAuthority();
 						switch (role){
 							case "ROLE_DO":
+                                logger.info("Data operator has logged in");
 								redirectUrl =  "redirect:/resources/templates/dataOp.html";
 								break;
 							case "ROLE_SCANNER":
+                                logger.info("Scanner has logged in");
 								redirectUrl = "redirect:/resources/templates/FileUpload.html";
 								break;
 							case "ROLE_APPROVER":
+                                logger.info("Approver has logged in");
 								redirectUrl = "redirect:/resources/templates/Approver.html";
 								break;
 							case "ROLE_RESOLVER":
+                                logger.info("Query resolver has logged in");
 								redirectUrl = "redirect:/resources/templates/QueryResolver.html";
 								break;
 							case "ROLE_ADMIN":
+                                logger.info("Admin has logged in");
 								redirectUrl = "redirect:/resources/templates/admin.html";
 						}
 
@@ -160,7 +168,7 @@ public class MainController {
 
 		if(error != null){
 			String errorMessage = getErrorMessage(request, "SPRING_SECURITY_LAST_EXCEPTION");
-			System.out.println("Login Error Message is: " + errorMessage);
+            logger.info("Login Error Message is: " + errorMessage);
 			return "redirect:/resources/templates/login.html?error=true";
 		}
 		return "redirect:/resources/templates/login.html";
@@ -231,8 +239,8 @@ public class MainController {
 	@ResponseBody
 	public synchronized int continueFileUpload(HttpServletRequest request,
 									 HttpServletResponse response){
+        logger.info("Entered the facade for file upload");
 		MultipartHttpServletRequest mRequest;
-
 		mRequest = (MultipartHttpServletRequest) request;
 		mRequest.getParameterMap();
 		String fileName = null;
@@ -241,18 +249,20 @@ public class MainController {
 		while (itr.hasNext()) {
 			mFile = mRequest.getFile(itr.next());
 			fileName = mFile.getOriginalFilename();
-			System.out.println(fileName);
+            logger.info("Upload of file: " + fileName + " is requested by the scanner");
 		}
 		File tmpFile = null;
 		try{
 			tmpFile = File.createTempFile(FilenameUtils.getBaseName(fileName), "." + FilenameUtils.getExtension(fileName));
-			mFile.transferTo(tmpFile);
+			logger.info("Temp file: "+ tmpFile.getName()+" has been created");
+            mFile.transferTo(tmpFile);
 		}catch (Exception e){
 			throw new FALException(ExceptionCode.SYSTEM_ERROR,"Unable to create a temp file for upload");
 		}
 
 		String ftpFileLocation = uploadToFTPServer(fileName,tmpFile.getAbsolutePath(), mRequest.getParameter("branchCode"));
 		if(ftpFileLocation != null){
+            logger.info("Upload of file: "+fileName+" to the FTP server is complete, now info will be pushed to Database");
 			FileReceivedForUploadDO fileReceivedForUploadDO = new FileReceivedForUploadDO();
 			UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			fileReceivedForUploadDO.setCreatedBy(userDetails.getUsername());
@@ -266,6 +276,7 @@ public class MainController {
 			//delete file from tomcat server
 			tmpFile.delete();
 			if(mRequest.getParameter("documentId") != null){
+                logger.info("Document id already exists. Reupload is being attempted");
 				fileReceivedForUploadDO.setDocumentId(Integer.parseInt(mRequest.getParameter("documentId")));
 				return documentUploadService.reuploadDocument(fileReceivedForUploadDO);
 			}else {
@@ -274,13 +285,10 @@ public class MainController {
 		}
 		else {
 			//delete file from tomcat server
+            logger.info("Upload of file: "+fileName+" to the FTP server failed. The temp file will be deleted");
 			tmpFile.delete();
 			throw new FALException(ExceptionCode.SYSTEM_ERROR, "Unable to create a file in the ftp folder");
 		}
-
-
-
-
 
 	}
 
@@ -572,8 +580,11 @@ public class MainController {
 		FileInputStream fileInputStream = null;
 		OutputStream outputStream = null;
 		try{
+            logger.info("Entered the facade for file download");
 			String documentUrl = documentUploadService.retrieveDocumentUrl(documentId);
+            logger.info("Download of file: "+ documentUrl+ " is being attempted");
 			pdfFile = ftpService.downloadFile(documentUrl);
+            logger.info("Download of file: "+ documentUrl+" is successfully completed");
 			response.setContentType("application/pdf");
 			response.addHeader("Content-Disposition", "attachment; filename="+documentUrl+";");
 			response.setContentLength((int) pdfFile.length());
@@ -586,10 +597,8 @@ public class MainController {
 			}
 		}finally {
 			fileInputStream.close();
-			fileInputStream = null;
 			outputStream.flush();
 			outputStream.flush();
-			outputStream = null;
 			System.gc();
 			pdfFile.delete();
 		}

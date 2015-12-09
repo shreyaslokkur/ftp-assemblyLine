@@ -13,9 +13,14 @@
 		</layout>
 	</appender>
 
-	<logger name="com.lks" level="debug" additivity="false">
+	<logger name="com.lks" level="info" additivity="false">
 		<appender-ref ref="FILE_AUDIT" />
+        <appender-ref ref="STDOUT"/>
 	</logger>
+    <logger name="org.hibernate" level="warn">
+        <appender-ref ref="FILE_AUDIT" />
+        <appender-ref ref="STDOUT"/>
+    </logger>
 
 	<appender name="FILE-AUDIT"
 			  class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -38,7 +43,7 @@
 
 	</appender>
 
-	<root level="debug">
+	<root level="info">
 		<appender-ref ref="FILE-AUDIT" />
 	</root>
 
