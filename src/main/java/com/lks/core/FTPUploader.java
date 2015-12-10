@@ -7,16 +7,18 @@ import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPConnectionClosedException;
 import org.apache.commons.net.ftp.FTPReply;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.SocketException;
-import java.util.logging.Logger;
 
 /**
  * Created by lokkur on 8/18/2015.
  */
 public class FTPUploader {
-    private static final Logger logger = Logger.getLogger(FTPUploader.class.getName());
+
+    private static final Logger logger = LoggerFactory.getLogger(FTPUploader.class);
 
 
     private String host;

@@ -4,12 +4,13 @@ import com.lks.core.DateUtils;
 import com.lks.core.enums.RecStatus;
 import com.lks.orm.entities.Comments;
 import com.lks.orm.entities.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,7 +21,7 @@ import java.util.logging.Logger;
  */
 public class NARState extends AbstractState {
 
-    public static final Logger logger = Logger.getLogger(NARState.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(NARState.class);
 
     @Override
     public Document approve(Document document, String userId) {

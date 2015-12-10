@@ -2,17 +2,18 @@ package com.lks.uploader;
 
 import com.lks.core.FTPUploader;
 import org.apache.commons.net.ftp.FTPClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
 import java.io.File;
-import java.util.logging.Logger;
 
 /**
  * Created by lokkur on 8/18/2015.
  */
 public class FTPService implements IFTPService{
 
-    private static final Logger logger = Logger.getLogger(FTPService.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(FTPService.class);
 
     private String rootDir;
 

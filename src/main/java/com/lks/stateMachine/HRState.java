@@ -4,10 +4,11 @@ import com.lks.core.DateUtils;
 import com.lks.core.enums.RecStatus;
 import com.lks.orm.entities.Comments;
 import com.lks.orm.entities.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,7 +19,7 @@ import java.util.logging.Logger;
  */
 public class HRState extends AbstractState {
 
-    public static final Logger logger = Logger.getLogger(HRState.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(HRState.class);
 
     @Override
     public Document resolve(Document document, String comment,String assignedTo, String userId) {

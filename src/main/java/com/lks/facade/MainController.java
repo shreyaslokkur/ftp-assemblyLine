@@ -16,6 +16,7 @@ import com.lks.security.IUserService;
 import com.lks.uploader.IDocumentUploadService;
 import com.lks.uploader.IFTPService;
 import org.apache.commons.io.FilenameUtils;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
@@ -42,7 +43,7 @@ import java.util.logging.Logger;
 @Controller
 public class MainController {
 
-    private static final Logger logger = Logger.getLogger(MainController.class.getName());
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(MainController.class);
 
     @Resource(name = "documentUploadService")
 	IDocumentUploadService documentUploadService;

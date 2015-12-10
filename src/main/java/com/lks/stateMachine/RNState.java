@@ -2,9 +2,10 @@ package com.lks.stateMachine;
 
 import com.lks.core.enums.RecStatus;
 import com.lks.orm.entities.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Configurable;
 
-import java.util.logging.Logger;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,7 +17,7 @@ import java.util.logging.Logger;
 @Configurable
 public class RNState extends AbstractState {
 
-    public static final Logger logger = Logger.getLogger(RNState.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(RNState.class);
 
     @Override
     public Document reupload(Document document) {

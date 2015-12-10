@@ -11,6 +11,8 @@ import com.lks.orm.entities.Document;
 import com.lks.stateMachine.IState;
 import com.lks.stateMachine.NRState;
 import com.lks.stateMachine.StateMachineFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * Created with IntelliJ IDEA.
@@ -31,7 +32,7 @@ import java.util.logging.Logger;
 @Service
 public class DocumentUploadService implements IDocumentUploadService {
 
-    public static final Logger logger = Logger.getLogger(DocumentUploadService.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(DocumentUploadService.class);
 
 
     @Resource(name = "documentUploadDao")
@@ -52,8 +53,7 @@ public class DocumentUploadService implements IDocumentUploadService {
             return currentState.create(fileReceivedForUploadDO.getFileName(), fileReceivedForUploadDO.getFileLocation(), fileReceivedForUploadDO.getCreatedBy(), fileReceivedForUploadDO.getBranchCode(), fileReceivedForUploadDO.getPlaceOfMeeting(), fileReceivedForUploadDO.getBookletNo(), fileReceivedForUploadDO.getApplicationNo(), fileReceivedForUploadDO.getNumOfCustomers());
 
         }catch(Exception e){
-            logger.severe("Encountered exception in the method create New document: "+ e.getMessage());
-            System.out.println(e.getMessage());
+            logger.error("Encountered exception in the method create New document: "+ e.getMessage());
         }
         return -1;
 
@@ -146,8 +146,7 @@ public class DocumentUploadService implements IDocumentUploadService {
                 documentDOList.add(documentDO);
             }
         }catch(Exception e){
-            logger.severe("Encountered exception in the method retrieve document: "+ e.getMessage());
-            System.out.println(e.getMessage());
+            logger.error("Encountered exception in the method retrieve document: "+ e.getMessage());
         }
 
         return documentDOList;
@@ -166,8 +165,7 @@ public class DocumentUploadService implements IDocumentUploadService {
                 documentDOList.add(documentDO);
             }
         }catch(Exception e){
-            logger.severe("Encountered exception in the method retrieve documents: "+ e.getMessage());
-            System.out.println(e.getMessage());
+            logger.error("Encountered exception in the method retrieve documents: "+ e.getMessage());
         }
 
         return documentDOList;
@@ -186,8 +184,7 @@ public class DocumentUploadService implements IDocumentUploadService {
                 documentDOList.add(documentDO);
             }
         }catch(Exception e){
-            logger.severe("Encountered exception in the method retrieve document: "+ e.getMessage());
-            System.out.println(e.getMessage());
+            logger.error("Encountered exception in the method retrieve document: "+ e.getMessage());
         }
 
         return documentDOList;
@@ -206,8 +203,7 @@ public class DocumentUploadService implements IDocumentUploadService {
                 documentDOList.add(documentDO);
             }
         }catch(Exception e){
-            logger.severe("Encountered exception in the method retrieve document: "+ e.getMessage());
-            System.out.println(e.getMessage());
+            logger.error("Encountered exception in the method retrieve document: "+ e.getMessage());
         }
 
         return documentDOList;
@@ -226,8 +222,7 @@ public class DocumentUploadService implements IDocumentUploadService {
                 documentDOList.add(documentDO);
             }
         }catch(Exception e){
-            logger.severe("Encountered exception in the method retrieve document: "+ e.getMessage());
-            System.out.println(e.getMessage());
+            logger.error("Encountered exception in the method retrieve document: "+ e.getMessage());
         }
 
         return documentDOList;
@@ -246,8 +241,7 @@ public class DocumentUploadService implements IDocumentUploadService {
                 documentDOList.add(documentDO);
             }
         }catch(Exception e){
-            logger.severe("Encountered exception in the method retrieve document: "+ e.getMessage());
-            System.out.println(e.getMessage());
+            logger.error("Encountered exception in the method retrieve document: "+ e.getMessage());
         }
 
         return documentDOList;
@@ -266,8 +260,7 @@ public class DocumentUploadService implements IDocumentUploadService {
                 documentDOList.add(documentDO);
             }
         }catch(Exception e){
-            logger.severe("Encountered exception in the method retrieve document: "+ e.getMessage());
-            System.out.println(e.getMessage());
+            logger.error("Encountered exception in the method retrieve document: "+ e.getMessage());
         }
 
         return documentDOList;
@@ -282,8 +275,7 @@ public class DocumentUploadService implements IDocumentUploadService {
             documentUrl = documentUploadDao.retrieveDocumentUrl(documentId);
 
         }catch(Exception e){
-            logger.severe("Encountered exception in the method retrieve document: "+ e.getMessage());
-            System.out.println(e.getMessage());
+            logger.error("Encountered exception in the method retrieve document: "+ e.getMessage());
         }
 
         return documentUrl;
@@ -299,8 +291,7 @@ public class DocumentUploadService implements IDocumentUploadService {
             count = documentUploadDao.retrieveCountOfNewDocuments();
 
         }catch(Exception e){
-            logger.severe("Encountered exception in the method retrieve document: "+ e.getMessage());
-            System.out.println(e.getMessage());
+            logger.error("Encountered exception in the method retrieve document: "+ e.getMessage());
         }
 
         return count;
@@ -315,8 +306,7 @@ public class DocumentUploadService implements IDocumentUploadService {
             count = documentUploadDao.retrieveCountOfHoldDocuments();
 
         }catch(Exception e){
-            logger.severe("Encountered exception in the method retrieve count of hold documents: "+ e.getMessage());
-            System.out.println(e.getMessage());
+            logger.error("Encountered exception in the method retrieve count of hold documents: "+ e.getMessage());
         }
 
         return count;
@@ -331,8 +321,7 @@ public class DocumentUploadService implements IDocumentUploadService {
             count = documentUploadDao.retrieveCountOfApprovalDocuments();
 
         }catch(Exception e){
-            logger.severe("Encountered exception in the method retrieve count of approval documents:"+ e.getMessage());
-            System.out.println(e.getMessage());
+            logger.error("Encountered exception in the method retrieve count of approval documents:"+ e.getMessage());
         }
 
         return count;
