@@ -1,5 +1,7 @@
 package com.lks.core.model;
 
+import com.lks.core.enums.UploadState;
+
 public class FileReceivedForUploadDO extends AbstractDO {
 
     private static final long serialVersionUID = 1L;
@@ -13,6 +15,7 @@ public class FileReceivedForUploadDO extends AbstractDO {
     private int applicationNo;
     private int numOfCustomers;
     private int documentId;
+    private UploadState uploadState;
 
 
     public String getFileName() {
@@ -85,5 +88,13 @@ public class FileReceivedForUploadDO extends AbstractDO {
 
     public void setDocumentId(int documentId) {
         this.documentId = documentId;
+    }
+
+    public UploadState getUploadState() {
+        return uploadState;
+    }
+
+    public void setUploadState(UploadState uploadState) {
+        this.uploadState = uploadState;
     }
 }

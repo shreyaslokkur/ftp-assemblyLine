@@ -4,6 +4,7 @@ import com.lks.core.DateUtils;
 import com.lks.core.DocumentUtils;
 import com.lks.core.FALException;
 import com.lks.core.enums.RecStatus;
+import com.lks.core.enums.UploadState;
 import com.lks.orm.entities.Comments;
 import com.lks.orm.entities.Document;
 import com.lks.orm.entities.DocumentArchive;
@@ -36,13 +37,13 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
 
 
     @Override
-    public int fileUploaded(String fileName, String fileLocation, String createdBy, int branchCode, String placeOfMeeting, String bookletNo, int applicationNo, int numOfCustomers) {
+    public int fileUploaded(String fileName, String fileLocation, String createdBy, int branchCode, String placeOfMeeting, String bookletNo, int applicationNo, int numOfCustomers, UploadState uploadState) {
         SessionFactory sessionFactory = getSessionFactory();
         Session session = sessionFactory.openSession();
         Integer documentId = null;
         try{
             String currentDate = DateUtils.getCurrentDate();
-            Document document = new Document(RecStatus.NR, fileName, fileLocation, createdBy, branchCode, placeOfMeeting, bookletNo, applicationNo, numOfCustomers, currentDate);
+            Document document = new Document(RecStatus.NR, fileName, fileLocation, createdBy, branchCode, placeOfMeeting, bookletNo, applicationNo, numOfCustomers, currentDate, uploadState);
             documentId = (Integer) session.save(document);
         }catch (HibernateException e) {
             throw new FALException("Unable to create new document with file name"+ fileName, e);

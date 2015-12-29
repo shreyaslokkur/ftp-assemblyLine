@@ -26,6 +26,7 @@ public class RNState extends AbstractState {
         document.setRescanNeeded(false);
         document.setLocked(false);
         document.setLockedBy(null);
+        document.setUploadState(document.getUploadState());
         documentUploadDao.updateDocument(document);
         return document;
 

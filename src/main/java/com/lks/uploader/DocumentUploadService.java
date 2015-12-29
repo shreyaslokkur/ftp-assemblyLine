@@ -50,7 +50,7 @@ public class DocumentUploadService implements IDocumentUploadService {
         logger.info("Entered the creation of new document method in data upload service");
         try{
             IState currentState = new NRState();
-            return currentState.create(fileReceivedForUploadDO.getFileName(), fileReceivedForUploadDO.getFileLocation(), fileReceivedForUploadDO.getCreatedBy(), fileReceivedForUploadDO.getBranchCode(), fileReceivedForUploadDO.getPlaceOfMeeting(), fileReceivedForUploadDO.getBookletNo(), fileReceivedForUploadDO.getApplicationNo(), fileReceivedForUploadDO.getNumOfCustomers());
+            return currentState.create(fileReceivedForUploadDO.getFileName(), fileReceivedForUploadDO.getFileLocation(), fileReceivedForUploadDO.getCreatedBy(), fileReceivedForUploadDO.getBranchCode(), fileReceivedForUploadDO.getPlaceOfMeeting(), fileReceivedForUploadDO.getBookletNo(), fileReceivedForUploadDO.getApplicationNo(), fileReceivedForUploadDO.getNumOfCustomers(), fileReceivedForUploadDO.getUploadState());
 
         }catch(Exception e){
             logger.error("Encountered exception in the method create New document: "+ e.getMessage());
@@ -74,6 +74,7 @@ public class DocumentUploadService implements IDocumentUploadService {
             document.setCreatedBy(fileReceivedForUploadDO.getCreatedBy());
             document.setNumOfCustomers(fileReceivedForUploadDO.getNumOfCustomers());
             document.setPlaceOfMeeting(fileReceivedForUploadDO.getPlaceOfMeeting());
+            document.setUploadState(fileReceivedForUploadDO.getUploadState());
             currentState.reupload(document);
 
             if(ftpService.deleteFile(oldFileLocation)){

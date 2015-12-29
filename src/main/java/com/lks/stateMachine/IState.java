@@ -1,5 +1,6 @@
 package com.lks.stateMachine;
 
+import com.lks.core.enums.UploadState;
 import com.lks.orm.entities.Document;
 
 /**
@@ -11,7 +12,7 @@ import com.lks.orm.entities.Document;
  */
 public interface IState {
 
-    public int create(String fileName, String fileLocation, String createdBy, int branchCode, String placeOfMeeting, String bookletNo, int applicationNo, int numOfCustomers);
+    public int create(String fileName, String fileLocation, String createdBy, int branchCode, String placeOfMeeting, String bookletNo, int applicationNo, int numOfCustomers, UploadState uploadState);
     public Document lock(Document document, String userId);
     public Document unlock(Document document);
     public Document hold(Document document, String comment, String userId);

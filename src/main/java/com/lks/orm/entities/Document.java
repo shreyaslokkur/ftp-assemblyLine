@@ -1,6 +1,7 @@
 package com.lks.orm.entities;
 
 import com.lks.core.enums.RecStatus;
+import com.lks.core.enums.UploadState;
 
 import java.util.Date;
 import java.util.List;
@@ -38,12 +39,13 @@ public class Document implements IEntity {
     private String recCreatedOn;
     private String recCompletedOn;
     private String recApprovedOn;
+    private UploadState uploadState;
 
     public Document(){
 
     }
 
-    public Document(RecStatus recStatus, String fileName, String fileLocation, String createdBy, int branchCode, String placeOfMeeting, String bookletNo, int applicationNo, int numOfCustomers, String recCreatedOn) {
+    public Document(RecStatus recStatus, String fileName, String fileLocation, String createdBy, int branchCode, String placeOfMeeting, String bookletNo, int applicationNo, int numOfCustomers, String recCreatedOn, UploadState uploadState) {
 
         this.state = recStatus;
         this.fileName = fileName;
@@ -55,6 +57,7 @@ public class Document implements IEntity {
         this.applicationNo = applicationNo;
         this.numOfCustomers = numOfCustomers;
         this.recCreatedOn = recCreatedOn;
+        this.uploadState = uploadState;
     }
 
 
@@ -249,5 +252,13 @@ public class Document implements IEntity {
 
     public void setPutOnHoldBy(String putOnHoldBy) {
         this.putOnHoldBy = putOnHoldBy;
+    }
+
+    public UploadState getUploadState() {
+        return uploadState;
+    }
+
+    public void setUploadState(UploadState uploadState) {
+        this.uploadState = uploadState;
     }
 }

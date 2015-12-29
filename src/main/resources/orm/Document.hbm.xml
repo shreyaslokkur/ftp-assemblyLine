@@ -92,6 +92,13 @@
             <column name="recApprovedOn" length="60" />
         </property>
 
+        <property name="uploadState">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">com.lks.core.enums.UploadState</param>
+                <param name="useNamed">true</param>
+            </type>
+        </property>
+
     </class>
 
 

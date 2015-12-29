@@ -1,5 +1,6 @@
 package com.lks.stateMachine;
 
+import com.lks.core.enums.UploadState;
 import com.lks.orm.dao.CommentsDao;
 import com.lks.orm.dao.DocumentUploadDao;
 import com.lks.orm.entities.Document;
@@ -25,7 +26,7 @@ public class AbstractState implements IState {
 
 
     @Override
-    public int create(String fileName, String fileLocation, String createdBy, int branchCode, String placeOfMeeting, String bookletNo, int applicationNo, int numOfCustomers) {
+    public int create(String fileName, String fileLocation, String createdBy, int branchCode, String placeOfMeeting, String bookletNo, int applicationNo, int numOfCustomers, UploadState uploadState) {
         throw new InvalidStateTransitionException("Transition to this state is not supported");
     }
 
