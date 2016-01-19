@@ -37,7 +37,6 @@ public class DocumentArchive implements IEntity {
     private String recCreatedOn;
     private String recCompletedOn;
     private String recApprovedOn;
-    private String uploadState;
 
     public int getDocumentArchiveId() {
         return documentArchiveId;
@@ -230,13 +229,5 @@ public class DocumentArchive implements IEntity {
 
     public void setRecApprovedOn(String recApprovedOn) {
         this.recApprovedOn = recApprovedOn;
-    }
-
-    public String getUploadState() {
-        return uploadState;
-    }
-
-    public void setUploadState(String uploadState) {
-        this.uploadState = uploadState;
     }
 }

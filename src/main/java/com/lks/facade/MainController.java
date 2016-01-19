@@ -10,7 +10,6 @@ import com.lks.core.DocumentUtils;
 import com.lks.core.FALException;
 import com.lks.core.enums.DocOperations;
 import com.lks.core.enums.ExceptionCode;
-import com.lks.core.enums.UploadState;
 import com.lks.core.model.*;
 import com.lks.security.IBranchService;
 import com.lks.security.IUserService;
@@ -275,7 +274,6 @@ public class MainController {
 			fileReceivedForUploadDO.setBranchCode(Integer.parseInt(mRequest.getParameter("branchCode")));
 			fileReceivedForUploadDO.setNumOfCustomers(Integer.parseInt(mRequest.getParameter("numOfCustomers")));
 			fileReceivedForUploadDO.setPlaceOfMeeting(mRequest.getParameter("placeOfMeeting"));
-            fileReceivedForUploadDO.setUploadState(UploadState.UPLOADING);
 			//delete file from tomcat server
 			tmpFile.delete();
 			if(mRequest.getParameter("documentId") != null){

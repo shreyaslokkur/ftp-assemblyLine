@@ -2,7 +2,6 @@ package com.lks.stateMachine;
 
 import com.lks.core.DateUtils;
 import com.lks.core.enums.RecStatus;
-import com.lks.core.enums.UploadState;
 import com.lks.orm.entities.Comments;
 import com.lks.orm.entities.Document;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -26,8 +25,8 @@ public class NRState extends AbstractState {
     public static final Logger logger = Logger.getLogger(NRState.class.getName());
 
     @Override
-    public int create(String fileName, String fileLocation, String createdBy, int branchCode, String placeOfMeeting, String bookletNo, int applicationNo, int numOfCustomers, UploadState uploadState) {
-        return documentUploadDao.fileUploaded(fileName, fileLocation, createdBy, branchCode, placeOfMeeting, bookletNo, applicationNo, numOfCustomers, uploadState);
+    public int create(String fileName, String fileLocation, String createdBy, int branchCode, String placeOfMeeting, String bookletNo, int applicationNo, int numOfCustomers) {
+        return documentUploadDao.fileUploaded(fileName, fileLocation, createdBy, branchCode, placeOfMeeting, bookletNo, applicationNo, numOfCustomers);
     }
 
     @Override

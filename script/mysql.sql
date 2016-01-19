@@ -26,7 +26,6 @@ CREATE TABLE user_roles (
 CREATE TABLE document_archive (
   documentId int(11) DEFAULT NULL,
   state varchar(45) DEFAULT NULL,
-  uploadState varchar(45) DEFAULT NULL,
   fileName varchar(100) DEFAULT NULL,
   fileLocation varchar(255) DEFAULT NULL,
   branchCode int(11) DEFAULT NULL,
@@ -54,7 +53,6 @@ CREATE TABLE document_archive (
 CREATE TABLE document (
   documentId int(11) NOT NULL AUTO_INCREMENT,
   state varchar(60) DEFAULT NULL,
-  uploadState varchar(45) DEFAULT NULL,
   fileName varchar(100) DEFAULT NULL,
   fileLocation varchar(255) DEFAULT NULL,
   branchCode int(11) DEFAULT NULL,
