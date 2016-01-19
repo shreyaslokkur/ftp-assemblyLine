@@ -259,7 +259,7 @@ public class MainController {
 			logger.info("Temp file: "+ tmpFile.getName()+" has been created");
             mFile.transferTo(tmpFile);
 		}catch (Exception e){
-			throw new FALException(ExceptionCode.SYSTEM_ERROR,"Unable to create a temp file for upload");
+			throw new FALException(ExceptionCode.SYSTEM_ERROR,"Unable to create a temp file for upload", e);
 		}
 
 		String ftpFileLocation = uploadToFTPServer(fileName,tmpFile.getAbsolutePath(), mRequest.getParameter("branchCode"));
@@ -577,7 +577,7 @@ public class MainController {
 	@RequestMapping(method = RequestMethod.GET, value = "/all/view")
 	public
 	@ResponseBody
-	synchronized void viewPdfFile(@RequestParam("documentId") int documentId, HttpServletResponse response) throws ServletException, IOException{
+	void viewPdfFile(@RequestParam("documentId") int documentId, HttpServletResponse response) throws ServletException, IOException{
 
 		File pdfFile = null;
 		FileInputStream fileInputStream = null;

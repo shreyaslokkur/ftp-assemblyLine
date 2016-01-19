@@ -124,4 +124,38 @@
 		<property name="rootDir" value="${ftp.server.rootDir}"/>
 	</bean>
 
+    <bean id="activeUsersJob"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+
+        <property name="targetObject" ref="activeUsers" />
+        <property name="targetMethod" value="getListOfActiveUsers" />
+
+    </bean>
+
+    <bean id="activeUsers" class="com.lks.core.scheduler.ActiveUsers"/>
+
+    <!-- Simple Trigger, run every 3 minutes -->
+    <bean id="activeUsersTrigger"
+          class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+
+        <property name="jobDetail" ref="activeUsersJob" />
+        <property name="repeatInterval" value="180000" />
+        <property name="startDelay" value="1000" />
+
+    </bean>
+
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="jobDetails">
+            <list>
+                <ref bean="activeUsersJob" />
+            </list>
+        </property>
+
+        <property name="triggers">
+            <list>
+                <ref bean="activeUsersTrigger" />
+            </list>
+        </property>
+    </bean>
+
 </beans>

@@ -39,7 +39,12 @@ public class FTPService implements IFTPService{
             createDateDirectory(ftp,branchCode, date);
         }
         String dirPath = getDirectoryForBranchAndDate(ftp,branchCode,date);
-        return ftpUploader.uploadFile(ftp, localFileFullName, fileName, dirPath);
+        long startTime = System.currentTimeMillis();
+        String uploadFile = ftpUploader.uploadFile(ftp, localFileFullName, fileName, dirPath);
+        long endTime = System.currentTimeMillis();
+        long elapsedTime = endTime - startTime;
+        logger.info("Time taken to upload the file: "+ fileName+" is: "+ elapsedTime+ " ms");
+        return uploadFile;
 
     }
 
@@ -90,9 +95,14 @@ public class FTPService implements IFTPService{
     }
 
     @Override
-    public synchronized File downloadFile(String fileLocation) {
+    public File downloadFile(String fileLocation) {
         logger.info("Server is requested to download the file: "+ fileLocation);
         FTPClient ftp = ftpUploader.connect();
-        return ftpUploader.downloadFile(ftp,fileLocation);
+        long startTime = System.currentTimeMillis();
+        File downloadFile = ftpUploader.downloadFile(ftp, fileLocation);
+        long endTime = System.currentTimeMillis();
+        long elapsedTime = endTime - startTime;
+        logger.info("Time taken to download the file: "+ fileLocation+" is: "+ elapsedTime+ " ms");
+        return downloadFile;
     }
 }

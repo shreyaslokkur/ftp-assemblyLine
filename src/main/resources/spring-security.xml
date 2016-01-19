@@ -24,7 +24,7 @@
 			password-parameter="j_password" />
 		<logout logout-success-url="/login.html" />
 		<session-management>
-			<concurrency-control max-sessions="1"/>
+			<concurrency-control max-sessions="1" session-registry-alias="sessionRegistry"/>
 		</session-management>
 		<!-- enable csrf protection -->
 		<!--<csrf />-->
