@@ -95,7 +95,7 @@ public class FTPService implements IFTPService{
     }
 
     @Override
-    public File downloadFile(String fileLocation) {
+    public synchronized File downloadFile(String fileLocation) {
         logger.info("Server is requested to download the file: "+ fileLocation);
         FTPClient ftp = ftpUploader.connect();
         long startTime = System.currentTimeMillis();

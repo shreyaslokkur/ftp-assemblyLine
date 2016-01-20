@@ -575,7 +575,7 @@ public class MainController {
 	@RequestMapping(method = RequestMethod.GET, value = "/all/view")
 	public
 	@ResponseBody
-	void viewPdfFile(@RequestParam("documentId") int documentId, HttpServletResponse response) throws ServletException, IOException{
+    synchronized void viewPdfFile(@RequestParam("documentId") int documentId, HttpServletResponse response) throws ServletException, IOException{
 
 		File pdfFile = null;
 		FileInputStream fileInputStream = null;
