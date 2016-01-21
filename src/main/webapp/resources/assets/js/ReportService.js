@@ -634,7 +634,21 @@
             return deferred.promise;
 
         },
+     reportService.CaptureLoad = function(){
 
+       var deferred = $q.defer();
+            $http.get('/admin/captureLoad', {
+
+            })
+                .success(function (data) {
+                    deferred.resolve(data);
+                }).error(function (data) {
+                    deferred.reject(data.statusText);
+                    //$log.error(data.statusText, data.exceptionCode);
+                });
+            return deferred.promise;
+
+    },
         reportService.deleteBranch = function(branch){
 
             var deferred = $q.defer();
