@@ -25,26 +25,32 @@ public class FTPService implements IFTPService{
         this.rootDir = rootDir;
     }
 
+    private Object downloadLock = new Object();
+    private Object uploadLock = new Object();
+
     @Resource(name = "ftpUploader")
     FTPUploader ftpUploader;
 
     @Override
-    public synchronized String uploadFile(String localFileFullName, String fileName, String branchCode, String date) {
-        logger.info("Server got a request to upload the file: "+ fileName+ " in branch: "+ branchCode+" with date: "+ date);
-        FTPClient ftp = ftpUploader.connect();
-        if(!checkIfDirectoryWithBranchCodeExists(ftp,branchCode)){
-            createBranchCodeDirectory(ftp,branchCode);
+    public String uploadFile(String localFileFullName, String fileName, String branchCode, String date) {
+        synchronized (uploadLock){
+            logger.info("Server got a request to upload the file: "+ fileName+ " in branch: "+ branchCode+" with date: "+ date);
+            FTPClient ftp = ftpUploader.connect();
+            if(!checkIfDirectoryWithBranchCodeExists(ftp,branchCode)){
+                createBranchCodeDirectory(ftp,branchCode);
+            }
+            if(!checkIfDirectoryWithDateExists(ftp,branchCode,date)){
+                createDateDirectory(ftp,branchCode, date);
+            }
+            String dirPath = getDirectoryForBranchAndDate(ftp,branchCode,date);
+            long startTime = System.currentTimeMillis();
+            String uploadFile = ftpUploader.uploadFile(ftp, localFileFullName, fileName, dirPath);
+            long endTime = System.currentTimeMillis();
+            long elapsedTime = endTime - startTime;
+            logger.info("Time taken to upload the file: "+ fileName+" is: "+ elapsedTime+ " ms");
+            return uploadFile;
+
         }
-        if(!checkIfDirectoryWithDateExists(ftp,branchCode,date)){
-            createDateDirectory(ftp,branchCode, date);
-        }
-        String dirPath = getDirectoryForBranchAndDate(ftp,branchCode,date);
-        long startTime = System.currentTimeMillis();
-        String uploadFile = ftpUploader.uploadFile(ftp, localFileFullName, fileName, dirPath);
-        long endTime = System.currentTimeMillis();
-        long elapsedTime = endTime - startTime;
-        logger.info("Time taken to upload the file: "+ fileName+" is: "+ elapsedTime+ " ms");
-        return uploadFile;
 
     }
 
@@ -95,14 +101,16 @@ public class FTPService implements IFTPService{
     }
 
     @Override
-    public synchronized File downloadFile(String fileLocation) {
-        logger.info("Server is requested to download the file: "+ fileLocation);
-        FTPClient ftp = ftpUploader.connect();
-        long startTime = System.currentTimeMillis();
-        File downloadFile = ftpUploader.downloadFile(ftp, fileLocation);
-        long endTime = System.currentTimeMillis();
-        long elapsedTime = endTime - startTime;
-        logger.info("Time taken to download the file: "+ fileLocation+" is: "+ elapsedTime+ " ms");
-        return downloadFile;
+    public File downloadFile(String fileLocation) {
+        synchronized (downloadLock){
+            logger.info("Server is requested to download the file: "+ fileLocation);
+            FTPClient ftp = ftpUploader.connect();
+            long startTime = System.currentTimeMillis();
+            File downloadFile = ftpUploader.downloadFile(ftp, fileLocation);
+            long endTime = System.currentTimeMillis();
+            long elapsedTime = endTime - startTime;
+            logger.info("Time taken to download the file: "+ fileLocation+" is: "+ elapsedTime+ " ms");
+            return downloadFile;
+        }
     }
 }

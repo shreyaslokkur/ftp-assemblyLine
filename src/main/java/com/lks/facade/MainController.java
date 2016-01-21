@@ -11,6 +11,7 @@ import com.lks.core.FALException;
 import com.lks.core.enums.DocOperations;
 import com.lks.core.enums.ExceptionCode;
 import com.lks.core.model.*;
+import com.lks.core.scheduler.ActiveUsers;
 import com.lks.security.IBranchService;
 import com.lks.security.IUserService;
 import com.lks.uploader.IDocumentUploadService;
@@ -59,6 +60,9 @@ public class MainController {
 
 	@Resource(name = "ftpService")
 	IFTPService ftpService;
+
+    @Resource(name = "activeUsers")
+    ActiveUsers activeUsers;
 
 	@RequestMapping(value = { "/welcome**" }, method = RequestMethod.GET)
 	public ModelAndView defaultPage() {
@@ -238,7 +242,7 @@ public class MainController {
 
 	@RequestMapping(value = "/scanner/upload", method = RequestMethod.POST)
 	@ResponseBody
-	public synchronized int continueFileUpload(HttpServletRequest request,
+	public int continueFileUpload(HttpServletRequest request,
 									 HttpServletResponse response){
         logger.info("Entered the facade for file upload");
 		MultipartHttpServletRequest mRequest;
@@ -575,7 +579,7 @@ public class MainController {
 	@RequestMapping(method = RequestMethod.GET, value = "/all/view")
 	public
 	@ResponseBody
-    synchronized void viewPdfFile(@RequestParam("documentId") int documentId, HttpServletResponse response) throws ServletException, IOException{
+    void viewPdfFile(@RequestParam("documentId") int documentId, HttpServletResponse response) throws ServletException, IOException{
 
 		File pdfFile = null;
 		FileInputStream fileInputStream = null;
@@ -760,6 +764,13 @@ public class MainController {
 		DocumentDO documentDO = documentUploadService.performOperationOnDocument(fileOperationDO);
 		return documentDO;
 	}
+
+    @RequestMapping(method = RequestMethod.GET, value = "/admin/captureLoad")
+    public
+    @ResponseBody
+    void captureLoad(){
+        activeUsers.getListOfActiveUsers();
+    }
 
 	@RequestMapping(method = RequestMethod.GET, value = "/all/getTat")
 	public
