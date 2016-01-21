@@ -111,7 +111,23 @@ reportApp.controller('AdminController', ['$scope', '$modal', 'ReportService',
                 $scope.user.password = '';
                 $scope.confirmPassword = '';
             },
+           $scope.CaptureLoad = function()
+            {
+               
 
+                 var promise = ReportService.CaptureLoad();
+                 promise.then(
+                    function (payload) {
+                    },
+                    function (errorPayload) {
+                        $scope.OperationFailureForUser = true;
+                        $scope.FailureMsgForUser = errorPayload;
+                        //$log.error('Error in createUser', errorPayload);
+                    });
+            },
+         
+
+         
             $scope.createUser = function(user)
             {
                 //branchCode applicable only to Scanners
