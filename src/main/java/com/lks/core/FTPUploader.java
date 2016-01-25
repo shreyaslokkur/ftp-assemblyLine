@@ -211,7 +211,7 @@ public class FTPUploader {
             ftp.setConnectTimeout(3000);
             ftp.setSoTimeout(3000);
             ftp.enterLocalPassiveMode();
-            ftp.setBufferSize(1024000);
+            ftp.setBufferSize(8192);
             return ftp;
         } catch (SocketException e) {
             disconnect(ftp);
