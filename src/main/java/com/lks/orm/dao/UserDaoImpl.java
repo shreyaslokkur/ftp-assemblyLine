@@ -50,7 +50,9 @@ public class UserDaoImpl implements UserDao {
 		}catch (HibernateException e) {
 			throw new FALException("Unable to create new user with user name"+ username, e);
 		}finally {
-			session.close();
+            if(session != null){
+                session.close();
+            }
 		}
 		if(key != null)
 			return 1;
@@ -67,8 +69,10 @@ public class UserDaoImpl implements UserDao {
 		}catch (HibernateException e) {
 			throw new FALException("Unable to update user with username"+ user.getUsername(), e);
 		}finally {
-			session.flush();
-			session.close();
+            if(session != null){
+                session.flush();
+                session.close();
+            }
 		}
 	}
 
@@ -83,8 +87,10 @@ public class UserDaoImpl implements UserDao {
 		}catch (HibernateException e) {
 			throw new FALException("Unable to delete user with username"+ username, e);
 		}finally {
-			session.flush();
-			session.close();
+            if(session != null){
+                session.flush();
+                session.close();
+            }
 		}
 
 	}
@@ -101,7 +107,9 @@ public class UserDaoImpl implements UserDao {
 		}catch (HibernateException e){
 			throw new FALException("Unable to retrieve all users", e);
 		}finally {
-			session.close();
+            if(session != null){
+                session.close();
+            }
 		}
 
 		return userList;
@@ -123,7 +131,10 @@ public class UserDaoImpl implements UserDao {
 			}
 			throw new FALException("Unable to retrieve all users for role: "+ role, e);
 		}finally {
-			session.close();
+            if(session != null){
+                session.close();
+            }
+
 		}
 
 		return userRoleList;
@@ -141,7 +152,9 @@ public class UserDaoImpl implements UserDao {
 		}catch (HibernateException e){
 			throw new FALException("Unable to retrieve all roles", e);
 		}finally {
-			session.close();
+            if(session != null){
+                session.close();
+            }
 		}
 
 		return userRoleList;

@@ -43,6 +43,7 @@
 		<property name="idleConnectionTestPeriod" value="${jdbc.idleConnectionTestPeriod}"/>
 		<property name="maxIdleTime" value="${jdbc.maxIdleTime}"/>
 		<property name="maxConnectionAge" value="${jdbc.maxConnectionAge}"/>
+        <property name="debugUnreturnedConnectionStackTraces" value="true"/>
 	</bean>
 
 	<bean id="sessionFactory"

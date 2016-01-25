@@ -47,8 +47,10 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
         }catch (HibernateException e) {
             throw new FALException("Unable to create new document with file name"+ fileName, e);
         }finally {
-            session.flush();
-            session.close();
+            if(session != null){
+                session.flush();
+                session.close();
+            }
         }
         return documentId;
     }
@@ -66,7 +68,10 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
         }catch (HibernateException e){
             throw new FALException("Unable to retrieve document from table with document id: "+ documentId, e);
         }finally {
-            session.close();
+            if(session != null){
+                session.close();
+            }
+
         }
 
         return document;
@@ -82,8 +87,11 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
         }catch (HibernateException e) {
             throw new FALException("Unable to update document with id"+ document.getDocumentId(), e);
         }finally {
-            session.flush();
-            session.close();
+            if(session != null){
+                session.flush();
+                session.close();
+            }
+
         }
 
     }
@@ -98,8 +106,10 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
         }catch (HibernateException e) {
             throw new FALException("Unable to archive document with file name"+ documentArchive.getFileName(), e);
         }finally {
-            session.flush();
-            session.close();
+            if(session != null){
+                session.flush();
+                session.close();
+            }
         }
         return documentArchiveId;
     }
@@ -115,8 +125,10 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
         }catch (HibernateException e) {
             throw new FALException("Unable to delete document with file name"+ document.getFileName(), e);
         }finally {
-            session.flush();
-            session.close();
+            if(session != null){
+                session.flush();
+                session.close();
+            }
         }
 
     }
@@ -133,7 +145,9 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
         }catch (HibernateException e){
             throw new FALException("Unable to retrieve new and locked records", e);
         }finally {
-            session.close();
+            if(session != null){
+                session.close();
+            }
         }
 
         return documentList;
@@ -154,7 +168,9 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
         }catch (HibernateException e){
             throw new FALException("Unable to retrieve records assigned to: "+ userId, e);
         }finally {
-            session.close();
+            if(session != null){
+                session.close();
+            }
         }
 
         return documentList;
@@ -173,7 +189,9 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
         }catch (HibernateException e){
             throw new FALException("Unable to retrieve records assigned to: "+ branchCode, e);
         }finally {
-            session.close();
+            if(session != null){
+                session.close();
+            }
         }
 
         return documentList;
@@ -191,7 +209,9 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
         }catch (HibernateException e){
             throw new FALException("Unable to retrieve records which need approval", e);
         }finally {
-            session.close();
+            if(session != null){
+                session.close();
+            }
         }
 
         return documentList;
@@ -209,7 +229,9 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
         }catch (HibernateException e){
             throw new FALException("Unable to retrieve records which need rescan", e);
         }finally {
-            session.close();
+            if(session != null){
+                session.close();
+            }
         }
 
         return documentList;
@@ -229,7 +251,9 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
         }catch (HibernateException e){
             throw new FALException("Unable to retrieve records which are in hold", e);
         }finally {
-            session.close();
+            if(session != null){
+                session.close();
+            }
         }
 
         return documentList;
@@ -247,7 +271,9 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
         }catch (HibernateException e){
             throw new FALException("Unable to retrieve records ", e);
         }finally {
-            session.close();
+            if(session != null){
+                session.close();
+            }
         }
 
         return documentList;
@@ -266,7 +292,9 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
         }catch (HibernateException e){
             throw new FALException("Unable to retrieve documentUrl from table with document id: "+ documentId, e);
         }finally {
-            session.close();
+            if(session != null){
+                session.close();
+            }
         }
 
         return documentUrl;
@@ -286,7 +314,9 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
         }catch (HibernateException e){
             throw new FALException("Unable to retrieve count of new documents", e);
         }finally {
-            session.close();
+            if(session != null){
+                session.close();
+            }
         }
 
         return count;
@@ -305,7 +335,9 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
         }catch (HibernateException e){
             throw new FALException("Unable to retrieve count of new documents", e);
         }finally {
-            session.close();
+            if(session != null){
+                session.close();
+            }
         }
 
         return count;
@@ -324,7 +356,9 @@ public class DocumentUploadDaoImpl implements DocumentUploadDao {
         }catch (HibernateException e){
             throw new FALException("Unable to retrieve count of new documents", e);
         }finally {
-            session.close();
+            if(session != null){
+                session.close();
+            }
         }
 
         return count;
