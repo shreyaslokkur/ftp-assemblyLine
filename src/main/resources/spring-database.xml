@@ -34,6 +34,7 @@
 		<property name="password" value="${jdbc.password}" />
 		<property name="maxPoolSize" value="${jdbc.maxPoolSize}"/>
 		<property name="minPoolSize" value="${jdbc.minPoolSize}"/>
+        <property name="acquireIncrement" value="${jdbc.acquireIncrement}"/>
 		<property name="maxStatements" value="${jdbc.maxStatements}"/>
 		<property name="testConnectionOnCheckout" value="${jdbc.testConnection}"/>
 		<property name="acquireRetryDelay" value="${jdbc.acquireRetryDelay}"/>
@@ -124,14 +125,6 @@
 	<bean id="ftpService" class="com.lks.uploader.FTPService">
 		<property name="rootDir" value="${ftp.server.rootDir}"/>
 	</bean>
-
-    <bean id="activeUsersJob"
-          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-
-        <property name="targetObject" ref="activeUsers" />
-        <property name="targetMethod" value="getListOfActiveUsers" />
-
-    </bean>
 
     <bean id="activeUsers" class="com.lks.core.scheduler.ActiveUsers"/>
 
